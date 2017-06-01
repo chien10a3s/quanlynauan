@@ -345,7 +345,9 @@ body {
     color: #1f1f29;
 }
 
-
+a {
+    text-decoration: none!important;
+}
 .header-primary {
     background-color: rgba(0, 0, 0, 0.5);
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
@@ -424,4 +426,37 @@ li.user-link {
 ul.user-info li a i {
     font-size: 20px;
     margin-right: 4px;
+}
+
+.service {
+    background: #f4f4f4;
+    border: 1px solid #eaeaea;
+    padding: 10px 0;
+    font-size: 12px;
+    float: left;
+    width: 100%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.service .service-item .icon {
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-right: 12px;
+}
+.service .service-item .info {
+    padding-top: 2px;
+}
+.service .service-item h3 {
+    margin: 0;
+    padding: 0 0 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #315399;
+}
+.service .service-item span {
+    font-size: 13px;
+    color: #315399;
+    font-weight: 300;
 }

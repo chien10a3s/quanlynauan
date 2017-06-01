@@ -72,7 +72,52 @@
             </div>
             <div id="content">
                 <div class="container">
-                    
+                    <div class="service">
+            			<div class="col-xs-6 col-sm-3 service-item">
+            				<a href="#">
+            					<div class="icon text-center">
+            						<img src="{{ asset('/images/s1.png') }}">
+            					</div>
+            					<div class="info">
+            						<h3>Miễn phí giao hàng</h3>
+            						<span>Đơn hàng 300.000 đ trở lên</span>
+            					</div>
+            				</a>
+            			</div>
+            			<div class="col-xs-6 col-sm-3 service-item">
+            				<a href="#">
+            					<div class="icon text-center">
+            						<img src="{{ asset('/images/s2.png') }}">
+            					</div>
+            					<div class="info">
+            						<h3>Giao hàng trong ngày</h3>
+            						<span>Khi đặt hàng trước 10h sáng</span>
+            					</div>
+            				</a>
+            			</div>
+            			<div class="col-xs-6 col-sm-3 service-item">
+            				<a href="#">
+            					<div class="icon text-center">
+            						<img src="{{ asset('/images/s3.png') }}">
+            					</div>
+            					<div class="info">
+            						<h3>Đảm bảo chất lượng</h3>
+            						<span>Sản phẩm đã được kiểm định</span>
+            					</div>
+            				</a>
+            			</div>
+            			<div class="col-xs-6 col-sm-3 service-item">
+            				<a href="#">
+            					<div class="icon text-center">
+            						<img src="{{ asset('/images/s4.png') }}">
+            					</div>
+            					<div class="info">
+            						<h3>Hỗ trợ</h3>
+            						<span>Hotline: 1900 636 979</span>
+            					</div>
+            				</a>
+            			</div>
+            		</div>
                 </div>
             </div>
         </div>

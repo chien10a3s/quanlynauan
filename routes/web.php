@@ -16,4 +16,7 @@ Route::get('/', function () {
 });
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    Route::group(['prefix' => 'kitchen'], function () {
+        Route::get('index', 'KitchenController@index')->name('admin.kitchen.index');
+    });
 });

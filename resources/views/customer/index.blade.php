@@ -7,7 +7,12 @@
         <title>Kitchen</title>
         <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/css/front.css') }}" rel="stylesheet" type="text/css" />
+        
+        
+        <script type="text/javascript" src="{{ asset('/js/jquery-1.12.4.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>
     </head>
     <body>
         <div id="page" class="site">
@@ -34,17 +39,20 @@
                                             <div class="dgt-search-form">
                                                 <div class="dgt-input-seach">
                                                     <input type="text" placeholder="Gợi ý từ khoá: Thịt lợn, thịt bò, rau cải...." name="s" id="s" />
+                                                    <button type="submit" name="search"><i class="fa fa-search"></i><span>Tìm kiếm</span></button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="hidden-sm hidden-xs dgt-header-right col-sm-2 col-md-2">
-                                        <div class="pull-left">
-                                            
-                                        </div>
-                                        <div class="pull-right">
-
-                                        </div>
+                                    <div class="hidden-sm hidden-xs dgt-header-right col-sm-3 col-md-3">
+                                        <ul class="user-info">
+                                            <li class="user-link">
+                                                <a href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Tài khoản</a>
+                                            </li>
+                                            <li class="shopping-link">
+                                                <a href="#"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Giỏ hàng</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

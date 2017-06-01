@@ -14,8 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('landing', 'LandingController@index');
-
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });

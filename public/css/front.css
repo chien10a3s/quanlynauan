@@ -1,0 +1,19 @@
+.header-primary {
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    -khtml-box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    -ms-box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    -o-box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+    color: #fff;
+}
+.header-section {
+    position: relative;
+}
+.site-branding {
+    position: relative;
+}
+#logo, #logo-retina, #logo-fixed {
+    padding: 18px 0 19px 0;
+}

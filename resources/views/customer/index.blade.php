@@ -7,6 +7,7 @@
         <title>Kitchen</title>
         <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('/css/front.css') }}" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <div id="page" class="site">
@@ -32,8 +33,7 @@
                                         <form method="get" id="searchform" class="searchform" action="http://demo.kevthemes.com/teaux/">
                                             <div class="dgt-search-form">
                                                 <div class="dgt-input-seach">
-                                                    <input type="text" placeholder="Type and hit enter" name="s" id="s" />
-                                                    <input type="hidden" value="post" name="post_type" id="posttype" />
+                                                    <input type="text" placeholder="Gợi ý từ khoá: Thịt lợn, thịt bò, rau cải...." name="s" id="s" />
                                                 </div>
                                             </div>
                                         </form>

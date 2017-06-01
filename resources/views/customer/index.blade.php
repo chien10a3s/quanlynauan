@@ -9,10 +9,12 @@
         <link href="{{ asset('/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/css/front.css') }}" rel="stylesheet" type="text/css" />
-        
-        
+        <link href="{{ asset('/css/animate.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('/css/owl.carousel.min.css') }}" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="{{ asset('/js/jquery-1.12.4.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/owl.carousel.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/front.js') }}"></script>
     </head>
     <body>
         <div id="page" class="site">
@@ -58,6 +60,19 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div id="mainslider" class="owl-carousel">
+                <div class="slide">
+                    <a href="#"><img src="{{ asset('/images/img-slider-1.jpg') }}" class="img-responsive" /></a>
+                </div>
+                <div class="slide">
+                    <a href="#"><img src="{{ asset('/images/img-slider-2.jpg') }}" class="img-responsive" /></a>
+                </div>
+            </div>
+            <div id="content">
+                <div class="container">
+                    
                 </div>
             </div>
         </div>

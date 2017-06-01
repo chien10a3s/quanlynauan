@@ -380,6 +380,7 @@ form#searchform input {
     height: 45px;
     padding: 8px 14px;
     border-radius: 3px 0 0 3px;
+    color: #1f1f29;
 }
 form#searchform button{
     position: absolute;

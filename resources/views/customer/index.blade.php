@@ -62,14 +62,58 @@
                     </div>
                 </div>
             </div>
-            <div id="mainslider" class="owl-carousel">
-                <div class="slide">
-                    <a href="#"><img src="{{ asset('/images/img-slider-1.jpg') }}" class="img-responsive" /></a>
+            <div id="slider-wrap" class="container">
+                <div class="row">
+                    <div class="col-md-9 col-xs-12">
+                        <div id="mainslider" class="owl-carousel">
+                            <div class="slide">
+                                <a href="#"><img src="{{ asset('/images/img-slider-1.jpg') }}" class="img-responsive" /></a>
+                            </div>
+                            <div class="slide">
+                                <a href="#"><img src="{{ asset('/images/img-slider-2.jpg') }}" class="img-responsive" /></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xs-12">
+                        <ul id="slide-column-2">
+                            <li><a href="#"><img src="{{ asset('/images/small-1.jpg') }}" class="img-responsive" /></a></li>
+                            <li><a href="#"><img src="{{ asset('/images/small-2.jpg') }}" class="img-responsive" /></a></li>
+                            <li><a href="#"><img src="{{ asset('/images/small-3.jpg') }}" class="img-responsive" /></a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="slide">
-                    <a href="#"><img src="{{ asset('/images/img-slider-2.jpg') }}" class="img-responsive" /></a>
+                <!--
+                <div class="image_thumb">
+                    <ul>
+                        <li class="">
+                            <a href="https://media.foody.vn/biz_banner/foody-1170-375-longphung-01-01-636299241614892508.jpg" title="Long Phụng Royal">
+                                <img src="https://media.foody.vn/biz_banner/s40x40/foody-1170-375-longphung-01-01-636299241614892508.jpg" alt="Long Phụng Royal" title="Long Phụng Royal">
+                            </a>
+                            <div class="block">
+                                <div class="thumb-descr">
+                                    <p><span style="font-size:11px">Nhà hàng khá sang trọng phù hợp để đặt tiệc cưới</span>
+                                    </p>
+                                </div>
+                                <h2><a title="Long Phụng Royal">Long Phụng Royal</a></h2>
+                            </div>
+                        </li>
+                        <li class="">
+                            <a href="https://media.foody.vn/biz_banner/foody-hai%20san%20v68%201170x375-636316615549556692.jpg" title="V68 - Hải Sản Các Món">
+                                <img src="https://media.foody.vn/biz_banner/s40x40/foody-hai%20san%20v68%201170x375-636316615549556692.jpg" alt="V68 - Hải Sản Các Món" title="V68 - Hải Sản Các Món">
+                            </a>
+                            <div class="block">
+                                <div class="thumb-descr">
+                                    <p><span style="font-size:11px">Giảm ngay 20% tổng hóa đơn cho khách đặt bàn trước.</span>
+                                    </p>
+                                </div>
+                                <h2><a title="V68 - Hải Sản Các Món">V68 - Hải Sản Các Món</a></h2>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
+                -->
             </div>
+            
             <div id="content">
                 <div class="container">
                     <div class="service">

@@ -8,8 +8,10 @@
         <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('/css/icofont.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/css/front.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('/css/animate.css') }}" rel="stylesheet" type="text/css" />
+        
         <link href="{{ asset('/css/owl.carousel.min.css') }}" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="{{ asset('/js/jquery-1.12.4.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>
@@ -55,6 +57,17 @@
                                                 <a href="#"><i class="fa fa-shopping-basket" aria-hidden="true"></i> Giỏ hàng</a>
                                             </li>
                                         </ul>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="main-menu">
+                                            <ul id="menu-main-menu-1" class="menu">
+                                                <li class="menu-item current-menu-item"><a href="#">Trang chủ</a></li>
+                                                <li class="menu-item"><a href="#">Hệ thống cửa hàng</a></li>
+                                                <li class="menu-item"><a href="#">Hướng dẫn đặt hàng</a></li>
+                                                <li class="menu-item"><a href="#">Hỗ trợ khách hàng</a></li>
+                                                <li class="menu-item"><a href="#">Liên hệ</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +133,7 @@
             			<div class="col-xs-6 col-sm-3 service-item">
             				<a href="#">
             					<div class="icon text-center">
-            						<img src="{{ asset('/images/s1.png') }}">
+            						<i class="icofont icofont-free-delivery"></i>
             					</div>
             					<div class="info">
             						<h3>Miễn phí giao hàng</h3>
@@ -131,7 +144,7 @@
             			<div class="col-xs-6 col-sm-3 service-item">
             				<a href="#">
             					<div class="icon text-center">
-            						<img src="{{ asset('/images/s2.png') }}">
+            						<i class="icofont icofont-fast-delivery"></i>
             					</div>
             					<div class="info">
             						<h3>Giao hàng trong ngày</h3>
@@ -142,7 +155,7 @@
             			<div class="col-xs-6 col-sm-3 service-item">
             				<a href="#">
             					<div class="icon text-center">
-            						<img src="{{ asset('/images/s3.png') }}">
+            						<i class="icofont icofont-checked"></i>
             					</div>
             					<div class="info">
             						<h3>Đảm bảo chất lượng</h3>
@@ -153,7 +166,7 @@
             			<div class="col-xs-6 col-sm-3 service-item">
             				<a href="#">
             					<div class="icon text-center">
-            						<img src="{{ asset('/images/s4.png') }}">
+            						<i class="icofont icofont-social-wechat"></i>
             					</div>
             					<div class="info">
             						<h3>Hỗ trợ</h3>
@@ -162,6 +175,42 @@
             				</a>
             			</div>
             		</div>
+                </div>
+            </div>
+            <div id="section-2">
+                <div class="container">
+                    <div class="dgt-custom-heading">
+                        <span class="dgt-heading-icon">
+                            <img src="{{ asset('/images/icon-heading-small.png') }}" width="27" height="35" alt="Icon Heading"/>
+                        </span>
+                        <h2 style="text-align: center" class="dgt-heading">Teaux</h2>
+                        <p class="dgt-sub-title" style="color: #ffffff">Về chúng tôi</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 dgt-counter-box-inner"> 
+                            <span class="dgt-icon"><i style="font-size: 80px" class="icofont icofont-pizza"></i></span>
+                            <h3 class="dgt-counter">25.540</h3>
+                            <h4>Khách hàng</h4>
+                        </div>
+                        
+                        <div class="col-sm-3 dgt-counter-box-inner"> 
+                            <span class="dgt-icon"><i style="font-size: 80px" class="icofont icofont-noodles"></i></span>
+                            <h3 class="dgt-counter">3.500</h3>
+                            <h4>Món ăn</h4>
+                        </div>
+                        
+                        <div class="col-sm-3 dgt-counter-box-inner"> 
+                            <span class="dgt-icon"><i style="font-size: 80px" class="icofont icofont-chef"></i></span>
+                            <h3 class="dgt-counter">25.540</h3>
+                            <h4>Đầu bếp</h4>
+                        </div>
+                        
+                        <div class="col-sm-3 dgt-counter-box-inner"> 
+                            <span class="dgt-icon"><i style="font-size: 80px" class="icofont icofont-sandwich"></i></span>
+                            <h3 class="dgt-counter">25.540</h3>
+                            <h4>Đánh giá</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

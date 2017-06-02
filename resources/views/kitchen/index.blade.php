@@ -20,20 +20,30 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Tên bếp</th>
-                                <th>Địa chỉ</th>
                                 <th>Trạng thái</th>
-                                <th>Người quản lý</th>
-                                <th class="actions col-md-3">Actions</th>
+                                <th>Đầu bếp</th>
+                                <th>Khách hàng</th>
+                                <th class="actions col-md-4">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             @if(count($all_kitchen) > 0)
                                 <?php $i = 0 ?>
                                 @foreach($all_kitchen as $item)
+                                    <?php
+                                        $chef_name = "";
+                                        $user_name = "";
+                                    ?>
+                                    @foreach($item->users as $item_user)
+                                        @if($item_user->role_id == 2)
+                                            <?php $user_name = $item_user->name; ?>
+                                        @elseif($item_user->role_id == 3)
+                                           <?php $chef_name = $item_user->name; ?>
+                                        @endif
+                                    @endforeach
                                     <tr>
                                         <td>{{ $i+=1 }}</td>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{ $item->address }}</td>
                                         <td>
                                             @if($item->status == 0 )
                                                 <span class="label label-danger">Đang khóa</span>
@@ -42,37 +52,54 @@
                                             @endif
 
                                         </td>
-                                        <td></td>
                                         <td>
-                                            <a href="" class="btn-sm btn-warning" title="Chi tiết">
-                                                <i class="voyager-eye"></i>
+                                            {{ $chef_name }}
+                                        </td>
+                                        <td>
+                                            {{ $user_name }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('admin.kitchen.detail',$item->id) }}"
+                                               class="btn-sm btn-warning" title="Chi tiết">
+                                                <i class="voyager-eye"></i> Xem
                                             </a>
-                                            <a href="{{ route('admin.kitchen.edit',$item->id) }}" title="Chỉnh sửa" class="btn-sm btn-primary edit">
-                                                <i class="voyager-edit"></i>
+                                            <a href="{{ route('admin.kitchen.edit',$item->id) }}" title="Chỉnh sửa"
+                                               class="btn-sm btn-primary edit">
+                                                <i class="voyager-edit"></i> Sửa
                                             </a>
-                                            <a href="{{ route('admin.kitchen.edit',$item->id) }}" title=" Tài khoản trong bếp" class="btn-sm btn-primary edit">
-                                                <i class="voyager-people"></i>
+                                            <a href="{{ route('admin.kitchen.user',$item->id) }}"
+                                               title=" Tài khoản trong bếp" class="btn-sm btn-primary edit">
+                                                <i class="voyager-people"></i> Tài khoản
                                             </a>
-                                            <a href="" class="btn-sm btn-danger delete" data-toggle="modal" title="Xóa" data-target="#delete_modal-{{ $item->id }}">
-                                                <i class="voyager-edit"></i>
+                                            <a href="" class="btn-sm btn-danger delete" data-toggle="modal" title="Xóa"
+                                               data-target="#delete_modal-{{ $item->id }}">
+                                                <i class="voyager-trash"></i> Xóa
                                             </a>
 
                                             {{--Modal delete--}}
-                                            <div class="modal modal-danger fade" tabindex="-1" id="delete_modal-{{ $item->id }}" role="dialog">
+                                            <div class="modal modal-danger fade" tabindex="-1"
+                                                 id="delete_modal-{{ $item->id }}" role="dialog">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close"><span
                                                                         aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title"><i class="voyager-trash"></i> Bạn có chắc chắn muốn xóa bếp này hay không?</h4>
+                                                            <h4 class="modal-title"><i class="voyager-trash"></i> Bạn có
+                                                                chắc chắn muốn xóa bếp này hay không?</h4>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <form action="{{ route('admin.kitchen.delete',$item->id) }}" method="post">
+                                                            <form action="{{ route('admin.kitchen.delete',$item->id) }}"
+                                                                  method="post">
                                                                 {{--{{ method_field("DELETE") }}--}}
                                                                 {{ csrf_field() }}
-                                                                <input type="submit" class="btn btn-danger pull-right delete-confirm" value="Delete">
+                                                                <input type="submit"
+                                                                       class="btn btn-danger pull-right delete-confirm"
+                                                                       value="Delete">
                                                             </form>
-                                                            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                                                            <button type="button" class="btn btn-default pull-right"
+                                                                    data-dismiss="modal">Cancel
+                                                            </button>
                                                         </div>
                                                     </div><!-- /.modal-content -->
                                                 </div><!-- /.modal-dialog -->
@@ -98,13 +125,13 @@
                 $('#sample_1').DataTable({"order": []});
             });
         });
-//        $('td').on('click', '.delete', function (e) {
-//            var form = $('#delete_form')[0];
-//
-//            form.action = parseActionUrl(form.action, $(this).data('id'));
-//
-//            $('#delete_modal').modal('show');
-//        });
+        //        $('td').on('click', '.delete', function (e) {
+        //            var form = $('#delete_form')[0];
+        //
+        //            form.action = parseActionUrl(form.action, $(this).data('id'));
+        //
+        //            $('#delete_modal').modal('show');
+        //        });
 
         function parseActionUrl(action, id) {
             return action.match(/\/[0-9]+$/)

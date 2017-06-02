@@ -18,4 +18,7 @@ Route::get('landing', 'LandingController@index');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    Route::group(['prefix' => 'kitchen'], function () {
+        Route::get('index', 'KitchenController@index')->name('admin.kitchen.index');
+    });
 });

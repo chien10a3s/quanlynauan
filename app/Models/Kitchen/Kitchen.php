@@ -42,6 +42,6 @@ class Kitchen extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, '	user_kitchens', '	id_user', 'id_kitchen');
+        return $this->belongsToMany(User::class, 'user_kitchens', 'id_kitchen', 'id_user');
     }
 }

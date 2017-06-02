@@ -1,0 +1,584 @@
+/* thai */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Kanit Thin'), local('Kanit-Thin'), url(http://fonts.gstatic.com/s/kanit/v2/9W_RhJFU_6bjVXSt5h5wpPY6323mHUZFJMgTvxaG2iE.woff2) format('woff2');
+  unicode-range: U+0E01-0E5B, U+200B-200D, U+25CC;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Kanit Thin'), local('Kanit-Thin'), url(http://fonts.gstatic.com/s/kanit/v2/QSv6khQ7K1xOCGugoXGzPvY6323mHUZFJMgTvxaG2iE.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Kanit Thin'), local('Kanit-Thin'), url(http://fonts.gstatic.com/s/kanit/v2/Y6uJGZfUft-zH3Hk_x7ljfY6323mHUZFJMgTvxaG2iE.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 100;
+  src: local('Kanit Thin'), local('Kanit-Thin'), url(http://fonts.gstatic.com/s/kanit/v2/9mc1eFBC6whiP297Oi1KKA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* thai */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Kanit Light'), local('Kanit-Light'), url(http://fonts.gstatic.com/s/kanit/v2/raMUm0YuovlN_Xqx-LUsqRTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0E01-0E5B, U+200B-200D, U+25CC;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Kanit Light'), local('Kanit-Light'), url(http://fonts.gstatic.com/s/kanit/v2/CqHtuY_4ZuQvl3YCWWxcjhTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Kanit Light'), local('Kanit-Light'), url(http://fonts.gstatic.com/s/kanit/v2/Lnhq4ewr1Zv9lEjxlxowSBTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Kanit Light'), local('Kanit-Light'), url(http://fonts.gstatic.com/s/kanit/v2/cxHEBsWwed1A7aDhJATlyPesZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* thai */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Kanit Regular'), local('Kanit-Regular'), url(http://fonts.gstatic.com/s/kanit/v2/RPQGAQk3DD66RypwKRnBKQ.woff2) format('woff2');
+  unicode-range: U+0E01-0E5B, U+200B-200D, U+25CC;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Kanit Regular'), local('Kanit-Regular'), url(http://fonts.gstatic.com/s/kanit/v2/dTsnx5aTJLsh5XJEX4lpTw.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Kanit Regular'), local('Kanit-Regular'), url(http://fonts.gstatic.com/s/kanit/v2/2fzaAAzWW07YitDl-NekHg.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Kanit Regular'), local('Kanit-Regular'), url(http://fonts.gstatic.com/s/kanit/v2/5NAKUBdE3Nb95aTaJlZOXQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* thai */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Kanit Medium'), local('Kanit-Medium'), url(http://fonts.gstatic.com/s/kanit/v2/oArYK_4Uh0OdBYA11_h0OxTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0E01-0E5B, U+200B-200D, U+25CC;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Kanit Medium'), local('Kanit-Medium'), url(http://fonts.gstatic.com/s/kanit/v2/k3PyxwcO82bD49MyqzQC8xTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Kanit Medium'), local('Kanit-Medium'), url(http://fonts.gstatic.com/s/kanit/v2/UvkE30TmWcD07ESVQhHR5hTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Kanit Medium'), local('Kanit-Medium'), url(http://fonts.gstatic.com/s/kanit/v2/RHqh14DjcvgZGJknoCzKXvesZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* thai */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Kanit Bold'), local('Kanit-Bold'), url(http://fonts.gstatic.com/s/kanit/v2/2ItEkCZRpGWswz4hC7YXrBTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0E01-0E5B, U+200B-200D, U+25CC;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Kanit Bold'), local('Kanit-Bold'), url(http://fonts.gstatic.com/s/kanit/v2/ARXP8ryYnm0HB4OMotUIMxTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Kanit Bold'), local('Kanit-Bold'), url(http://fonts.gstatic.com/s/kanit/v2/v2dZymaF-WsiUJ5PrWcjTxTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Kanit';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Kanit Bold'), local('Kanit-Bold'), url(http://fonts.gstatic.com/s/kanit/v2/mEn4jJ-yZGnuuUYbIaJjw_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://fonts.gstatic.com/s/opensans/v13/K88pR3goAWT7BTt32Z01mxJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://fonts.gstatic.com/s/opensans/v13/RjgO7rYTmqiVp7vzi-Q5URJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://fonts.gstatic.com/s/opensans/v13/LWCjsQkB6EMdfHrEVqA1KRJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://fonts.gstatic.com/s/opensans/v13/xozscpT2726on7jbcb_pAhJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://fonts.gstatic.com/s/opensans/v13/59ZRklaO5bWGqF5A9baEERJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://fonts.gstatic.com/s/opensans/v13/u-WUoqrET9fUeobQW7jkRRJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(http://fonts.gstatic.com/s/roboto/v16/77FXFjRbGzN4aCrSFhlh3hJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(http://fonts.gstatic.com/s/roboto/v16/isZ-wbCXNKAbnjo6_TwHThJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(http://fonts.gstatic.com/s/roboto/v16/UX6i4JxQDm3fVTc1CPuwqhJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(http://fonts.gstatic.com/s/roboto/v16/jSN2CGVDbcVyCnfJfjSdfBJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(http://fonts.gstatic.com/s/roboto/v16/PwZc-YbIL414wB9rB1IAPRJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(http://fonts.gstatic.com/s/roboto/v16/97uahxiqZRoncBaCEI3aWxJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(http://fonts.gstatic.com/s/roboto/v16/d-6IYplOFocCacKzxwXSOFtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(http://fonts.gstatic.com/s/robotocondensed/v14/Zd2E9abXLFGSr9G3YK2MsDrvev4WAjW489CRDHIkJ90.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(http://fonts.gstatic.com/s/robotocondensed/v14/Zd2E9abXLFGSr9G3YK2MsCGXDOnx9ptx3UTSPTrfsgk.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* greek-ext */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(http://fonts.gstatic.com/s/robotocondensed/v14/Zd2E9abXLFGSr9G3YK2MsAZ98xO_Wnt-JIem4AuLGfs.woff2) format('woff2');
+  unicode-range: U+1F00-1FFF;
+}
+/* greek */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(http://fonts.gstatic.com/s/robotocondensed/v14/Zd2E9abXLFGSr9G3YK2MsE1G989qbVg6RT5ly5jB8V8.woff2) format('woff2');
+  unicode-range: U+0370-03FF;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(http://fonts.gstatic.com/s/robotocondensed/v14/Zd2E9abXLFGSr9G3YK2MsJ84zb0nVte6liF9gGtpo1Y.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(http://fonts.gstatic.com/s/robotocondensed/v14/Zd2E9abXLFGSr9G3YK2MsD86pq2NkPzVgw_9lpT6RGI.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(http://fonts.gstatic.com/s/robotocondensed/v14/Zd2E9abXLFGSr9G3YK2MsDAdhzWOYhqHvOZMRGaEyPo.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin */
+@font-face {
+  font-family: 'Satisfy';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Satisfy'), url(http://fonts.gstatic.com/s/satisfy/v6/2OzALGYfHwQjkPYWELy-cw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
+
+body {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    text-align: inherit;
+    font-family: 'Open Sans';
+    color: #1f1f29;
+}
+
+a {
+    text-decoration: none!important;
+}
+.header-primary {
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    -khtml-box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    -ms-box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    -o-box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+    color: #fff;
+}
+.header-section {
+    position: relative;
+}
+.site-branding {
+    position: relative;
+}
+#logo, #logo-retina, #logo-fixed {
+    padding: 18px 0 19px 0;
+}
+form#searchform {
+    padding: 18px 0 19px 0;
+    position: relative;
+    width: 100%;
+    margin-top: 1em;
+    padding-right: 110px;
+}
+
+form#searchform input {
+    width: 100%;
+    background: #fff;
+    border: none;
+    height: 45px;
+    padding: 8px 14px;
+    border-radius: 3px 0 0 3px;
+    color: #1f1f29;
+}
+form#searchform button{
+    position: absolute;
+    height: 45px;
+    width: 110px;
+    padding: 8px 14px;
+    border-radius: 0 3px 3px 0;
+    top: 18px;
+    right: 0;
+    border: none;
+    background: #e52402;
+}
+
+form#searchform button span{ 
+    font-size: 14px;
+    color: #fff;
+    font-weight: 400;
+    text-align: inherit;
+    margin-left: 5px;
+}
+ul.user-info {
+    text-align: right;
+    margin: 1em 0;
+    padding-top: 30px;
+    padding-left: 0;
+}
+
+ul.user-info li {
+    display: inline-block;
+}
+
+ul.user-info li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+li.user-link {
+    margin-right: 20px;
+}
+
+ul.user-info li a i {
+    font-size: 20px;
+    margin-right: 4px;
+}
+
+.service {
+    background: #f4f4f4;
+    border: 1px solid #eaeaea;
+    padding: 10px 0;
+    font-size: 12px;
+    float: left;
+    width: 100%;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.service .service-item .icon {
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-right: 12px;
+}
+.service .service-item .info {
+    padding-top: 2px;
+}
+.service .service-item h3 {
+    margin: 0;
+    padding: 0 0 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #315399;
+}
+.service .service-item span {
+    font-size: 13px;
+    color: #315399;
+    font-weight: 300;
+}
+.image_thumb{
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    -ms-transform: translate(0, -50%); /* IE 9 */
+    -webkit-transform: translate(0, -50%); /* Safari */
+    transform: translate(0, -50%);
+    width: 242px;
+    background: #f0f0f0;
+    z-index: 999;
+}
+#slider-wrap {
+    position: relative;
+}
+.image_thumb ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.image_thumb ul li {
+    white-space: normal;
+    position: relative;
+    margin: 0;
+    padding: 12px 10px;
+    background: #f0f0f0;
+    width: 100%;
+    float: left;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #fff;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+
+.image_thumb ul li .block {
+    float: left;
+    margin-left: 7px;
+    padding: 0;
+    width: 168px;
+}
+.thumb-descr {
+    margin-top: -3px;
+    color: #666668;
+}
+.thumb-descr p{
+    margin: 0;
+    line-height: 14px;
+}
+.image_thumb ul li h2 {
+    margin: 0;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.image_thumb ul li h2 a {
+    color: #666668;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+}
+
+.image_thumb img {
+    border: 2px solid #fff;
+    float: left;
+}
+
+ul#slide-column-2 {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+ul#slide-column-2 li {
+    margin-bottom: 20px;
+}
+.owl-next {
+    position: absolute;
+    top: 50%;
+    opacity: 0.3;
+    background: #fff;
+    z-index: 999;
+    right: 0;
+    font-size: 30px;
+    padding: 10px 7px 10px 10px;
+    margin-top: -25px;
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+}
+.owl-prev {
+    position: absolute;
+    opacity: 0.3;
+    top: 50%;
+    background: #fff;
+    z-index: 999;
+    left: 0;
+    font-size: 30px;
+    padding: 10px 10px 10px 7px;
+    margin-top: -25px;
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+}
+#mainslider:hover .owl-next, #mainslider:hover .owl-prev{
+    opacity: 1;
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+}
+
+#mainslider .owl-next:hover, #mainslider .owl-prev:hover{
+    background: #e52402;
+    color: #fff;
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+}

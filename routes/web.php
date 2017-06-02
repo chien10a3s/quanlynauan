@@ -12,10 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('customer.index');
 });
-Route::get('landing', 'LandingController@index');
-
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
     Route::group(['prefix' => 'kitchen'], function () {

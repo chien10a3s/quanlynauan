@@ -40,8 +40,8 @@ class Kitchen extends Model
         $this->table = 'kitchens';
     }
 
-    public function users()
+        public function users()
     {
-        return $this->belongsToMany(User::class, '	user_kitchens', '	id_user', 'id_kitchen');
+        return $this->belongsToMany(User::class, 'user_kitchens', 'id_kitchen', 'id_user');
     }
 }

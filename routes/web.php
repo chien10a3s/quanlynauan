@@ -18,10 +18,17 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
     Route::group(['prefix' => 'kitchen'], function () {
         Route::get('/', 'KitchenController@index')->name('admin.kitchen.index');
+        Route::get('/{id}/detail', 'KitchenController@detail')->name('admin.kitchen.detail');
+
         Route::get('/add', 'KitchenController@add')->name('admin.kitchen.add');
         Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
-        Route::get('/edit/{id}', 'KitchenController@edit')->name('admin.kitchen.edit');
+
+        Route::get('/{id}/edit', 'KitchenController@edit')->name('admin.kitchen.edit');
         Route::post('/update/{id}', 'KitchenController@update')->name('admin.kitchen.update');
+
         Route::post('/delete/{id}', 'KitchenController@delete')->name('admin.kitchen.delete');
+
+        Route::get('/{id}/user', 'KitchenController@user')->name('admin.kitchen.user');
+        Route::post('/{id}/update-user', 'KitchenController@updateUser')->name('admin.kitchen.update-user');
     });
 });

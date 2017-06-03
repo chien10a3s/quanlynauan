@@ -2,7 +2,7 @@
 
 @section('page_header')
     <h1 class="page-title">
-        <i class="voyager-plus"></i> Thêm mới bếp
+        <i class="voyager-edit"></i> Chỉnh sửa thông tin bếp
     </h1>
 @stop
 @section('content')
@@ -12,7 +12,7 @@
                 <div class="panel panel-bordered">
 
                     <div class="panel-heading">
-                        <h3 class="panel-title">Thông tin bếp</h3>
+                        <h3 class="panel-title">Chỉnh sửa bếp</h3>
                     </div>
                     <div class="panel-body">
                         <form id="my_form" action="{{ route('admin.kitchen.update',$data->id) }}" method="post">

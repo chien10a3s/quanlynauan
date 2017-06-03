@@ -54,7 +54,7 @@
                                                 <i class="voyager-people"></i>
                                             </a>
                                             <a href="" class="btn-sm btn-danger delete" data-toggle="modal" title="Xóa" data-target="#delete_modal-{{ $item->id }}">
-                                                <i class="voyager-edit"></i>
+                                                <i class="voyager-trash"></i>
                                             </a>
 
                                             {{--Modal delete--}}

@@ -2,7 +2,7 @@
 
 @section('page_header')
     <h1 class="page-title">
-        <i class="voyager-list"></i> Danh sách bếp
+        <i class="voyager-list"></i> Danh sách bữa ăn đã dùng
     </h1>
     &nbsp;
     <a href="{{ route('admin.kitchen.add') }}" class="btn btn-success">
@@ -31,14 +31,14 @@
                                 <?php $i = 0 ?>
                                 @foreach($all_kitchen as $item)
                                     <?php
-                                        $chef_name = "";
-                                        $user_name = "";
+                                    $chef_name = "";
+                                    $user_name = "";
                                     ?>
                                     @foreach($item->users as $item_user)
                                         @if($item_user->role_id == 2)
                                             <?php $user_name = $item_user->name; ?>
                                         @elseif($item_user->role_id == 3)
-                                           <?php $chef_name = $item_user->name; ?>
+                                            <?php $chef_name = $item_user->name; ?>
                                         @endif
                                     @endforeach
                                     <tr>

@@ -352,6 +352,23 @@ a {
     background-color: rgb(255, 255, 255);
     color: #fff;
 }
+.dgt-header-inner.dgt-position-fixed {
+    top: -101px;
+    -webkit-transition: all 500ms ease-out;
+    -moz-transition: all 500ms ease-out;
+    -o-transition: all 500ms ease-out;
+    transition: all 500ms ease-out;
+}
+.header-fixed .dgt-header-inner.dgt-position-fixed {
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    top: 0;
+    -webkit-transition: all 300ms ease-out;
+    -moz-transition: all 300ms ease-out;
+    -o-transition: all 300ms ease-out;
+    transition: all 300ms ease-out;
+}
 .header-section {
     position: relative;
 }
@@ -595,10 +612,9 @@ ul#slide-column-2 li:last-child{
     transition: all 300ms ease-out;
 }
 li.menu-item {
-    margin: 0 18px;
+    margin: 0 15px;
     display: block;
     position: relative;
-    text-transform: uppercase;
     display: inline-block;
     position: relative;
 }
@@ -606,10 +622,11 @@ li.menu-item {
 ul#menu-main-menu-1 li a {
     font-size: 14px;
     color: #565656;
-    font-family: Roboto;
-    font-weight: normal;
+    font-weight: bold;
     text-align: inherit;
     padding: 0;
+    line-height: 30px;
+    display: block;
 }
 ul#menu-main-menu-1 li a:hover{
     color: #e52402;
@@ -620,15 +637,99 @@ li.menu-item:first-child {
 
 ul#menu-main-menu-1 {
     padding: 0;
+    margin: 0;
+}
+.main-menu {
+    margin-top: 1em;
+    padding-top: 27px;
 }
 #section-2 {
-    padding-top: 85px !important;
-    padding-bottom: 98px !important;
+    padding-top: 55px !important;
+    padding-bottom: 45px !important;
     background-image: url(../images/img-cover-4-1.jpg) !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
     background-size: cover !important;
     color: #fff;
+    clear: both;
+}
+div#content {
+    background: #f3f3f3;
+    padding-bottom: 40px;
+    padding-top: 25px;
+}
+.dgt-about-info i {
+    margin-right: 7px;
+}
+.dgt-widget-about > p {
+    line-height: 23px;
+}
+.dgt-blog-sidebar {
+    padding: 9px 0 20px 0;
+}
+.dgt-blog-sidebar .dgt-blog-sidebar-item {
+    margin-bottom: 20px;
+}
+.dgt-blog-sidebar .blog-image {
+    float: left;
+    width: 70px;
+}
+.dgt-blog-sidebar .blog-image img {
+    border-radius: 4px 4px 4px 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    -khtml-border-radius: 4px 4px 4px 4px;
+    -moz-border-radius: 4px 4px 4px 4px;
+    -ms-border-radius: 4px 4px 4px 4px;
+    -o-border-radius: 4px 4px 4px 4px;
+    max-width: 100%;
+    height: auto;
+}
+.dgt-blog-sidebar .blog-image+.blog-info {
+    float: left;
+    width: calc(100% - 70px);
+    padding-left: 15px;
+}
+.dgt-blog-sidebar h4 {
+    font-size: 14px;
+    line-height: 1.8;
+    margin: -5px 0 10px 0;
+    text-transform: uppercase;
+}
+.footer-widget .dgt-blog-date {
+    font-size: 12px;
+}
+.site-footer a {
+    color: #565656;
+}
+div#coppyright {
+    background: #f3f3f3;
+    font-size: 13px;
+    padding: 10px;
+}
+.site-footer a:hover {
+    color: #ef4348;
+}
+footer#footer {
+    padding: 25px 0 0;
+    background: #fff;
+}
+.footer-widget {
+    padding-bottom: 30px;
+}
+.footer-widget .widget-title {
+    font-size: 18px;
+    letter-spacing: 1px;
+    margin-bottom: 29px;
+}
+footer#footer ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+footer#footer ul li a {
+    line-height: 23px;
+    display: block;
 }
 .dgt-heading-icon {
     display: inline-block;

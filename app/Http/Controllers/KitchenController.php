@@ -20,7 +20,7 @@ class KitchenController extends Controller
             if ($user->hasPermission('browse_kitchens')) {
                 return $next($request);
             }
-            return back();
+            return back()->withErrors('Not permission');
         });
     }
 

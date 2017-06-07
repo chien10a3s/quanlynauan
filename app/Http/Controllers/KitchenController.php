@@ -8,13 +8,20 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AddKitchen;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use TCG\Voyager\Facades\Voyager;
 
 class KitchenController extends Controller
 {
     //
     public function __construct()
     {
-
+        $this->middleware(function ($request, $next) {
+            $user = Voyager::model('User')->find(Auth::id());
+            if ($user->hasPermission('browse_kitchens')) {
+                return $next($request);
+            }
+            return back()->withErrors('Not permission');
+        });
     }
 
     public function index()
@@ -56,7 +63,7 @@ class KitchenController extends Controller
                 }
             }
         }
-        return view('kitchen.update_user', compact('data', 'all_chef', 'all_user','id_chef','id_user'));
+        return view('kitchen.update_user', compact('data', 'all_chef', 'all_user', 'id_chef', 'id_user'));
     }
 
     public function updateUser(Request $request, $id)

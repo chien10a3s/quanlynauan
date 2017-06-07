@@ -3,6 +3,7 @@
 namespace App\Models\DailyMeal;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DailyDish\DailyDish;
 
 class DailyMeal extends Model
 {
@@ -35,5 +36,10 @@ class DailyMeal extends Model
     {
         parent::__construct($attributes);
         $this->table = 'daily_meals';
+    }
+
+    public function daily_dish()
+    {
+        return $this->hasMany(DailyDish::class, 'id_daily_meal', 'id');
     }
 }

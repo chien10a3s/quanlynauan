@@ -5,6 +5,7 @@ namespace App\Models\Kitchen;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Kitchen\KitchenAttribute;
 use App\User;
+use App\Models\DailyMeal\DailyMeal;
 
 class Kitchen extends Model
 {
@@ -43,5 +44,9 @@ class Kitchen extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_kitchens', 'id_kitchen', 'id_user');
+    }
+    public function daily_meal()
+    {
+        return $this->hasOne(DailyMeal::class, 'id_kitchen', 'id');
     }
 }

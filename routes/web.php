@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('customer.index');
 });
+Route::any('foods', 'FoodsController@list');
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
     Route::group(['prefix' => 'kitchen'], function () {
@@ -31,4 +32,15 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/{id}/user', 'KitchenController@user')->name('admin.kitchen.user');
         Route::post('/{id}/update-user', 'KitchenController@updateUser')->name('admin.kitchen.update-user');
     });
+    
+    Route::group(['prefix' => 'food'], function () {
+        Route::get('/', 'FoodController@index')->name('admin.food.index');
+        Route::get('/add', 'FoodController@add')->name('admin.food.add');
+        Route::post('/store', 'FoodController@store')->name('admin.food.store');
+        Route::get('/edit/{food_id}', 'FoodController@edit')->name('admin.food.edit');
+        Route::post('/update/{food_id}', 'FoodController@update')->name('admin.food.update');
+        Route::get('/duplicate/{food_id}', 'FoodController@duplicate')->name('admin.food.duplicate');
+        Route::get('/delete/{food_id}', 'FoodController@delete')->name('admin.food.delete');
+    });
+    
 });

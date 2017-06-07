@@ -47,6 +47,6 @@ class Kitchen extends Model
     }
     public function daily_meal()
     {
-        return $this->hasOne(DailyMeal::class, 'id_kitchen', 'id');
+        return $this->hasMany(DailyMeal::class, 'id_kitchen', 'id');
     }
 }

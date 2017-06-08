@@ -57,5 +57,5 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/duplicate/{food_id}', 'FoodController@duplicate')->name('admin.food.duplicate');
         Route::get('/delete/{food_id}', 'FoodController@delete')->name('admin.food.delete');
     });
-    
+    require(__DIR__.'/chef/chef.php');
 });

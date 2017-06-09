@@ -2,6 +2,7 @@
 
 namespace App\Models\DailyMeal;
 
+use App\Models\Kitchen\Kitchen;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DailyDish\DailyDish;
 
@@ -41,5 +42,13 @@ class DailyMeal extends Model
     public function daily_dish()
     {
         return $this->hasMany(DailyDish::class, 'id_daily_meal', 'id');
+    }
+
+    /**
+     * Get kitchen
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function kitchen(){
+        return $this->hasOne(Kitchen::class, 'id', 'id_kitchen');
     }
 }

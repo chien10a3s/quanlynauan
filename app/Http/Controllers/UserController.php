@@ -22,6 +22,10 @@ class UserController extends Controller
         $all_meal = User::with(['kitchen', 'kitchen.daily_meal'])
             ->where('id', $id_user)
             ->first();
-        return view('meal.index', compact('all_meal'));
+    }
+
+    public function add()
+    {
+        return view('meal.add');
     }
 }

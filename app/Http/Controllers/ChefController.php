@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DailyMeal\DailyMeal;
 use App\Models\UserKitchen\UserKitchen;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,5 +50,23 @@ class ChefController extends Controller
             $data['kitchen'][] = $data_item;
         }
         return view('chef.index', compact('data'));
+    }
+
+    public function dailyMeals($kitchen_id){
+        $now = Carbon::now()->format('Y-m-d');
+        $start_day = Carbon::createFromFormat('Y-m-d H:i:s', $now.' 00:00:01')->format('Y-m-d H:i:s');
+        $end_day = Carbon::createFromFormat('Y-m-d H:i:s', $now.' 23:59:59')->format('Y-m-d H:i:s');
+        $data = DailyMeal::with([
+            'daily_dish' => function($query){
+                $query->where('status', 1);
+                $query->with(['detail_dish']);
+            },
+            'kitchen'
+            ])
+            ->where('id_kitchen', $kitchen_id)
+            ->where('day', '>', $start_day)
+            ->where('day', '<', $end_day)
+            ->where('status', 1)->get();
+        dd($data);
     }
 }

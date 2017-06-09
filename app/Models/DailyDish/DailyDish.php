@@ -41,4 +41,12 @@ class DailyDish extends Model
     {
         return $this->hasMany(DishDetail::class, 'id_daily_dish', 'id');
     }
+
+    /**
+     * Get detail dish
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function detail_dish(){
+        return $this->hasMany(DishDetail::class, 'id_daily_dish', 'id');
+    }
 }

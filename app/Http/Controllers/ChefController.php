@@ -53,8 +53,13 @@ class ChefController extends Controller
         return view('chef.index', compact('data'));
     }
 
-    public function dailyMeals($kitchen_id){
-        $now = Carbon::now()->format('Y-m-d');
+    public function dailyMeals(Request $request, $kitchen_id){
+        if(isset($request->day)){
+            $request_day = Carbon::createFromFormat('d/m/Y', $request->day);
+            $day = Carbon::parse($request_day)->format('Y-m-d');
+        }else{
+            $day = Carbon::now()->format('Y-m-d');
+        }
 //        $start_day = Carbon::createFromFormat('Y-m-d H:i:s', $now.' 00:00:01')->format('Y-m-d H:i:s');
 //        $end_day = Carbon::createFromFormat('Y-m-d H:i:s', $now.' 23:59:59')->format('Y-m-d H:i:s');
         $data = array();
@@ -66,10 +71,11 @@ class ChefController extends Controller
                 }
             ])
             ->where('id_kitchen', $kitchen_id)
-            ->where('day', '=', $now)
+            ->where('day', '=', $day)
             ->where('status', 1)->get();
-        $data['date'] = Carbon::now();
-        dd($data);
+        $data['date'] = $day;
+        $data['kitchen_id'] = $kitchen_id;
+//        dd($data);
         return view('chef.meal', compact('data'));
     }
 }

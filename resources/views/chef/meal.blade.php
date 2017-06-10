@@ -21,13 +21,16 @@
         .modal-body span {
             text-align: center;
         }
-        h5{
+
+        h5 {
             margin-bottom: 0px;
         }
-        .item-meal{
+
+        .item-meal {
             margin-bottom: 20px;
         }
-        .btn{
+
+        .btn {
             font-size: 13px;
         }
     </style>
@@ -41,7 +44,9 @@
                     <div class="panel-body">
                         {{ Form::open(['route' => ['admin.chef.meal', @$data['kitchen_id']], 'class' => 'form-horizontal', 'role' => 'form','method' => 'GET']) }}
                         <div class="input-group date date-picker col-md-3" style="float: left;">
-                            <input type="text" class="form-control date-picker" value="{{ \Carbon\Carbon::parse($data['date'])->format('d/m/Y') }}" readonly="" name="day">
+                            <input type="text" class="form-control date_time"
+                                   value="{{ \Carbon\Carbon::parse($data['date'])->format('d/m/Y') }}" readonly=""
+                                   name="day">
 
                         </div>
                         <button type="submit" class="btn btn-success" style="margin-left: 5px; margin-top: 0px;">
@@ -68,7 +73,8 @@
                                         <td>{{@$item->number_of_meals}}</td>
                                         <td><span class="number-format">{{ @$item->money_meals }}</span> VND</td>
                                         <td>
-                                            <a class="btn-sm btn-warning" style="cursor: pointer;" title="Chi tiết" data-toggle="modal"
+                                            <a class="btn-sm btn-warning" style="cursor: pointer;" title="Chi tiết"
+                                               data-toggle="modal"
                                                data-target="#detail_meal">
                                                 <i class="voyager-eye"></i> Xem chi tiết thực đơn
                                             </a>
@@ -76,23 +82,29 @@
                                                 <div class="modal-dialog">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
-                                                        <div class="modal-header" style="background: #5bc0de; color: #fff;">
+                                                        <div class="modal-header"
+                                                             style="background: #5bc0de; color: #fff;">
                                                             <button type="button" class="close" data-dismiss="modal">
                                                                 &times;
                                                             </button>
                                                             <h4 class="modal-title"><i class="voyager-eye"></i> Thực đơn
-                                                                ngày {{ \Carbon\Carbon::parse($data['date'])->format('d/m/Y') }}</h4>
+                                                                ngày {{ \Carbon\Carbon::parse($data['date'])->format('d/m/Y') }}
+                                                            </h4>
                                                         </div>
                                                         <div class="modal-body">
                                                             @if(count($item->daily_dish) > 0)
                                                                 @foreach($item->daily_dish as $dish)
                                                                     <div class="item-meal">
                                                                         <h5>- Món ăn: {{$dish->name}}</h5>
-                                                                        <span><i>&nbsp;(Lưu ý: {{$dish->cooking_note}})</i></span> <br>
+                                                                        <span><i>&nbsp;(Lưu ý: {{$dish->cooking_note}}
+                                                                                )</i></span> <br>
 
                                                                         @if(count($dish->detail_dish) > 0)
                                                                             @foreach($dish->detail_dish as $detail)
-                                                                                + {{$detail->number}} {{$detail->unit}} {{$detail->name}} (Đơn giá: <span class="number-format">{{$detail->money}}</span> VND) <br>
+                                                                                + {{$detail->number}} {{$detail->unit}} {{$detail->name}}
+                                                                                (Đơn giá: <span
+                                                                                        class="number-format">{{$detail->money}}</span>
+                                                                                VND) <br>
                                                                             @endforeach
                                                                         @endif
                                                                     </div>
@@ -123,14 +135,16 @@
 @stop
 
 @section('javascript')
-    <script src="/js/jquery-number-master/jquery.number.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-number-master/jquery.number.min.js"></script>
+    <script type="text/javascript"
+            src="{{ voyager_asset('lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <!-- DataTables -->
     <script>
         $(document).ready(function () {
             $('#sample_1').DataTable({"order": []});
             $('.number-format').number(true);
         });
-        $('.date-picker').datepicker({
+        $('.date_time').datepicker({
             todayBtn: false,
             language: "en",
             autoclose: true,

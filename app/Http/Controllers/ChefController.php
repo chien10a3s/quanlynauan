@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DailyMeal\DailyMeal;
+use App\Models\Feedback\Feeback;
 use App\Models\Kitchen\Kitchen;
 use App\Models\UserKitchen\UserKitchen;
 use App\User;
@@ -23,11 +24,12 @@ class ChefController extends Controller
      * Get list kitchen of chef with id login
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(){
+    public function index()
+    {
         $user_login = Auth::user()->id;
 
         $list_kitchen = User::with([
-            'kitchen' => function($query) use ($user_login){
+            'kitchen' => function ($query) use ($user_login) {
                 $query->where('status', 1)->where('role', 3);
                 $query->with(['daily_meal']);
             }])->find($user_login);
@@ -37,9 +39,9 @@ class ChefController extends Controller
         $data = array();
         $data['user'] = Auth::user();
         $data['kitchen'] = array();
-        foreach ($list_kitchen->kitchen as $index => $kitchen){
+        foreach ($list_kitchen->kitchen as $index => $kitchen) {
             $data_item = array();
-            $data_item['index'] = $index+1;
+            $data_item['index'] = $index + 1;
             $data_item['name'] = $kitchen->name;
             $data_item['id'] = $kitchen->id;
             $data_item['status'] = $kitchen->status;
@@ -53,29 +55,67 @@ class ChefController extends Controller
         return view('chef.index', compact('data'));
     }
 
-    public function dailyMeals(Request $request, $kitchen_id){
-        if(isset($request->day)){
+    /**
+     * Get list daily meal by date and kitchen_id
+     * @param Request $request
+     * @param $kitchen_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function dailyMeals(Request $request, $kitchen_id)
+    {
+        if (isset($request->day)) {
             $request_day = Carbon::createFromFormat('d/m/Y', $request->day);
             $day = Carbon::parse($request_day)->format('Y-m-d');
-        }else{
+        } else {
             $day = Carbon::now()->format('Y-m-d');
         }
-//        $start_day = Carbon::createFromFormat('Y-m-d H:i:s', $now.' 00:00:01')->format('Y-m-d H:i:s');
-//        $end_day = Carbon::createFromFormat('Y-m-d H:i:s', $now.' 23:59:59')->format('Y-m-d H:i:s');
         $data = array();
         $data['kitchen'] = Kitchen::find($kitchen_id);
         $data['meals'] = DailyMeal::with([
-                'daily_dish' => function($query){
-                    $query->where('status', 1);
-                    $query->with(['detail_dish']);
-                }
-            ])
+            'daily_dish' => function ($query) {
+                $query->where('status', 1);
+                $query->with(['detail_dish']);
+            }
+        ])
             ->where('id_kitchen', $kitchen_id)
             ->where('day', '=', $day)
             ->where('status', 1)->get();
         $data['date'] = $day;
         $data['kitchen_id'] = $kitchen_id;
-//        dd($data);
         return view('chef.meal', compact('data'));
+    }
+
+    /**
+     * Update total money when go to market
+     * @param Request $request
+     * @param $daily_meal_id
+     */
+    public function updateMoneyChef(Request $request, $daily_meal_id)
+    {
+        if(!isset($daily_meal_id)){
+            return redirect()->back()->withErrors('Không tìm thấy dữ liệu');
+        }
+        $total_meal_chef = str_replace(',', '', $request->total_meal_chef);
+        if(DailyMeal::where('id', $daily_meal_id)->update(['total_meal_chef' => $total_meal_chef])){
+            return redirect()->back()->withErrors('Cập nhật dữ liệu thành công');
+        }
+        return redirect()->back()->withErrors('Đã xảy ra lỗi');
+    }
+
+    public function getFeedback(Request $request, $kitchen_id){
+        if (isset($request->day)) {
+            $request_day = Carbon::createFromFormat('d/m/Y', $request->day);
+            $day = Carbon::parse($request_day)->format('Y-m-d');
+        } else {
+            $day = Carbon::now()->format('Y-m-d');
+        }
+        $data = array();
+        $data['kitchen'] = Kitchen::find($kitchen_id);
+        $data['feedback'] = Feeback::with(['create_user'])
+            ->where('id_kitchen', $kitchen_id)
+            ->where('date',  $day)->get();
+        $data['date'] = $day;
+        $data['kitchen_id'] = $kitchen_id;
+        return view('chef.feedback', compact('data'));
     }
 }

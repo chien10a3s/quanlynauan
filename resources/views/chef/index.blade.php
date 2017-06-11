@@ -24,7 +24,7 @@
                                 <th>Tài khoản</th>
                                 <th>Địa chỉ</th>
                                 <th>Trạng thái</th>
-                                <th>Số hóa đơn</th>
+                                <th>Số thực đơn</th>
                                 <th class="actions col-md-4">Actions</th>
                             </tr>
                             </thead>
@@ -48,9 +48,14 @@
                                             {{ @$item['count_meal'] }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('admin.kitchen.detail', $item['id']) }}"
-                                               class="btn-sm btn-warning" title="Chi tiết">
-                                                <i class="voyager-eye"></i> Hóa đơn
+                                            <a href="{{ route('admin.chef.meal', $item['id']) }}"
+                                               class="btn-sm btn-warning" title="Danh sách thực đơn">
+                                                <i class="voyager-eyes"></i>Thực đơn
+                                            </a>&nbsp;
+
+                                            <a href="{{ route('admin.chef.feedback', $item['id']) }}"
+                                               class="btn-sm btn-warning" title="Danh sách feedback">
+                                                <i class="voyager-comment"></i>Feedback
                                             </a>
                                         </td>
                                     </tr>

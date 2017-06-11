@@ -24,7 +24,7 @@
                                 <th>Tài khoản</th>
                                 <th>Địa chỉ</th>
                                 <th>Trạng thái</th>
-                                <th>Số thực đơn</th>
+                                {{--<th>Số thực đơn</th>--}}
                                 <th class="actions col-md-4">Actions</th>
                             </tr>
                             </thead>
@@ -44,9 +44,9 @@
                                                 <span class="label label-success">Đang kích hoạt</span>
                                             @endif
                                         </td>
-                                        <td>
-                                            {{ @$item['count_meal'] }}
-                                        </td>
+                                        {{--<td>--}}
+                                            {{--{{ @$item['count_meal'] }}--}}
+                                        {{--</td>--}}
                                         <td>
                                             <a href="{{ route('admin.chef.meal', $item['id']) }}"
                                                class="btn-sm btn-warning" title="Danh sách thực đơn">

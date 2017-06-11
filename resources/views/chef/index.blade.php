@@ -34,7 +34,7 @@
                                 @foreach($data['kitchen'] as $item)
                                     <tr>
                                         <td>{{ @$item['index'] }}</td>
-                                        <td><a href="{{route('admin.chef.meal', $item['id'])}}">{{ @$item['name'] }}</a></td>
+                                        <td>{{ @$item['name'] }}</td>
                                         <td><span class="number-format">{{ @$item['money'] }}</span> VND</td>
                                         <td>{{ @$item['address'] }}</td>
                                         <td>

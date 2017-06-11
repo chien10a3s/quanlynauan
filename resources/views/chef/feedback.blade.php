@@ -2,7 +2,7 @@
 
 @section('page_header')
     <h1 class="page-title">
-        <i class="voyager-list"></i> Thực đơn của <span style="color: red;">{{@$data['kitchen']->name}}
+        <i class="voyager-list"></i> Feedback của <span style="color: red;">{{@$data['kitchen']->name}}
             ngày {{ \Carbon\Carbon::parse($data['date'])->format('d/m/Y') }}</span>
     </h1>
     <style>

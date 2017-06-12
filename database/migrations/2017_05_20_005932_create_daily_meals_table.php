@@ -18,7 +18,7 @@ class CreateDailyMealsTable extends Migration
             $table->increments('id');
             $table->string('code')->unique();
             $table->integer('id_kitchen')->comment('id kitchen')->index();
-            $table->dateTime('day');
+            $table->date('day');
             $table->integer('number_of_meals');
             $table->decimal('money_meals', 10,2)->default(0);
             $table->tinyInteger('status')->comment('0:new ;1:active; 2:cancel');

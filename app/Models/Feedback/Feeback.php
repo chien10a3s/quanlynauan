@@ -1,31 +1,15 @@
 <?php
 
-namespace App\Models\DailyMeal;
+namespace App\Models\Feedback;
 
 use App\Models\Kitchen\Kitchen;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\DailyDish\DailyDish;
 
-class DailyMeal extends Model
+class Feeback extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
     protected $table;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-
-    /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
     protected $guarded = ['id'];
 
     protected $fillable = [];
@@ -36,12 +20,7 @@ class DailyMeal extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = 'daily_meals';
-    }
-
-    public function daily_dish()
-    {
-        return $this->hasMany(DailyDish::class, 'id_daily_meal', 'id');
+        $this->table = 'feedbacks';
     }
 
     /**
@@ -50,5 +29,13 @@ class DailyMeal extends Model
      */
     public function kitchen(){
         return $this->hasOne(Kitchen::class, 'id', 'id_kitchen');
+    }
+
+    /**
+     * Get info user create_by
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function create_user(){
+        return $this->hasOne(User::class, 'id', 'created_by');
     }
 }

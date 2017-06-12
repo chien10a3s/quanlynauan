@@ -21,7 +21,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/', 'KitchenController@index')->name('admin.kitchen.index');
         Route::get('/{id}/detail', 'KitchenController@detail')->name('admin.kitchen.detail');
 
-        Route::get('/kitchen-add', 'KitchenController@add')->name('admin.kitchens.addnew');
+        Route::get('/add', 'KitchenController@add')->name('admin.kitchens.addnew');
         Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
 
         Route::get('/{id}/edit-kitchen', 'KitchenController@edit')->name('admin.kitchen.edit');
@@ -34,6 +34,7 @@ Route::group(['prefix' => 'admin'], function () {
     });
     Route::group(['prefix' => 'meal-daily'], function () {
         Route::get('/add', 'UserController@add')->name('admin.user.add');
+        Route::post('/store', 'UserController@store')->name('admin.user.store');
 
     });
     

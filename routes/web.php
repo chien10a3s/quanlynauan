@@ -25,7 +25,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/', 'KitchenController@index')->name('admin.kitchen.index');
         Route::get('/{id}/detail', 'KitchenController@detail')->name('admin.kitchen.detail');
 
-        Route::get('/add', 'KitchenController@add')->name('admin.kitchen.add');
+        Route::get('/add', 'KitchenController@add')->name('admin.kitchens.addnew');
         Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
 
         Route::get('/{id}/edit-kitchen', 'KitchenController@edit')->name('admin.kitchen.edit');
@@ -36,20 +36,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/{id}/user', 'KitchenController@user')->name('admin.kitchen.user');
         Route::post('/{id}/update-user', 'KitchenController@updateUser')->name('admin.kitchen.update-user');
     });
-    Route::group(['prefix' => 'user'], function () {
-        Route::get('/', 'UserController@index')->name('admin.user.index');
-        Route::get('/{id}/detail', 'KitchenController@detail')->name('admin.kitchen.detail');
+    Route::group(['prefix' => 'meal-daily'], function () {
+        Route::get('/add', 'UserController@add')->name('admin.user.add');
+        Route::post('/store', 'UserController@store')->name('admin.user.store');
 
-        Route::get('/add', 'KitchenController@add')->name('admin.kitchen.add');
-        Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
-
-        Route::get('/{id}/edit', 'KitchenController@edit')->name('admin.kitchen.edit');
-        Route::post('/update/{id}', 'KitchenController@update')->name('admin.kitchen.update');
-
-        Route::post('/delete/{id}', 'KitchenController@delete')->name('admin.kitchen.delete');
-
-        Route::get('/{id}/user', 'KitchenController@user')->name('admin.kitchen.user');
-        Route::post('/{id}/update-user', 'KitchenController@updateUser')->name('admin.kitchen.update-user');
     });
     
     Route::group(['prefix' => 'food'], function () {
@@ -61,10 +51,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/duplicate/{food_id}', 'FoodController@duplicate')->name('admin.food.duplicate');
         Route::get('/delete/{food_id}', 'FoodController@delete')->name('admin.food.delete');
     });
+<<<<<<< HEAD
     
     Route::resource('supplier', 'SupplierController', ['only' => [
         'index', 'create', 'edit', 'destroy', 'update', 'store'
     ]]);
 
     
+=======
+    require(__DIR__.'/chef/chef.php');
+>>>>>>> d582b8b4bafef539f82d584ebe88a677151e4c9a
 });

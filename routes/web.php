@@ -12,9 +12,13 @@
 */
 
 Route::get('/', function () {
+    return view('home');
+});
+
+Route::get('/account', function () {
     return view('customer.index');
 });
-Route::any('foods', 'FoodsController@list');
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
     Route::group(['prefix' => 'kitchens'], function () {
@@ -49,5 +53,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/duplicate/{food_id}', 'FoodController@duplicate')->name('admin.food.duplicate');
         Route::get('/delete/{food_id}', 'FoodController@delete')->name('admin.food.delete');
     });
+    Route::resource('supplier', 'SupplierController', ['only' => [
+        'index', 'create', 'edit', 'destroy', 'update', 'store'
+    ]]);
     require(__DIR__.'/chef/chef.php');
 });

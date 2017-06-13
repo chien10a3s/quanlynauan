@@ -113,7 +113,7 @@
                                 <label>
                                     Danh mục
                                 </label>
-                                <select name="id_category" class="form-control" multiple>
+                                <select name="id_category" class="form-control">
                                     @foreach($categories as $category)
                                     <option value="{{ $category->id }}">{{$category->name}}</option>
                                     @endforeach
@@ -125,8 +125,9 @@
                                     Nhà cung cấp
                                 </label>
                                 <select name="id_supplier" class="form-control">
-                                    <option value="1">Big C</option>
-                                    <option value="2">Vinmax</option>
+                                    @foreach($suppliers as $supplier)
+                                    <option value="{{ $supplier->id }}">{{$supplier->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             

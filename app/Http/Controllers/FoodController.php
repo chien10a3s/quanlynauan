@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Food;
+use App\Supplier;
 use TCG\Voyager\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,18 +25,20 @@ class FoodController extends Controller
     
     public function add(){
         $categories = Category::all();
-        return view('food.add', compact('categories'));
+        $suppliers = Supplier::where('status', 1)->get();
+        return view('food.add', compact(['categories', 'suppliers']));
     }
     
     public function edit($food_id){
         $categories = Category::all();
         $food = Food::find($food_id);
-        return view('food.edit', compact('categories'), compact('food'));
+        $suppliers = Supplier::where('status', 1)->get();
+        return view('food.edit', compact(['food', 'categories', 'suppliers']));
     }
     
     public function delete($food_id){
         $food = Food::find($food_id)->delete();
-        return redirect()->route('admin.food.index')->withFlashSuccess('X骯 s?n ph?m th鄋h c鬾g');
+        return redirect()->route('admin.food.index')->withFlashSuccess('X贸a s?n ph?m th脿nh c么ng');
     }
     
     public function duplicate(Request $request, $food_id){
@@ -43,7 +46,7 @@ class FoodController extends Controller
         $new_food = $food->replicate();
         $new_food->save();
         return redirect()->route('admin.food.edit', $new_food->id)->with([
-            'message'    => 'Sao ch閜 s?n ph?m th鄋h c鬾g',
+            'message'    => 'Sao ch茅p s?n ph?m th脿nh c么ng',
             'alert-type' => 'success',
         ]);;
     }
@@ -85,7 +88,7 @@ class FoodController extends Controller
         
         Food::insert($data_input);
         
-        return redirect()->route('admin.food.index')->withFlashSuccess('Th阭 s?n ph?m th鄋h c鬾g');
+        return redirect()->route('admin.food.index')->withFlashSuccess('Th锚m s岷 ph岷﹎ th脿nh c么ng');
     }
     
     public function update(Request $request, $food_id)
@@ -125,7 +128,7 @@ class FoodController extends Controller
         }
         
         Food::find($food_id)->update($data_input);
-        return redirect()->route('admin.food.index')->withFlashSuccess('C?p nh?t s?n ph?m th鄋h c鬾g');
+        return redirect()->route('admin.food.index')->withFlashSuccess('C?p nh?t s?n ph?m th脿nh c么ng');
     }
     
 }

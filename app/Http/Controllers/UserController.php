@@ -50,7 +50,6 @@ class UserController extends Controller
         $meal = DailyMeal::with('daily_dish','daily_dish.detail_dish')
             ->where('id', $id)
             ->first();
-        dd($meal);
 
         $all_food = Food::get();
         $option = [];

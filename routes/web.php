@@ -77,8 +77,4 @@ Route::group(['prefix' => 'admin'], function () {
     ]]);
     */
 
-    Route::resource('supplier', 'SupplierController', ['only' => [
-        'index', 'create', 'edit', 'destroy', 'update', 'store'
-    ]]);
-
 });

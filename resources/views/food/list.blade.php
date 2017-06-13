@@ -35,7 +35,7 @@
                                 @foreach($foods as $food)
                                     <tr>
                                         <td>{{ $i+=1 }}</td>
-                                        <td><img src="{{ Voyager::image( $food->image ) }}" /> </td>
+                                        <td><img width="100" src="{{ Voyager::image( $food->image ) }}" /> </td>
                                         <td>{{ $food->name }}</td>
                                         <td>{{ $food->id_category }}</td>
                                         <td>{{ $food->id_supplier }}</td>

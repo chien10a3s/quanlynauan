@@ -41,6 +41,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/{id}/update-user', 'KitchenController@updateUser')->name('admin.kitchen.update-user');
     });
     Route::group(['prefix' => 'meal-daily'], function () {
+        Route::get('/', 'UserController@index')->name('admin.user.index');
+        Route::get('/{id}/view', 'UserController@view')->name('admin.user.view');
         Route::get('/add', 'UserController@add')->name('admin.user.add');
         Route::post('/store', 'UserController@store')->name('admin.user.store');
 
@@ -56,6 +58,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/delete/{food_id}', 'FoodController@delete')->name('admin.food.delete');
     });
     
+    Route::resource('foodcategory', 'FoodCategoryController', ['only' => [
+        'index', 'create', 'edit', 'destroy', 'update', 'store'
+    ]]);
+    
+    
     Route::resource('supplier', 'SupplierController', ['only' => [
         'index', 'create', 'edit', 'destroy', 'update', 'store'
     ]]);
@@ -69,4 +76,9 @@ Route::group(['prefix' => 'admin'], function () {
         'index', 'create', 'edit', 'destroy', 'update', 'store'
     ]]);
     */
+
+    Route::resource('supplier', 'SupplierController', ['only' => [
+        'index', 'create', 'edit', 'destroy', 'update', 'store'
+    ]]);
+
 });

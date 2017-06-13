@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Food;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\User;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\DailyMeal\DailyMeal;
 use App\Models\DailyDish\DailyDish;
 use App\Models\DishDetail\DishDetail;
+use App\Models\Category\Category;
 use DB;
 
 class UserController extends Controller
@@ -20,18 +22,67 @@ class UserController extends Controller
 
     public function index($id_user = null)
     {
-        if (is_null($id_user)) {
-            $id_user = Auth::user()->id;
+        $user_kitchen = Auth::user()->kitchen;
+        if (count($user_kitchen) < 0) {
+            return back()->withErrors('Không có bếp quản lý');
         }
-        //Lấy toàn bộ bữa an của tài khoản
-        $all_meal = User::with(['kitchen', 'kitchen.daily_meal'])
-            ->where('id', $id_user)
+        $id_kitchen = 0;
+        foreach ($user_kitchen as $item_kitchen) {
+            $id_kitchen = $item_kitchen->id;
+        }
+        $all_meal = User::with(['kitchen' => function ($query) use ($id_kitchen) {
+            return $query->where('id_kitchen', $id_kitchen);
+        }, 'kitchen.daily_meal' => function ($query) use ($id_kitchen) {
+            return $query->orderBy('day', 'desc');
+        }])
+            ->where('id', Auth::user()->id)
+            ->take(10)
+            ->get();
+        return view('meal.index', compact('all_meal'));
+    }
+
+    public function view($id)
+    {
+        $user_kitchen = Auth::user()->kitchen;
+        if (count($user_kitchen) < 0) {
+            return back()->withErrors('Không có bếp quản lý');
+        }
+        $meal = DailyMeal::with('daily_dish','daily_dish.detail_dish')
+            ->where('id', $id)
             ->first();
+
+        $all_food = Food::get();
+        $option = [];
+        if (count($all_food) > 0) {
+            foreach ($all_food as $item_food) {
+                $name = "";
+                if ($item_food->id_supplier == 1) {
+                    $name = "Big C";
+                } elseif ($item_food->id_supplier == 2) {
+                    $name = "Vinmart";
+                }
+                $option[$name][$item_food->id] = $item_food->name;
+            }
+        }
+        return view('meal.add', compact('get_all_thuc_pham', 'option'));
     }
 
     public function add()
     {
-        return view('meal.add');
+        $all_food = Food::get();
+        $option = [];
+        if (count($all_food) > 0) {
+            foreach ($all_food as $item_food) {
+                $name = "";
+                if ($item_food->id_supplier == 1) {
+                    $name = "Big C";
+                } elseif ($item_food->id_supplier == 2) {
+                    $name = "Vinmart";
+                }
+                $option[$name][$item_food->id] = $item_food->name;
+            }
+        }
+        return view('meal.add', compact('get_all_thuc_pham', 'option'));
     }
 
     public function store(Request $request)
@@ -92,7 +143,7 @@ class UserController extends Controller
 
                     $id_daily_dish = DailyDish::insertGetId($data_create_daily_dish);
                     foreach ($arr_ingredient as $key_ing => $item_ing) {
-                        $name_ingredient = $item_ing;//Tên nguyên liệu
+                        $name_ingredient = $item_ing;//id nguyên liệu
                         $number = $arr_number[$key_ing];
                         $unit = $arr_unit[$key_ing];
 
@@ -101,6 +152,7 @@ class UserController extends Controller
                         $arr_dish_detail = [];
 
                         $arr_dish_detail['id_daily_dish'] = $id_daily_dish;
+                        $arr_dish_detail['id_food'] = $name_ingredient;
                         $arr_dish_detail['name'] = $name_ingredient;
                         $arr_dish_detail['number'] = $number;
                         $arr_dish_detail['unit'] = $unit;
@@ -118,7 +170,7 @@ class UserController extends Controller
                 return redirect()->back()->withErrors('Có lỗi trong quá trình thêm mới');
             }
             DB::commit();
-            return redirect()->back()->withFlashSuccess('Đăng ký món ăn thành công');
+            return redirect()->route('admin.user.index')->withFlashSuccess('Đăng ký món ăn thành công');
         }
         return back()->withErrors('Đăng ký không thành công. Không có món ăn được chọn');
     }

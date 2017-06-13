@@ -126,14 +126,6 @@
                 $('#sample_1').DataTable({"order": []});
             });
         });
-        //        $('td').on('click', '.delete', function (e) {
-        //            var form = $('#delete_form')[0];
-        //
-        //            form.action = parseActionUrl(form.action, $(this).data('id'));
-        //
-        //            $('#delete_modal').modal('show');
-        //        });
-
         function parseActionUrl(action, id) {
             return action.match(/\/[0-9]+$/)
                 ? action.replace(/([0-9]+$)/, id)

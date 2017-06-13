@@ -126,6 +126,7 @@
                                 </label>
                                 <select name="id_supplier" class="form-control">
                                     <option value="1">Big C</option>
+                                    <option value="2">Vinmax</option>
                                 </select>
                             </div>
                             

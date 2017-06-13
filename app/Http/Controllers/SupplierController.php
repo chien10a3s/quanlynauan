@@ -15,6 +15,7 @@ use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
 use TCG\Voyager\Facades\Voyager;
 use DB;
+
 class SupplierController extends Controller
 {
     /**

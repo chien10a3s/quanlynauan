@@ -59,14 +59,9 @@
                                             </div>
                                         </form>
                                         -->
+                                        
                                         <div class="main-menu">
-                                            <ul id="menu-main-menu-1" class="menu">
-                                                <li class="menu-item current-menu-item"><a href="#">Trang chủ</a></li>
-                                                <li class="menu-item"><a href="#">Hệ thống cửa hàng</a></li>
-                                                <li class="menu-item"><a href="#">Hướng dẫn đặt hàng</a></li>
-                                                <li class="menu-item"><a href="#">Hỗ trợ khách hàng</a></li>
-                                                <li class="menu-item"><a href="#">Liên hệ</a></li>
-                                            </ul>
+                                            {{ menu('front') }}
                                         </div>
                                     </div>
                                     <div class="hidden-sm hidden-xs dgt-header-right col-sm-3 col-md-3">

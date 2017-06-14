@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Food;
+use App\FoodCategory;
 use App\Supplier;
 use TCG\Voyager\Models\Category;
 use Illuminate\Http\Request;
@@ -24,13 +25,13 @@ class FoodController extends Controller
     }
     
     public function add(){
-        $categories = Category::all();
+        $categories = FoodCategory::where('active', 1)->get();
         $suppliers = Supplier::where('status', 1)->get();
         return view('food.add', compact(['categories', 'suppliers']));
     }
     
     public function edit($food_id){
-        $categories = Category::all();
+        $categories = FoodCategory::where('active', 1)->get();
         $food = Food::find($food_id);
         $suppliers = Supplier::where('status', 1)->get();
         return view('food.edit', compact(['food', 'categories', 'suppliers']));

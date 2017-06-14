@@ -19,6 +19,10 @@ Route::get('/account', function () {
     return view('customer.index');
 });
 
+Route::get('blog/{slug}',['as' => 'post', 'uses' => 'BlogController@show'])->where('slug', '[A-Za-z0-9-_]+');
+Route::get('blog/category/{slug}',['as' => 'post', 'uses' => 'BlogController@showCategory'])->where('slug', '[A-Za-z0-9-_]+');
+Route::get('blog/{cate}/{post}',['as' => 'post', 'uses' => 'BlogController@showWithCategory'])->where('cate', '[A-Za-z0-9-_]+')->where('post', '[A-Za-z0-9-_]+');
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
     Route::group(['middleware' => 'admin.user'], function () {
@@ -59,4 +63,23 @@ Route::group(['prefix' => 'admin'], function () {
         ]]);
         require(__DIR__ . '/chef/chef.php');
     });
+    
+    Route::resource('foodcategory', 'FoodCategoryController', ['only' => [
+        'index', 'create', 'edit', 'destroy', 'update', 'store'
+    ]]);
+    
+    
+    Route::resource('supplier', 'SupplierController', ['only' => [
+        'index', 'create', 'edit', 'destroy', 'update', 'store'
+    ]]);
+    
+    /*
+    Route::resource('blog', 'BlogController', ['only' => [
+        'index', 'create', 'edit', 'destroy', 'update', 'store'
+    ]]);
+
+    Route::resource('post', 'BlogPostController', ['only' => [
+        'index', 'create', 'edit', 'destroy', 'update', 'store'
+    ]]);
+    */
 });

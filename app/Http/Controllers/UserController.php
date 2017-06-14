@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+use Redirect;
 use App\Food;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -47,7 +49,7 @@ class UserController extends Controller
         if (count($user_kitchen) < 0) {
             return back()->withErrors('Không có bếp quản lý');
         }
-        $meal = DailyMeal::with('daily_dish','daily_dish.detail_dish')
+        $meal = DailyMeal::with('daily_dish', 'daily_dish.detail_dish')
             ->where('id', $id)
             ->first();
 
@@ -88,8 +90,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user_kitchen = Auth::user()->kitchen;
-        if (is_null($user_kitchen)) {
-            return back()->withErrors('Đăng ký không thành công. Không có bếp được chọn');
+        if (count($user_kitchen) <= 0 ) {
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Đăng ký không thành công. Tài khoản chưa được gán bếp.',
+                    'alert-type' => 'error',
+                ]);
         }
         foreach ($user_kitchen as $item_kitchen) {
             $id_kitchen = $item_kitchen->id;
@@ -165,13 +172,27 @@ class UserController extends Controller
                     }
                 }
             } catch (\Exception $e) {
-                dd($e);
                 DB::rollBack();
-                return redirect()->back()->withErrors('Có lỗi trong quá trình thêm mới');
+                return redirect()
+                    ->back()
+                    ->with([
+                        'message' => 'Đăng ký không thành công. Vui lòng điền đầy đủ thông tin đăng ký.',
+                        'alert-type' => 'error',
+                    ]);
             }
             DB::commit();
-            return redirect()->route('admin.user.index')->withFlashSuccess('Đăng ký món ăn thành công');
+            return redirect()
+                ->route('admin.user.index')
+                ->with([
+                    'message' => 'Đăng ký món ăn thành công.',
+                    'alert-type' => 'success',
+                ]);
         }
-        return back()->withErrors('Đăng ký không thành công. Không có món ăn được chọn');
+        return redirect()
+            ->back()
+            ->with([
+                'message' => 'Đăng ký không thành công. Không có món ăn được chọn.',
+                'alert-type' => 'error',
+            ]);
     }
 }

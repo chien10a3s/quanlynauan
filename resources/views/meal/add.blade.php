@@ -161,6 +161,7 @@
                 $(this).closest("tr").find('.td_so_luong').append('<input type="number" name="so_luong[' + a + '][]" class="so_luong form-control" style="margin-top: 10px">');
                 $(this).closest("tr").find('.td_don_vi').append('<input type="text" name="don_vi[' + a + '][]" class="don_vi form-control" style="margin-top: 10px">');
                 $('select').select2();
+                $("html, body").animate({ scrollTop: $(this).closest("tr").find('.td_nguyen_lieu').offset().top }, 1);
             });
         });
 

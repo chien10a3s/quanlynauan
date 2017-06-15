@@ -53,7 +53,11 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/{id}/update', 'UserController@update')->name('admin.user.update');
             Route::get('/check-date-update', 'UserController@checkDateUpdate')->name('admin.user.check-date-update');
 
+            Route::get('/{id}/double', 'UserController@double')->name('admin.user.double');
+
             Route::post('/delete/{id}', 'UserController@delete')->name('admin.user.delete');
+
+            Route::get('/ajax_get_list_meal', 'UserController@getLisstMeal')->name('admin.user.ajax_get_list_meal');
 
         });
 

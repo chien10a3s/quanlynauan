@@ -46,9 +46,9 @@ class UserController extends Controller
 
     public function view($id)
     {
-        $all_food = Food::with('supplier')->where('status',1)->get();
+        $all_food = Food::with('supplier')->where('status', 1)->get();
         $info_meal = DailyMeal::with(['daily_dish', 'daily_dish.detail_dish'])->where('id', $id)->first();
-        if(is_null($info_meal)){
+        if (is_null($info_meal)) {
             return redirect()
                 ->back()
                 ->with([
@@ -63,15 +63,15 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name.' ( '.number_format($item_food->price).' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
             }
         }
-        return view('meal.view', compact('option','info_meal'));
+        return view('meal.view', compact('option', 'info_meal'));
     }
 
     public function add()
     {
-        $all_food = Food::with('supplier')->where('status',1)->get();
+        $all_food = Food::with('supplier')->where('status', 1)->get();
         $option = [];
         if (count($all_food) > 0) {
             foreach ($all_food as $item_food) {
@@ -79,7 +79,7 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name.' ( '.number_format($item_food->price).' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
             }
         }
         return view('meal.add', compact('get_all_thuc_pham', 'option'));
@@ -215,10 +215,10 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $all_food = Food::with('supplier')->where('status',1)->get();
+        $all_food = Food::with('supplier')->where('status', 1)->get();
         $info_meal = DailyMeal::with(['daily_dish', 'daily_dish.detail_dish'])->where('id', $id)->first();
 //        dd($info_meal);
-        if(is_null($info_meal)){
+        if (is_null($info_meal)) {
             return redirect()
                 ->back()
                 ->with([
@@ -233,13 +233,38 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name.' ( '.number_format($item_food->price).' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
             }
         }
-        return view('meal.edit', compact('option','info_meal'));
+        return view('meal.edit', compact('option', 'info_meal'));
+    }
+    public function double($id)
+    {
+        $all_food = Food::with('supplier')->where('status', 1)->get();
+        $info_meal = DailyMeal::with(['daily_dish', 'daily_dish.detail_dish'])->where('id', $id)->first();
+//        dd($info_meal);
+        if (is_null($info_meal)) {
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Không có bữa ăn được chỉnh sửa.',
+                    'alert-type' => 'error',
+                ]);
+        }
+        $option = [];
+        if (count($all_food) > 0) {
+            foreach ($all_food as $item_food) {
+                $name = "";
+                if (count($item_food->supplier) > 0) {
+                    $name = $item_food->supplier->name;
+                }
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
+            }
+        }
+        return view('meal.double', compact('option', 'info_meal'));
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $user_kitchen = Auth::user()->kitchen;
         if (count($user_kitchen) <= 0) {
@@ -260,7 +285,7 @@ class UserController extends Controller
             $date = Carbon::now()->format('Y-m-d');
         }
         //Kiểm tra ngày đăng ký đã tồn tại hay chưa
-        $check_date = DailyMeal::where('day', $date)->where('id','<>',$id)->first();
+        $check_date = DailyMeal::where('day', $date)->where('id', '<>', $id)->first();
         if (!is_null($check_date)) {
             return redirect()
                 ->back()
@@ -287,7 +312,7 @@ class UserController extends Controller
             DB::beginTransaction();
             try {
                 //Xóa chi tiết bữa ăn
-                $this->delete($id,false);
+                $this->delete($id, false);
                 // Lưu vào Bảng thực đơn hàng ngày daily_meals
                 $data_create_daily_meal = [];
                 $data_create_daily_meal['id_kitchen'] = $id_kitchen;
@@ -299,7 +324,7 @@ class UserController extends Controller
                 $data_create_daily_meal['updated_by'] = Auth::user()->id;
                 $data_create_daily_meal['updated_at'] = Carbon::now();
 
-                DailyMeal::where('id',$id)->update($data_create_daily_meal);
+                DailyMeal::where('id', $id)->update($data_create_daily_meal);
 
                 foreach ($number_dish as $key => $item) {
                     $name_dish = $item;//Tên Món ăn
@@ -368,7 +393,7 @@ class UserController extends Controller
             ]);
     }
 
-    public function delete($id_meal,$delete_meal=true)
+    public function delete($id_meal, $delete_meal = true)
     {
         $info_meal = DailyMeal::where('id', $id_meal)->first();
         if (Carbon::now()->timestamp < Carbon::createFromFormat('Y-m-d H:i:s', Carbon::parse($info_meal->day)->format('Y-m-d') . "09:00:00")->timestamp) {
@@ -378,7 +403,7 @@ class UserController extends Controller
                 DishDetail::whereIn('id_daily_dish', $all_id_dailydish)->delete();
                 //Xóa món ăn của thực đơn
                 DailyDish::where('id_daily_meal', $id_meal)->delete();
-                if ($delete_meal){
+                if ($delete_meal) {
                     //Xóa thực đơn
                     DailyMeal::where('id', $id_meal)->delete();
                 }
@@ -445,7 +470,7 @@ class UserController extends Controller
             $date = Carbon::now()->format('Y-m-d');
         }
         //Kiểm tra ngày đăng ký đã tồn tại hay chưa
-        $check_date = DailyMeal::where('day', $date)->where('id','<>',$id)->first();
+        $check_date = DailyMeal::where('day', $date)->where('id', '<>', $id)->first();
         if (!is_null($check_date)) {
             return response()->json([
                 'name' => 'Đăng ký không thành công. Đã có đăng ký cho ngày hiện tại.',
@@ -463,5 +488,31 @@ class UserController extends Controller
             'name' => 'OK',
             'state' => 1
         ]);
+    }
+
+    public function getLisstMeal($user_id = null)
+    {
+        $day_of_week = [1=>"Thứ 2",2=>"Thứ 3",3=>"Thứ 4",4=>"Thứ 5",5=>"Thứ 6",6=>"Thứ 7",7=>"Chủ nhật"];
+        $user_kitchen = Auth::user()->kitchen;
+        if (count($user_kitchen) < 0) {
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Tài khoản chưa có bếp quản lý.',
+                    'alert-type' => 'error',
+                ]);
+        }
+        $id_kitchen = 0;
+        foreach ($user_kitchen as $item_kitchen) {
+            $id_kitchen = $item_kitchen->id;
+        }
+        $all_meal = User::with(['kitchen' => function ($query) use ($id_kitchen) {
+            return $query->where('id_kitchen', $id_kitchen);
+        }, 'kitchen.daily_meal' => function ($query) use ($id_kitchen) {
+            return $query->orderBy('day', 'desc');
+        }])
+            ->where('id', Auth::user()->id)
+            ->get();
+        return view('meal.ajax_list_meal',compact('all_meal','day_of_week'));
     }
 }

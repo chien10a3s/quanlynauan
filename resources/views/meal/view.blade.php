@@ -1,34 +1,51 @@
 @extends('voyager::master')
+
 @section('page_header')
+    {!! Html::script('plugin/datepicker/bootstrap-datepicker.js') !!}
+    {!! Html::script('plugin/datepicker/jquery.datetimepicker.min.js') !!}
+    {!! Html::style('plugin/datepicker/datepicker3.css') !!}
+    {!! Html::style('plugin/datepicker/bootstrap-datetimepicker.min.css') !!}
+    {!! Html::script('plugin/datepicker/bootstrap-datetimepicker.min.js') !!}
+
+    {!! Html::script('plugin/multiselect/multiselect.js') !!}
+    {!! Html::style('plugin/multiselect/select2.min.js') !!}
+    <style>
+        .select2-container {
+            margin-bottom: 10px;
+            width: 100% !important;
+        }
+    </style>
     <h1 class="page-title">
-        <i class="voyager-list"></i> Chi tiết thực đơn ngày
+        <i class="voyager-list"></i> Đăng ký món ăn trong ngày
     </h1>
+    &nbsp;
+    {{--<a href="{{ route('admin.kitchen.add') }}" class="btn btn-success">--}}
+    {{--<i class="voyager-plus"></i> Add New--}}
+    {{--</a>--}}
 @stop
 @section('content')
     <div class="page-content container-fluid">
         <div class="row">
-            @if(Session::has('message'))
-                <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
-            @endif
-            {{ csrf_field() }}
             <div class="panel panel-bordered col-md-12">
                 <div class="panel-heading col-md-6">
-                    <h3 class="panel-title">Ngày đăng ký</h3>
+                    <h3 class="panel-title">Ngày đăng ký <b style="color: red">*</b></h3>
                     <div class="panel-body">
-                        <input type="text" class="form-control datetimepicker1" name="date"
-                               value="{{ \Carbon\Carbon::now()->format('d/m/Y') }}">
+                        <input readonly type="text" class="form-control datetimepicker1" required name="date"
+                               value="{{ \Carbon\Carbon::createFromFormat('Y-m-d',$info_meal->day)->format('d/m/Y') }}">
                     </div>
                 </div>
                 <div class="panel-heading col-md-6">
-                    <h3 class="panel-title">Số xuất ăn</h3>
+                    <h3 class="panel-title">Số xuất ăn <b style="color: red">*</b></h3>
                     <div class="panel-body">
-                        <input type="number" class="form-control" name="number_of_meals">
+                        <input readonly type="number" class="form-control" required name="number_of_meals"
+                               value="{{$info_meal->number_of_meals}}">
                     </div>
                 </div>
                 <div class="panel-heading col-md-6">
-                    <h3 class="panel-title">Số tiền 1 suất</h3>
+                    <h3 class="panel-title">Số tiền 1 suất <b style="color: red">*</b></h3>
                     <div class="panel-body">
-                        <input type="number" class="form-control" name="money">
+                        <input readonly type="number" class="form-control" required name="money"
+                               value="{{$info_meal->money_meals}}">
                     </div>
                 </div>
                 <div class="panel-heading col-md-12">
@@ -43,34 +60,61 @@
                         <th>Đơn vị</th>
                         <th>Công thức</th>
                         <th>Ghi chú</th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody class="mon_an">
-                    <tr class="tr_mon" id="tr_mon">
-                        <td><input type="text" name="tenmon[1]" class="tenmon form-control"></td>
-                        <td class="td_nguyen_lieu">
-                            {!! Form::select('nguyen_lieu[1][]', $option, 0, ['class' => 'nguyen_lieu form-control']) !!}
-                        </td>
-                        <td class="td_so_luong"><input type="number" name="so_luong[1][]"
-                                                       class="so_luong form-control"></td>
-                        <td class="td_don_vi"><input type="text" name="don_vi[1][]" class="don_vi form-control">
-                        </td>
-                        <td class="td_cong_thuc"><textarea name="cong_thuc[1]"
-                                                           class="cong_thuc form-control"></textarea>
-                        </td>
-                        <td class="td_ghi_chu"><textarea name="ghi_chu[1]" class="ghi_chu form-control"></textarea>
-                        </td>
-                        <td>
-                            <input type="hidden" class="hidden_meal" value='1'>
-                            <a href="#" class="btn btn-success" title="Thêm nguyên liệu" id="add_nl">
-                                <i class="voyager-plus"></i>
-                            </a>
-                        </td>
-                    </tr>
+                    <?php $i = 0 ?>
+                    <?php $k = 0 ?>
+                    @foreach($info_meal->daily_dish as $data_dish)
+                        <?php $i += 1 ?>
+                        <tr class="tr_mon" id="tr_mon">
+                            <td><input readonly type="text" name="tenmon[{{ $i }}]" required class="tenmon form-control"
+                                       value="{{ $data_dish->name }}"></td>
+
+
+                            <td class="td_nguyen_lieu">
+                                @foreach($data_dish->detail_dish as $item_detail_dish_food)
+                                    {!! Form::select('nguyen_lieu['.$i.'][]', $option, $item_detail_dish_food->id_food, ['class' => 'nguyen_lieu form-control','disabled'=>'true']) !!}
+                                @endforeach
+                            </td>
+                            <td class="td_so_luong">
+                                @foreach($data_dish->detail_dish as $item_detail_dish_number)
+                                    <input readonly style="margin-bottom: 10px" type="number" required
+                                           name="so_luong[{{ $i }}][]" class="so_luong form-control"
+                                           value="{{ $item_detail_dish_number->number }}">
+                                @endforeach
+                            </td>
+                            <td class="td_don_vi">
+                                @foreach($data_dish->detail_dish as $item_detail_dish_unit)
+                                    <input readonly style="margin-bottom: 10px" type="text" required name="don_vi[{{ $i }}][]"
+                                           class="don_vi form-control" value="{{ $item_detail_dish_unit->unit }}">
+                                @endforeach
+                            </td>
+
+                            <td class="td_cong_thuc"><label>{{ $data_dish->cooking_note }}</label>
+                            </td>
+                            <td class="td_ghi_chu"><label>{{ $data_dish->note }}</label>
+                            </td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+@stop
+@section('javascript')
+    <script src="/plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(function () {
+            $('.datetimepicker1').datepicker({
+                todayBtn: true,
+                language: "en",
+                autoclose: true,
+                todayHighlight: true,
+                format: 'dd/mm/yyyy',
+            });
+            $('select').select2();
+        });
+    </script>
 @stop

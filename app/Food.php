@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Supplier;
 
 class Food extends Model
 {
@@ -15,5 +16,9 @@ class Food extends Model
         $this->image = $this->image ?: config('voyager.food.default_image', 'food/default.png');
 
         parent::save();
+    }
+
+    public function supplier(){
+        return $this->hasOne(Supplier::class,'id','id_supplier');
     }
 }

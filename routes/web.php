@@ -44,8 +44,16 @@ Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'meal-daily'], function () {
             Route::get('/', 'UserController@index')->name('admin.user.index');
             Route::get('/{id}/view', 'UserController@view')->name('admin.user.view');
+
             Route::get('/add', 'UserController@add')->name('admin.user.add');
             Route::post('/store', 'UserController@store')->name('admin.user.store');
+            Route::get('/checkdate', 'UserController@checkDate')->name('admin.user.checkdate');
+
+            Route::get('/{id}/edit', 'UserController@edit')->name('admin.user.edit');
+            Route::post('/{id}/update', 'UserController@update')->name('admin.user.update');
+            Route::get('/check-date-update', 'UserController@checkDateUpdate')->name('admin.user.check-date-update');
+
+            Route::post('/delete/{id}', 'UserController@delete')->name('admin.user.delete');
 
         });
 

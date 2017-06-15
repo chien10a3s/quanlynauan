@@ -62,21 +62,21 @@
                                                         Số tiền 1 suất ăn : {{ number_format($money_meals) }} VNĐ
                                                     </div>
                                                     <div class="pull-right">
-                                                        <a href=""
+                                                        <a href="{{ route('admin.user.view',$item_daily_meal->id) }}"
                                                            class="btn-sm btn-warning" title="Chi tiết">
                                                             <i class="voyager-eye"></i> Xem
                                                         </a>
                                                         @if(\Carbon\Carbon::now()->timestamp < Carbon\Carbon::createFromFormat('Y-m-d H:i:s',\Carbon\Carbon::parse($item_daily_meal->day)->format('Y-m-d')."09:00:00")->timestamp )
-                                                            <a href="" title="Chỉnh sửa"
+                                                            <a href="{{ route('admin.user.edit',$item_daily_meal->id) }}" title="Chỉnh sửa"
                                                                class="btn-sm btn-primary edit">
                                                                 <i class="voyager-edit"></i> Sửa
                                                             </a>
                                                             <a href="" class="btn-sm btn-danger delete" data-toggle="modal" title="Xóa"
-                                                               data-target="#delete_modal">
+                                                               data-target="#delete_modal-{{ $item_daily_meal->id }}">
                                                                 <i class="voyager-trash"></i> Xóa
                                                             </a>
                                                             <div class="modal modal-danger fade" tabindex="-1"
-                                                                 id="delete_modal" role="dialog">
+                                                                 id="delete_modal-{{ $item_daily_meal->id }}" role="dialog">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
@@ -87,9 +87,8 @@
                                                                                 chắc chắn muốn xóa thực đơn này hay không?</h4>
                                                                         </div>
                                                                         <div class="modal-footer">
-                                                                            <form action="#"
+                                                                            <form action="{{ route('admin.user.delete',$item_daily_meal->id) }}"
                                                                                   method="post">
-                                                                                {{--{{ method_field("DELETE") }}--}}
                                                                                 {{ csrf_field() }}
                                                                                 <input type="submit"
                                                                                        class="btn btn-danger pull-right delete-confirm"
@@ -106,7 +105,7 @@
                                                     </div>
                                                 </div>
                                             <?php
-                                            continue;
+//                                            continue;
                                         }
                                     }
                                 }
@@ -117,22 +116,4 @@
             </div>
         </div>
     </div>
-@stop
-@section('javascript')
-    <script>
-
-        $('td').on('click', '.delete', function (e) {
-            var form = $('#delete_form')[0];
-
-            form.action = parseActionUrl(form.action, $(this).data('id'));
-
-            $('#delete_modal').modal('show');
-        });
-
-        function parseActionUrl(action, id) {
-            return action.match(/\/[0-9]+$/)
-                ? action.replace(/([0-9]+$)/, id)
-                : action + '/' + id;
-        }
-    </script>
 @stop

@@ -52,7 +52,7 @@
                                                class="btn-sm btn-primary pull-right edit">
                                                 <i class="voyager-edit"></i> Sửa
                                             </a>
-                                            
+
                                             <div class="btn-sm btn-danger pull-right delete" data-id="{{ $supplier->id }}" id="delete-{{ $supplier->id }}">
                                                 <i class="voyager-trash"></i> Xóa
                                             </div>
@@ -67,7 +67,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="modal modal-danger fade" tabindex="-1" id="delete_modal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">

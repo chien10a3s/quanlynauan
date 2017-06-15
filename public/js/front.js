@@ -31,6 +31,8 @@ $(document).ready(function(){
         navText: ['<i class="fa fa-angle-left" aria-hidden="true"></i>', '<i class="fa fa-angle-right" aria-hidden="true"></i>']
     });
     
+    $("#main-menu-mobile").mmenu();
+    
     //$('.header-primary').sticky({topSpacing:101});
 });
 

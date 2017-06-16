@@ -120,54 +120,31 @@
                     </div>
                     <div class="dgt-vc-element dgt-blog-grid">
                         <div class="row">
-                            <div class="dgt-blog-item  dgt-clear-left col-sm-4 col-md-4 tips">
+                            @foreach($featuredposts as $post)
+                            <div class="dgt-blog-item dgt-clear-left col-sm-4 col-md-4 tips">
                                 <div class="dgt-blog-item-inner">
                                     <div class="post-feature-image">
                                         <div class="wrapper-img">
-                                            <a href="http://demo.kevthemes.com/teaux/restaurant-to-host-spring/" title="Restaurant to host “Spring”"> <img width="660" height="440" src="http://demo.kevthemes.com/teaux/wp-content/uploads/2016/10/img-blog-1.jpg" class="attachment-large size-large wp-post-image" alt="" srcset="http://demo.kevthemes.com/teaux/wp-content/uploads/2016/10/img-blog-1.jpg 700w, http://demo.kevthemes.com/teaux/wp-content/uploads/2016/10/img-blog-1-300x200.jpg 300w" sizes="(max-width: 660px) 100vw, 660px"> </a>
-                                        </div> <span class="dgt-blog-date">31<span>Oct</span></span>
+                                            <a href="{{ url('blog/'.$post->slug) }}" title="{{$post->title}}"> 
+                                                <img width="660" height="440" src="{{ Voyager::image($post->image)}}" class="attachment-large size-large wp-post-image" alt="{{$post->title}}"/> 
+                                            </a>
+                                        </div> 
+                                        <span class="dgt-blog-date">{{ date('d-m-Y', $post->created_at->timestamp) }}</span>
                                     </div>
                                     <div class="dgt-blog-info">
-                                        <h4 class="dgt-blog-title"> <a class="blog-title" href="http://demo.kevthemes.com/teaux/restaurant-to-host-spring/" title="Restaurant to host “Spring”"> Restaurant to host “Spring” </a></h4>
-                                        <div class="info-post clearfix"> <span class="dgt-blog-author"><img src="http://demo.kevthemes.com/teaux/wp-content/uploads/2016/11/avatar-2.png" width="20" height="20" alt="Restaurant" class="avatar avatar-20 wp-user-avatar wp-user-avatar-20 alignnone photo"> <a href="http://demo.kevthemes.com/teaux/author/admin/" title="Posts by Restaurant" rel="author">Restaurant</a></span>
+                                        <h4 class="dgt-blog-title"><a class="blog-title" href="{{ url('blog/'.$post->slug) }}" title="{{$post->title}}"> {{$post->title}} </a></h4>
+                                        <div class="info-post clearfix"> 
+                                            <span class="dgt-blog-author">
+                                                <img src="{{ Voyager::image($post->authorId->avatar)}}" width="20" height="20" alt="{{$post->title}}" class="avatar avatar-20 wp-user-avatar wp-user-avatar-20 alignnone photo"> 
+                                                <a href="javascript:void(0)" title="{{ $post->authorId->name }}" rel="author">{{ $post->authorId->name }}</a>
+                                            </span>
                                         </div>
-                                        <div class="dgt-blog-description"> English has paired 16 Memphis chefs with 16 guest chefs from throughout the country to create a one-of-a-kind culinary...</div>
+                                        <div class="dgt-blog-description">{{ $post->excerpt }}</div>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="dgt-blog-item  col-sm-4 col-md-4 blog">
-                                <div class="dgt-blog-item-inner">
-                                    <div class="post-feature-image">
-                                        <div class="wrapper-img">
-                                            <a href="http://demo.kevthemes.com/teaux/join-us-for-le-soild-restaurant/" title="Join us for Le Soild Restaurant"> <img width="660" height="440" src="http://demo.kevthemes.com/teaux/wp-content/uploads/2016/10/img-blog-2.jpg" class="attachment-large size-large wp-post-image" alt="" srcset="http://demo.kevthemes.com/teaux/wp-content/uploads/2016/10/img-blog-2.jpg 700w, http://demo.kevthemes.com/teaux/wp-content/uploads/2016/10/img-blog-2-300x200.jpg 300w" sizes="(max-width: 660px) 100vw, 660px"> </a>
-                                        </div> <span class="dgt-blog-date">31<span>Oct</span></span>
-                                    </div>
-                                    <div class="dgt-blog-info">
-                                        <h4 class="dgt-blog-title"> <a class="blog-title" href="http://demo.kevthemes.com/teaux/join-us-for-le-soild-restaurant/" title="Join us for Le Soild Restaurant"> Join us for Le Soild Restaurant </a></h4>
-                                        <div class="info-post clearfix"> <span class="dgt-blog-author"><img src="http://demo.kevthemes.com/teaux/wp-content/uploads/2016/11/avatar-2.png" width="20" height="20" alt="Restaurant" class="avatar avatar-20 wp-user-avatar wp-user-avatar-20 alignnone photo"> <a href="http://demo.kevthemes.com/teaux/author/admin/" title="Posts by Restaurant" rel="author">Restaurant</a></span>
-                                        </div>
-                                        <div class="dgt-blog-description"> English has paired 16 Memphis chefs with 16 guest chefs from throughout the country to create a one-of-a-kind culinary...</div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dgt-blog-item  col-sm-4 col-md-4 blog">
-                                <div class="dgt-blog-item-inner">
-                                    <div class="post-feature-image">
-                                        <div class="wrapper-img">
-                                            <a href="http://demo.kevthemes.com/teaux/yelp-restaurant-wins-best-fine-dining/" title="YELP: Restaurant wins Best Fine"> <img width="660" height="440" src="http://demo.kevthemes.com/teaux/wp-content/uploads/2016/10/img-blog-3.jpg" class="attachment-large size-large wp-post-image" alt="" srcset="http://demo.kevthemes.com/teaux/wp-content/uploads/2016/10/img-blog-3.jpg 700w, http://demo.kevthemes.com/teaux/wp-content/uploads/2016/10/img-blog-3-300x200.jpg 300w" sizes="(max-width: 660px) 100vw, 660px"> </a>
-                                        </div> <span class="dgt-blog-date">31<span>Oct</span></span>
-                                    </div>
-                                    <div class="dgt-blog-info">
-                                        <h4 class="dgt-blog-title"> <a class="blog-title" href="http://demo.kevthemes.com/teaux/yelp-restaurant-wins-best-fine-dining/" title="YELP: Restaurant wins Best Fine"> YELP: Restaurant wins Best Fine </a></h4>
-                                        <div class="info-post clearfix"> <span class="dgt-blog-author"><img src="http://demo.kevthemes.com/teaux/wp-content/uploads/2016/11/avatar-2.png" width="20" height="20" alt="Restaurant" class="avatar avatar-20 wp-user-avatar wp-user-avatar-20 alignnone photo"> <a href="http://demo.kevthemes.com/teaux/author/admin/" title="Posts by Restaurant" rel="author">Restaurant</a></span>
-                                        </div>
-                                        <div class="dgt-blog-description"> English has paired 16 Memphis chefs with 16 guest chefs from throughout the country to create a one-of-a-kind culinary...</div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', 'LandingController@index');
 
 Route::get('/account', function () {
     return view('customer.index');
@@ -30,13 +28,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/', 'KitchenController@index')->name('admin.kitchen.index');
             Route::get('/{id}/detail', 'KitchenController@detail')->name('admin.kitchen.detail');
 
-//<<<<<<< HEAD
-//        Route::get('/add/{id}', 'KitchenController@add')->name('admin.kitchens.addnew');
-//        Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
-//=======
             Route::get('/add', 'KitchenController@add')->name('admin.kitchens.addnew');
             Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
-//>>>>>>> 750cd419ffa72cce7ff7accc05eed2ad12f76069
 
             Route::get('/{id}/edit-kitchen', 'KitchenController@edit')->name('admin.kitchen.edit');
             Route::post('/update/{id}', 'KitchenController@update')->name('admin.kitchen.update');

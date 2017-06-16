@@ -5,7 +5,7 @@
         <i class="voyager-list"></i> Danh sách bếp
     </h1>
     &nbsp;
-    <a href="{{ route('admin.kitchens.addnew') }}" class="btn btn-success">
+    <a href="{{ route('admin.kitchens.addnew',1) }}" class="btn btn-success">
         <i class="voyager-plus"></i> Add New
     </a>
 @stop

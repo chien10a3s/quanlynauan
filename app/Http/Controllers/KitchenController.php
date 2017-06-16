@@ -128,7 +128,7 @@ class KitchenController extends Controller
 
     }
 
-    public function add()
+    public function add($id)
     {
         return view('kitchen.add');
     }

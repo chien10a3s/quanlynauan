@@ -116,7 +116,7 @@
                                 <label>
                                     Danh mục
                                 </label>
-                                <select name="id_category" class="form-control" multiple>
+                                <select name="id_category" class="form-control">
                                     @foreach($categories as $category)
                                     <option @if($food->id_category == $category->id)selected="selected"@endif value="{{ $category->id }}">{{$category->name}}</option>
                                     @endforeach
@@ -128,7 +128,9 @@
                                     Nhà cung cấp
                                 </label>
                                 <select name="id_supplier" class="form-control">
-                                    <option value="1">Big C</option>
+                                    @foreach($suppliers as $supplier)
+                                    <option value="{{ $supplier->id }}">{{$supplier->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             

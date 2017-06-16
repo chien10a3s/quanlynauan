@@ -20,7 +20,12 @@ class KitchenController extends Controller
             if ($user->hasPermission('browse_kitchens')) {
                 return $next($request);
             }
-            return back()->withErrors('Not permission');
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Not permission.',
+                    'alert-type' => 'error',
+                ]);
         });
     }
 
@@ -121,10 +126,20 @@ class KitchenController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             $is_commit = false;
-            return redirect()->route('admin.kitchen.index')->withFlashSuccess('Cập nhật tài khoản không thành công');
+            return redirect()
+                ->route('admin.kitchen.index')
+                ->with([
+                    'message' => 'Cập nhật tài khoản không thành công.',
+                    'alert-type' => 'error',
+                ]);
         }
         DB::commit();
-        return redirect()->route('admin.kitchen.index')->withFlashSuccess('Cập nhật tài khoản thành công');
+        return redirect()
+            ->route('admin.kitchen.index')
+            ->with([
+                'message' => 'Cập nhật tài khoản thành công.',
+                'alert-type' => 'success',
+            ]);
 
     }
 
@@ -149,10 +164,20 @@ class KitchenController extends Controller
          * Check exist code
          */
         if (!$this->checkExistCode($data_input['code'])) {
-            return redirect()->back()->withErrors('Mã bếp đã tồn tại');
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Mã bếp đã tồn tại.',
+                    'alert-type' => 'error',
+                ]);
         }
         Kitchen::insert($data_create);
-        return redirect()->route('admin.kitchen.index')->withFlashSuccess('Thêm mới bếp thành công');
+        return redirect()
+            ->route('admin.kitchen.index')
+            ->with([
+                'message' => 'Thêm mới bếp thành công.',
+                'alert-type' => 'success',
+            ]);
     }
 
     public function edit($id)
@@ -174,13 +199,23 @@ class KitchenController extends Controller
         $data_create['updated_by'] = Auth::user()->id;
 
         Kitchen::where('id', $id)->update($data_create);
-        return redirect()->route('admin.kitchen.index')->withFlashSuccess('Cập nhật bếp thành công');
+        return redirect()
+            ->route('admin.kitchen.index')
+            ->with([
+                'message' => 'Cập nhật bếp thành công.',
+                'alert-type' => 'success',
+            ]);
     }
 
     public function delete($id)
     {
         Kitchen::where('id', $id)->delete();
-        return redirect()->back()->withFlashSuccess('Xóa bếp thành công');
+        return redirect()
+            ->route('admin.kitchen.index')
+            ->with([
+                'message' => 'Xóa bếp thành công.',
+                'alert-type' => 'success',
+            ]);
     }
 
     private function checkExistCode($code)

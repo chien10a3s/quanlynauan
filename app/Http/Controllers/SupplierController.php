@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Session;
 use Redirect;
 use App\User;
-use App\Supplier;
-use TCG\Voyager\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +12,6 @@ use Illuminate\Support\Str;
 use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
 use TCG\Voyager\Facades\Voyager;
-use DB;
 
 class SupplierController extends Controller
 {

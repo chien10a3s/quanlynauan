@@ -21,6 +21,9 @@ Route::get('blog/{slug}',['as' => 'post', 'uses' => 'BlogController@show'])->whe
 Route::get('blog/category/{slug}',['as' => 'post', 'uses' => 'BlogController@showCategory'])->where('slug', '[A-Za-z0-9-_]+');
 Route::get('blog/{cate}/{post}',['as' => 'post', 'uses' => 'BlogController@showWithCategory'])->where('cate', '[A-Za-z0-9-_]+')->where('post', '[A-Za-z0-9-_]+');
 
+Route::get('pages/{url}',['as' => 'pages', 'uses' => 'PageController@show'])->where('url', '[A-Za-z0-9-_]+');
+
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
     Route::group(['middleware' => 'admin.user'], function () {
@@ -83,11 +86,12 @@ Route::group(['prefix' => 'admin'], function () {
         'index', 'create', 'edit', 'destroy', 'update', 'store'
     ]]);
     
-    /*
-    Route::resource('blog', 'BlogController', ['only' => [
+    
+    Route::resource('slide', 'SlideController', ['only' => [
         'index', 'create', 'edit', 'destroy', 'update', 'store'
     ]]);
-
+    
+    /*
     Route::resource('post', 'BlogPostController', ['only' => [
         'index', 'create', 'edit', 'destroy', 'update', 'store'
     ]]);

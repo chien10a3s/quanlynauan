@@ -23,6 +23,7 @@ class LandingController extends Controller
     {
         $latestposts = \TCG\Voyager\Models\Post::where('status', 'PUBLISHED')->orderBy('created_at', 'DESC')->limit(2)->get();
         $featuredposts = \TCG\Voyager\Models\Post::where(array('status' => 'PUBLISHED', 'featured' => 1))->orderBy('created_at', 'DESC')->limit(3)->get();
+        
         return view('home', compact(['latestposts', 'featuredposts']));
     }
 }

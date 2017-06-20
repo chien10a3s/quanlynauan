@@ -102,6 +102,12 @@ class ChefController extends Controller
         return redirect()->back()->withErrors('Đã xảy ra lỗi');
     }
 
+    /**
+     * Get all feedback of chef
+     * @param Request $request
+     * @param $kitchen_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getFeedback(Request $request, $kitchen_id){
         if (isset($request->day)) {
             $request_day = Carbon::createFromFormat('d/m/Y', $request->day);
@@ -117,5 +123,35 @@ class ChefController extends Controller
         $data['date'] = $day;
         $data['kitchen_id'] = $kitchen_id;
         return view('chef.feedback', compact('data'));
+    }
+
+    public function spice($kitchen_id){
+        $user_kitchen = Auth::user()->kitchen;
+        if (is_null($user_kitchen)){
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Không có bếp được gán cho tài khoản.',
+                    'alert-type' => 'error',
+                ]);
+        }
+        $kitchen_id_arr = array();
+        foreach ($user_kitchen as $item_kitchen){
+            $kitchen_id_arr[] = $item_kitchen->id;
+        }
+        if(!in_array($kitchen_id, $kitchen_id_arr)){
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Không có bếp được gán cho tài khoản.',
+                    'alert-type' => 'error',
+                ]);
+        }
+        $all_spices = User::with(['kitchen' => function ($query) use ($kitchen_id) {
+            return $query->where('id_kitchen', $kitchen_id);
+        }, 'kitchen.food'])
+            ->where('id', Auth::user()->id)
+            ->get();
+        return view('chef.spice',compact('all_spices'));
     }
 }

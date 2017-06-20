@@ -75,6 +75,7 @@ Route::group(['prefix' => 'admin'], function () {
             'index', 'create', 'edit', 'destroy', 'update', 'store'
         ]]);
         require(__DIR__ . '/chef/chef.php');
+        require(__DIR__ . '/spices/spices.php');
     });
     
     Route::resource('foodcategory', 'FoodCategoryController', ['only' => [

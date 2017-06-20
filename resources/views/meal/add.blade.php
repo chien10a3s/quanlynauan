@@ -73,6 +73,12 @@
                             <input type="number" class="form-control" required name="money">
                         </div>
                     </div>
+                    <div class="panel-heading col-md-6" style="padding-bottom: 10px;">
+                        <h3 class="panel-title">Ủy quyền đi chợ</h3>
+                        <div class="panel-body">
+                            <input type="checkbox" class="uyquyen" name="uyquyen" value="1"> Ủy quyền đi chợ,chọn món
+                        </div>
+                    </div>
                     <div class="panel-heading col-md-12">
                         <h3 class="panel-title">Món chính</h3>
                     </div>
@@ -234,5 +240,17 @@
                 }
             });
         }
+        $('.uyquyen').change(function(){
+            var c = this.checked;
+            if (c){
+                $("#main input").attr('disabled','true');
+                $("#main select").attr('disabled','true');
+                $("#main textarea").attr('disabled','true');
+            }else {
+                $("#main input").removeAttr('disabled');
+                $("#main select").removeAttr('disabled');
+                $("#main textarea").removeAttr('disabled');
+            }
+        });
     </script>
 @stop

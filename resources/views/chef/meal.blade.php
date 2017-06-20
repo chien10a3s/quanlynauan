@@ -81,12 +81,14 @@
                                                data-target="#detail_meal">
                                                 <i class="voyager-eye"></i>
                                             </a> &nbsp;
+                                            @if($item->is_permission == 0)
                                             <a class="btn-sm btn-success" style="cursor: pointer;"
                                                title="Nhập số tiền thực tế"
                                                data-toggle="modal"
                                                data-target="#total_meal_chef">
                                                 <i class="voyager-edit"></i>
                                             </a>
+                                            @endif
                                             <div class="modal fade" id="detail_meal" role="dialog">
                                                 <div class="modal-dialog">
                                                     <!-- Modal content-->

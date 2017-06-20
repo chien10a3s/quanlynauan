@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Kitchen\KitchenAttribute;
 use App\User;
 use App\Models\DailyMeal\DailyMeal;
+use App\Food;
 
 class Kitchen extends Model
 {
@@ -48,5 +49,9 @@ class Kitchen extends Model
     public function daily_meal()
     {
         return $this->hasMany(DailyMeal::class, 'id_kitchen', 'id');
+    }
+    public function food()
+    {
+        return $this->belongsToMany(Food::class, 'user_spices', 'id_kitchen','id_food')->withPivot('status','id');
     }
 }

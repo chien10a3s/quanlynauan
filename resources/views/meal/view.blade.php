@@ -48,6 +48,12 @@
                                value="{{$info_meal->money_meals}}">
                     </div>
                 </div>
+                <div class="panel-heading col-md-6" style="padding-bottom: 10px;">
+                    <h3 class="panel-title">Ủy quyền đi chợ</h3>
+                    <div class="panel-body">
+                        <input disabled type="checkbox" @if($info_meal->add_permission == 1) checked @endif class="uyquyen" name="uyquyen" value="1"> Ủy quyền đi chợ,chọn món
+                    </div>
+                </div>
                 <div class="panel-heading col-md-12">
                     <h3 class="panel-title">Món chính</h3>
                 </div>

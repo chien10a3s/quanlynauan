@@ -1049,31 +1049,35 @@ span.rte.post-image {
     margin: 0;
     padding: 0;
 }
-div#top-bar ul {
+#top-bar ul {
     float: right;
     margin: 0;
     padding: 0;
 }
 
-div#top-bar ul li {
+#top-bar ul li {
     float: left;
     list-style: none;
     margin-left: 10px;
 }
 
-div#top-bar ul li a {
+#top-bar ul li a {
     padding: 0 10px;
     display: block;
     line-height: 30px;
     color: #e52402;
 }
 
-div#top-bar {padding-top: 10px;}
+#top-bar {padding-top: 10px;}
 
-div#top-bar ul li:last-child a {
+#top-bar ul li:last-child a {
     background: #e52402;
     color: #fff;
     border-radius: 4px;
+}
+.rte {
+    line-height: 1.5;
+    text-align: justify;
 }
 @media only screen and (max-width: 991px){
     #logo-image {

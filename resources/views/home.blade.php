@@ -9,19 +9,18 @@
     <div class="row">
         <div class="col-md-9 col-xs-12">
             <div id="mainslider" class="owl-carousel">
+                @foreach($slides as $slide)
                 <div class="slide">
-                    <a href="#"><img src="{{ asset('/images/img-slider-1.jpg') }}" class="img-responsive" /></a>
+                    <a href="{{ $slide->url }}"><img src="{{ Voyager::image( $slide->image ) }}" class="img-responsive" /></a>
                 </div>
-                <div class="slide">
-                    <a href="#"><img src="{{ asset('/images/img-slider-2.jpg') }}" class="img-responsive" /></a>
-                </div>
+                @endforeach
             </div>
         </div>
         <div class="col-md-3 col-xs-12">
             <ul id="slide-column-2">
-                <li><a href="#"><img src="{{ asset('/images/small-1.jpg') }}" class="img-responsive" /></a></li>
-                <li><a href="#"><img src="{{ asset('/images/small-2.jpg') }}" class="img-responsive" /></a></li>
-                <li><a href="#"><img src="{{ asset('/images/small-3.jpg') }}" class="img-responsive" /></a></li>
+                @foreach($banners as $banner)
+                <li><a href="{{ $banner->url }}"><img src="{{ Voyager::image( $banner->image ) }}" class="img-responsive" /></a></li>
+                @endforeach
             </ul>
         </div>
     </div>

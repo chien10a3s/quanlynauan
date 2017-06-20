@@ -91,9 +91,13 @@ Route::group(['prefix' => 'admin'], function () {
         'index', 'create', 'edit', 'destroy', 'update', 'store'
     ]]);
     
-    /*
-    Route::resource('post', 'BlogPostController', ['only' => [
+    
+    Route::resource('banner', 'BannerController', ['only' => [
         'index', 'create', 'edit', 'destroy', 'update', 'store'
     ]]);
-    */
+    
+    Route::resource('bannergroup', 'BannerGroupController', ['only' => [
+        'index', 'create', 'edit', 'destroy', 'update', 'store'
+    ]]);
+    
 });

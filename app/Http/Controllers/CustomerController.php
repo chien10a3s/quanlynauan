@@ -18,11 +18,11 @@ class CustomerController extends Controller
     }
     
     public function orderHistory(){
-        return view('customer.food');
+        return view('customer.orderhistory');
     }
     
     public function transaction(){
-        return view('customer.food');
+        return view('customer.transaction');
     }
     
 }

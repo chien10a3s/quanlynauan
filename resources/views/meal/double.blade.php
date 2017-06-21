@@ -7,8 +7,8 @@
     {!! Html::style('plugin/datepicker/bootstrap-datetimepicker.min.css') !!}
     {!! Html::script('plugin/datepicker/bootstrap-datetimepicker.min.js') !!}
 
-    {!! Html::script('plugin/multiselect/multiselect.js') !!}
-    {!! Html::style('plugin/multiselect/select2.min.js') !!}
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
     <style>
         .select2-container {
             margin-bottom: 10px;
@@ -16,6 +16,45 @@
         }
         .td_nguyen_lieu {
             width: 30%;
+        }
+
+        .select2-results-dept-0 { /* do the columns */
+            float: left;
+            width: 50%;
+        }
+
+        img.flag {
+            height: 10px;
+            padding-right: 5px;
+            width: 15px;
+        }
+
+        /* move close cross [x] from left to right on the selected value (tag) */
+        #s2id_e2_2.select2-container-multi .select2-choices .select2-search-choice {
+            padding: 3px 18px 3px 5px;
+        }
+        #s2id_e2_2.select2-container-multi .select2-search-choice-close {
+            left: auto;
+            right: 3px;
+        }
+        .select2-container .select2-choice {
+            height: 34px !important;
+            line-height: 34px !important;
+        }
+        .select2-drop.select2-drop-above.select2-drop-active.select2-display-none {
+            width: 900px !important;
+            left: 10% !important;
+            height: 300px;
+            border: 1px solid #eee !important;
+        }
+        .select2-drop-active {
+            width: 900px !important;
+            left: 10% !important;
+            height: 300px;
+            border: 1px solid #eee !important;
+        }
+        .select2-results {
+            background: aliceblue;
         }
     </style>
     <h1 class="page-title">
@@ -56,7 +95,7 @@
                     <div class="panel-heading col-md-6" style="padding-bottom: 10px;">
                         <h3 class="panel-title">Ủy quyền đi chợ</h3>
                         <div class="panel-body">
-                            <input type="checkbox" @if($info_meal->add_permission == 1) checked @endif class="uyquyen" name="uyquyen" value="1"> Ủy quyền đi chợ,chọn món
+                            <input type="checkbox" @if($info_meal->is_permission == 1) checked @endif class="uyquyen" name="uyquyen" value="1"> Ủy quyền đi chợ,chọn món
                         </div>
                     </div>
                     <div class="panel-heading col-md-12">
@@ -68,7 +107,7 @@
                             <th>Tên món</th>
                             <th>Nguyên liệu</th>
                             <th>Số lượng</th>
-                            <th>Đơn vị</th>
+                            {{--<th>Đơn vị</th>--}}
                             <th>Công thức</th>
                             <th>Ghi chú</th>
                             <th></th>
@@ -85,7 +124,7 @@
 
                                     <td class="td_nguyen_lieu">
                                         @foreach($data_dish->detail_dish as $item_detail_dish_food)
-                                            {!! Form::select('nguyen_lieu['.$i.'][]', $option, $item_detail_dish_food->id_food, ['class' => 'nguyen_lieu form-control']) !!}
+                                            {!! Form::select('nguyen_lieu['.$i.'][]', $option, $item_detail_dish_food->id_food, ['class' => 'nguyen_lieu']) !!}
                                         @endforeach
                                     </td>
                                     <td class="td_so_luong">
@@ -93,11 +132,11 @@
                                             <input style="margin-bottom: 10px" type="number" required name="so_luong[{{ $i }}][]" class="so_luong form-control" value="{{ $item_detail_dish_number->number }}">
                                         @endforeach
                                     </td>
-                                    <td class="td_don_vi">
-                                        @foreach($data_dish->detail_dish as $item_detail_dish_unit)
-                                            <input style="margin-bottom: 10px" type="text" required name="don_vi[{{ $i }}][]" class="don_vi form-control"  value="{{ $item_detail_dish_unit->unit }}">
-                                        @endforeach
-                                    </td>
+                                    {{--<td class="td_don_vi">--}}
+                                        {{--@foreach($data_dish->detail_dish as $item_detail_dish_unit)--}}
+                                            {{--<input style="margin-bottom: 10px" type="text" required name="don_vi[{{ $i }}][]" class="don_vi form-control"  value="{{ $item_detail_dish_unit->unit }}">--}}
+                                        {{--@endforeach--}}
+                                    {{--</td>--}}
 
                                 <td class="td_cong_thuc"><textarea name="cong_thuc[{{ $i }}]"
                                                                    class="cong_thuc form-control">{{ $data_dish->cooking_note }}</textarea>
@@ -147,7 +186,7 @@
                     @endforeach
                         html += '</select></td>';
                     html += '<td class="td_so_luong"><input type="number" required name="so_luong[' + x + '][]" class="so_luong form-control"></td>';
-                    html += '<td class="td_don_vi"><input type="text" required name="don_vi[' + x + '][]" class="don_vi form-control"></td>';
+//                    html += '<td class="td_don_vi"><input type="text" required name="don_vi[' + x + '][]" class="don_vi form-control"></td>';
                     html += '<td class="td_cong_thuc"><textarea name="cong_thuc[' + x + ']" class="cong_thuc form-control"></textarea></td>';
                     html += '<td class="td_ghi_chu"><textarea name="ghi_chu[' + x + ']" class="ghi_chu form-control"></textarea></td>';
                     html += '<td>';
@@ -161,7 +200,12 @@
                     html += '</td>';
                     html += '</tr>';
                     $('.mon_an').append(html);
-                    $('select').select2();
+                    $('select').select2({
+                        placeholder: "Select a state or many…",
+                        formatResult: format,
+                        formatSelection: format,
+                        escapeMarkup: function(m) { return m; }
+                    });
                 }
             });
 
@@ -184,8 +228,13 @@
                     html += '</select></td>';
                 $(this).closest("tr").find('.td_nguyen_lieu').append(html);
                 $(this).closest("tr").find('.td_so_luong').append('<input type="number" required name="so_luong[' + a + '][]" class="so_luong form-control" style="margin-top: 10px">');
-                $(this).closest("tr").find('.td_don_vi').append('<input type="text" required name="don_vi[' + a + '][]" class="don_vi form-control" style="margin-top: 10px">');
-                $('select').select2();
+//                $(this).closest("tr").find('.td_don_vi').append('<input type="text" required name="don_vi[' + a + '][]" class="don_vi form-control" style="margin-top: 10px">');
+                $('select').select2({
+                    placeholder: "Select a state or many…",
+                    formatResult: format,
+                    formatSelection: format,
+                    escapeMarkup: function(m) { return m; }
+                });
                 $("html, body").animate({ scrollTop: $(this).closest("tr").find('.td_nguyen_lieu').offset().top }, 1);
             });
 
@@ -222,7 +271,12 @@
                 todayHighlight: true,
                 format: 'dd/mm/yyyy',
             });
-            $('select').select2();
+            $('select').select2({
+                placeholder: "Select a state or many…",
+                formatResult: format,
+                formatSelection: format,
+                escapeMarkup: function(m) { return m; }
+            });
         });
         $('.uyquyen').change(function(){
             var c = this.checked;
@@ -236,5 +290,9 @@
                 $("#main textarea").removeAttr('disabled');
             }
         });
+        function format(state) {
+            if (!state.id) return state.text; // optgroup
+            return "<img class='flag' src='http://os.dev/img-login/so_logo.png'>" + state.text;
+        }
     </script>
 @stop

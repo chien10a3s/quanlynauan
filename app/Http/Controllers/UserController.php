@@ -63,7 +63,7 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
             }
         }
         return view('meal.view', compact('option', 'info_meal'));
@@ -79,7 +79,7 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
             }
         }
         return view('meal.add', compact('get_all_thuc_pham', 'option'));
@@ -134,7 +134,7 @@ class UserController extends Controller
             $data_create_daily_meal['number_of_meals'] = $number_eat;
             $data_create_daily_meal['money_meals'] = $money_eat;
             $data_create_daily_meal['status'] = 0;
-            $data_create_daily_meal['add_permission'] = 1;
+            $data_create_daily_meal['is_permission'] = 1;
             $data_create_daily_meal['id_parent'] = 0;
             $data_create_daily_meal['created_by'] = Auth::user()->id;
             $data_create_daily_meal['updated_by'] = Auth::user()->id;
@@ -161,19 +161,18 @@ class UserController extends Controller
                     $data_create_daily_meal['money_meals'] = $money_eat;
                     $data_create_daily_meal['status'] = 0;
                     $data_create_daily_meal['id_parent'] = 0;
+                    $data_create_daily_meal['is_permission'] = 0;
                     $data_create_daily_meal['created_by'] = Auth::user()->id;
                     $data_create_daily_meal['updated_by'] = Auth::user()->id;
                     $data_create_daily_meal['created_at'] = Carbon::now();
 
                     $id_daily_meal = DailyMeal::insertGetId($data_create_daily_meal);
-
                     foreach ($number_dish as $key => $item) {
                         $name_dish = $item;//Tên Món ăn
                         $name_note = $input['ghi_chu'][$key];//Ghi chú
                         $name_recipe = $input['cong_thuc'][$key];//Công thức
                         $arr_ingredient = $input['nguyen_lieu'][$key];//Nguyên liệu
                         $arr_number = $input['so_luong'][$key];//Số lượng của nguyên liệu
-                        $arr_unit = $input['don_vi'][$key];//Đơn vị của số lượng
 
                         // Lưu vào bảng Món ăn cho thực đơn
                         $data_create_daily_dish = [];
@@ -189,8 +188,9 @@ class UserController extends Controller
                         $id_daily_dish = DailyDish::insertGetId($data_create_daily_dish);
                         foreach ($arr_ingredient as $key_ing => $item_ing) {
                             $name_ingredient = $item_ing;//id nguyên liệu
+//                            dd($item_ing);
                             $number = $arr_number[$key_ing];
-                            $unit = $arr_unit[$key_ing];
+//                            $unit = $arr_unit[$key_ing];
 
 
                             //Lưu thông tin chi tiết của món ăn
@@ -200,7 +200,7 @@ class UserController extends Controller
                             $arr_dish_detail['id_food'] = $name_ingredient;
                             $arr_dish_detail['name'] = $name_ingredient;
                             $arr_dish_detail['number'] = $number;
-                            $arr_dish_detail['unit'] = $unit;
+                            $arr_dish_detail['unit'] = 1;
                             $arr_dish_detail['money'] = 0;
                             $arr_dish_detail['status'] = 0;
                             $arr_dish_detail['created_by'] = Auth::user()->id;
@@ -210,6 +210,7 @@ class UserController extends Controller
                         }
                     }
                 } catch (\Exception $e) {
+                    dd($e);
                     DB::rollBack();
                     return redirect()
                         ->back()
@@ -255,7 +256,7 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
             }
         }
         return view('meal.edit', compact('option', 'info_meal'));
@@ -280,7 +281,7 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
             }
         }
         return view('meal.double', compact('option', 'info_meal'));
@@ -340,7 +341,7 @@ class UserController extends Controller
             $data_create_daily_meal['number_of_meals'] = $number_eat;
             $data_create_daily_meal['money_meals'] = $money_eat;
             $data_create_daily_meal['status'] = 0;
-            $data_create_daily_meal['add_permission'] = 1;
+            $data_create_daily_meal['is_permission'] = 1;
             $data_create_daily_meal['id_parent'] = 0;
             $data_create_daily_meal['updated_by'] = Auth::user()->id;
             $data_create_daily_meal['updated_at'] = Carbon::now();
@@ -368,6 +369,7 @@ class UserController extends Controller
                 $data_create_daily_meal['money_meals'] = $money_eat;
                 $data_create_daily_meal['status'] = 0;
                 $data_create_daily_meal['id_parent'] = 0;
+                $data_create_daily_meal['is_permission'] = 0;
                 $data_create_daily_meal['updated_by'] = Auth::user()->id;
                 $data_create_daily_meal['updated_at'] = Carbon::now();
 
@@ -379,7 +381,7 @@ class UserController extends Controller
                     $name_recipe = $input['cong_thuc'][$key];//Công thức
                     $arr_ingredient = $input['nguyen_lieu'][$key];//Nguyên liệu
                     $arr_number = $input['so_luong'][$key];//Số lượng của nguyên liệu
-                    $arr_unit = $input['don_vi'][$key];//Đơn vị của số lượng
+//                    $arr_unit = $input['don_vi'][$key];//Đơn vị của số lượng
 
                     // Lưu vào bảng Món ăn cho thực đơn
                     $data_create_daily_dish = [];
@@ -396,7 +398,7 @@ class UserController extends Controller
                     foreach ($arr_ingredient as $key_ing => $item_ing) {
                         $name_ingredient = $item_ing;//id nguyên liệu
                         $number = $arr_number[$key_ing];
-                        $unit = $arr_unit[$key_ing];
+//                        $unit = $arr_unit[$key_ing];
 
 
                         //Lưu thông tin chi tiết của món ăn
@@ -406,7 +408,7 @@ class UserController extends Controller
                         $arr_dish_detail['id_food'] = $name_ingredient;
                         $arr_dish_detail['name'] = $name_ingredient;
                         $arr_dish_detail['number'] = $number;
-                        $arr_dish_detail['unit'] = $unit;
+                        $arr_dish_detail['unit'] = 1;
                         $arr_dish_detail['money'] = 0;
                         $arr_dish_detail['status'] = 0;
                         $arr_dish_detail['created_by'] = Auth::user()->id;
@@ -417,6 +419,7 @@ class UserController extends Controller
                 }
             } catch (\Exception $e) {
                 DB::rollBack();
+                dd($e);
                 return redirect()
                     ->back()
                     ->with([

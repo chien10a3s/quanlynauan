@@ -20,7 +20,7 @@ class SpicesController extends Controller
      */
     public function index(){
         $user_kitchen = Auth::user()->kitchen;
-        if (is_null($user_kitchen)){
+        if (count($user_kitchen) <= 0){
             return redirect()
                 ->back()
                 ->with([

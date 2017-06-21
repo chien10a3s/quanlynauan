@@ -7,8 +7,8 @@
     {!! Html::style('plugin/datepicker/bootstrap-datetimepicker.min.css') !!}
     {!! Html::script('plugin/datepicker/bootstrap-datetimepicker.min.js') !!}
 
-    {!! Html::script('plugin/multiselect/multiselect.js') !!}
-    {!! Html::style('plugin/multiselect/select2.min.js') !!}
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
     <style>
         .select2-container {
             margin-bottom: 10px;
@@ -18,6 +18,49 @@
         .td_nguyen_lieu {
             width: 30%;
         }
+        .container-fluid {
+            padding-top: 30px;
+        }
+
+        .select2-results-dept-0 { /* do the columns */
+            float: left;
+            width: 50%;
+        }
+
+        img.flag {
+            height: 10px;
+            padding-right: 5px;
+            width: 15px;
+        }
+
+        /* move close cross [x] from left to right on the selected value (tag) */
+        #s2id_e2_2.select2-container-multi .select2-choices .select2-search-choice {
+            padding: 3px 18px 3px 5px;
+        }
+        #s2id_e2_2.select2-container-multi .select2-search-choice-close {
+            left: auto;
+            right: 3px;
+        }
+        .select2-container .select2-choice {
+            height: 34px !important;
+            line-height: 34px !important;
+        }
+        .select2-drop.select2-drop-above.select2-drop-active.select2-display-none {
+            width: 900px !important;
+            left: 10% !important;
+            height: 300px;
+            border: 1px solid #eee !important;
+        }
+        .select2-drop-active {
+            width: 900px !important;
+            left: 10% !important;
+            height: 300px;
+            border: 1px solid #eee !important;
+        }
+        .select2-results {
+            background: aliceblue;
+        }
+
     </style>
     <h1 class="page-title">
         <i class="voyager-list"></i> Đăng ký món ăn trong ngày
@@ -88,7 +131,7 @@
                             <th>Tên món</th>
                             <th>Nguyên liệu</th>
                             <th>Số lượng</th>
-                            <th>Đơn vị</th>
+                            {{--<th>Đơn vị</th>--}}
                             <th>Công thức</th>
                             <th>Ghi chú</th>
                             <th></th>
@@ -98,12 +141,12 @@
                         <tr class="tr_mon" id="tr_mon">
                             <td><input type="text" name="tenmon[1]" required class="tenmon form-control"></td>
                             <td class="td_nguyen_lieu">
-                                {!! Form::select('nguyen_lieu[1][]', $option, 0, ['class' => 'nguyen_lieu form-control']) !!}
+                                {!! Form::select('nguyen_lieu[1][]', $option, 0, ['class' => 'nguyen_lieu select2-multi-col','id'=>'e2_2']) !!}
                             </td>
                             <td class="td_so_luong"><input type="number" required name="so_luong[1][]"
                                                            class="so_luong form-control"></td>
-                            <td class="td_don_vi"><input type="text" required name="don_vi[1][]"
-                                                         class="don_vi form-control">
+                            {{--<td class="td_don_vi"><input type="text" required name="don_vi[1][]"--}}
+                                                         {{--class="don_vi form-control">--}}
                             </td>
                             <td class="td_cong_thuc"><textarea name="cong_thuc[1]"
                                                                class="cong_thuc form-control"></textarea>
@@ -152,7 +195,7 @@
                     @endforeach
                         html += '</select></td>';
                     html += '<td class="td_so_luong"><input type="number" required name="so_luong[' + x + '][]" class="so_luong form-control"></td>';
-                    html += '<td class="td_don_vi"><input type="text" required name="don_vi[' + x + '][]" class="don_vi form-control"></td>';
+//                    html += '<td class="td_don_vi"><input type="text" required name="don_vi[' + x + '][]" class="don_vi form-control"></td>';
                     html += '<td class="td_cong_thuc"><textarea name="cong_thuc[' + x + ']" class="cong_thuc form-control"></textarea></td>';
                     html += '<td class="td_ghi_chu"><textarea name="ghi_chu[' + x + ']" class="ghi_chu form-control"></textarea></td>';
                     html += '<td>';
@@ -166,7 +209,12 @@
                     html += '</td>';
                     html += '</tr>';
                     $('.mon_an').append(html);
-                    $('select').select2();
+                    $('select').select2({
+                        placeholder: "Select a state or many…",
+                        formatResult: format,
+                        formatSelection: format,
+                        escapeMarkup: function(m) { return m; }
+                    });
                 }
             });
 
@@ -189,8 +237,13 @@
                     html += '</select></td>';
                 $(this).closest("tr").find('.td_nguyen_lieu').append(html);
                 $(this).closest("tr").find('.td_so_luong').append('<input type="number" required name="so_luong[' + a + '][]" class="so_luong form-control" style="margin-top: 10px">');
-                $(this).closest("tr").find('.td_don_vi').append('<input type="text" required name="don_vi[' + a + '][]" class="don_vi form-control" style="margin-top: 10px">');
-                $('select').select2();
+//                $(this).closest("tr").find('.td_don_vi').append('<input type="text" required name="don_vi[' + a + '][]" class="don_vi form-control" style="margin-top: 10px">');
+                $('select').select2({
+                    placeholder: "Select a state or many…",
+                    formatResult: format,
+                    formatSelection: format,
+                    escapeMarkup: function(m) { return m; }
+                });
                 $("html, body").animate({scrollTop: $(this).closest("tr").find('.td_nguyen_lieu').offset().top}, 1);
             });
 
@@ -226,7 +279,12 @@
                 todayHighlight: true,
                 format: 'dd/mm/yyyy',
             });
-            $('select').select2();
+            $('#e2_2').select2({
+                placeholder: "Select a state or many…",
+                formatResult: format,
+                formatSelection: format,
+                escapeMarkup: function(m) { return m; }
+            });
         });
         function select_meal_list(){
             $('#select_meal').modal('show');
@@ -252,5 +310,10 @@
                 $("#main textarea").removeAttr('disabled');
             }
         });
+
+        function format(state) {
+            if (!state.id) return state.text; // optgroup
+            return "<img class='flag' src='http://os.dev/img-login/so_logo.png'>" + state.text;
+        }
     </script>
 @stop

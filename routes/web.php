@@ -13,15 +13,17 @@
 
 Route::get('/', 'LandingController@index');
 
-Route::get('/account', function () {
-    return view('customer.index');
-});
+Route::get('account', 'CustomerController@index');
+Route::get('account/food', 'CustomerController@food');
+Route::get('account/orderhistory', 'CustomerController@orderHistory');
+Route::get('account/transaction', 'CustomerController@transaction');
 
-Route::get('blog/{slug}',['as' => 'post', 'uses' => 'BlogController@show'])->where('slug', '[A-Za-z0-9-_]+');
+
+Route::get('blog/{slug}',['as' => 'blog', 'uses' => 'BlogController@show'])->where('slug', '[A-Za-z0-9-_]+');
 Route::get('blog/category/{slug}',['as' => 'post', 'uses' => 'BlogController@showCategory'])->where('slug', '[A-Za-z0-9-_]+');
 Route::get('blog/{cate}/{post}',['as' => 'post', 'uses' => 'BlogController@showWithCategory'])->where('cate', '[A-Za-z0-9-_]+')->where('post', '[A-Za-z0-9-_]+');
-
 Route::get('pages/{url}',['as' => 'pages', 'uses' => 'PageController@show'])->where('url', '[A-Za-z0-9-_]+');
+
 
 
 Route::group(['prefix' => 'admin'], function () {
@@ -71,11 +73,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/duplicate/{food_id}', 'FoodController@duplicate')->name('admin.food.duplicate');
             Route::get('/delete/{food_id}', 'FoodController@delete')->name('admin.food.delete');
         });
-        Route::resource('supplier', 'SupplierController', ['only' => [
-            'index', 'create', 'edit', 'destroy', 'update', 'store'
-        ]]);
-        require(__DIR__ . '/chef/chef.php');
-        require(__DIR__ . '/spices/spices.php');
+
     });
     
     Route::resource('foodcategory', 'FoodCategoryController', ['only' => [

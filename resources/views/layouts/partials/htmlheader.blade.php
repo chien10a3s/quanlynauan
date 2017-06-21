@@ -4,6 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('htmlheader_title', Voyager::setting('title'))</title>
     <meta name="description" content="{{ Voyager::setting('description') }}">
+    
+    <link href="{{ asset('/css/all.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />

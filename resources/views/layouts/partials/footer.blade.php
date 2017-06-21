@@ -13,6 +13,7 @@
                     <div id="dgt_soraka_latest_news_widget-6" class="widget dgt_soraka_latest_news_widget">
                         <h3 class="widget-title">BÀI VIẾT MỚI NHẤT</h3>
                         <div class="dgt-blog-sidebar">
+                            <?php $latestposts = \TCG\Voyager\Models\Post::where('status', 'PUBLISHED')->orderBy('created_at', 'DESC')->limit(2)->get(); ?>
                             @foreach($latestposts as $post)
                             <div class="dgt-blog-sidebar-item clearfix">
                                 <div class="blog-image">

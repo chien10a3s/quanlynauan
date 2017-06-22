@@ -99,4 +99,8 @@ Route::group(['prefix' => 'admin'], function () {
         'index', 'create', 'edit', 'destroy', 'update', 'store'
     ]]);
     
+    Route::resource('testimonial', 'TestimonialController', ['only' => [
+        'index', 'create', 'edit', 'destroy', 'update', 'store'
+    ]]);
+    
 });

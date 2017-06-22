@@ -27,9 +27,6 @@
                                 <li class="user-link">
                                     <a href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i> <span class="hidden-xxs">Tài khoản</span></a>
                                 </li>
-                                <li class="shopping-link">
-                                    <a href="#"><i class="fa fa-shopping-basket" aria-hidden="true"></i> <span class="hidden-xxs">Giỏ hàng</span></a>
-                                </li>
                             </ul>
                         </div>
                         <div class="col-sm-12 col-md-7 col-lg-7">

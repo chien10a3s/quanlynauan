@@ -79,7 +79,7 @@ class BannerController extends Controller
         
         Banner::insert($data_input);
         
-        return redirect()->route('banner.index')->withFlashSuccess('Thêm thành công');
+        return redirect()->route('banner.index')->withFlashSuccess('ThÃªm thÃ nh cÃ´ng');
     }
 
     /**
@@ -152,7 +152,7 @@ class BannerController extends Controller
         $banner->save();
 
         // redirect
-        Session::flash('message', 'C?p nh?t thành công');
+        Session::flash('message', 'C?p nh?t thï¿½nh cï¿½ng');
         return redirect()->route('banner.index');
     }
 
@@ -165,6 +165,6 @@ class BannerController extends Controller
     public function destroy(Banner $banner)
     {
         $banner->delete();
-        return back()->with('info', 'Xóa thành công');
+        return back()->with('info', 'Xï¿½a thï¿½nh cï¿½ng');
     }
 }

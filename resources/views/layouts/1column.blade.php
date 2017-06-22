@@ -3,6 +3,7 @@
     @section('htmlheader')
         @include('layouts.partials.htmlheader')
     @show
+    @yield('header')
     <body>
         <div id="fb-root"></div>
         <script>(function(d, s, id) {
@@ -12,7 +13,7 @@
           js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.9&appId=1713794735515717";
           fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
-        
+
         <div id="page" class="site">
             @include('layouts.partials.mainheader')
             <div id="content">

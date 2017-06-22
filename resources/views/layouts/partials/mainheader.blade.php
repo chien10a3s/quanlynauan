@@ -1,14 +1,14 @@
 <div id="top-bar">
     <div class="container">
         <div id="mobile-menu" class="visible-xs"><a class="icon voyager-list" href="#main-menu-mobile"><i class="fa fa-bars" aria-hidden="true"></i> Menu</a></div>
-        {{ menu('topbar') }} 
+        {{ menu('topbar') }}
     </div>
 </div>
 <div id="masthead" class="site-header fixed-header">
     <div class="dgt-header-inner dgt-position-fixed">
         <div class="header-primary">
             <div class="container">
-                <div class="header-section"> 
+                <div class="header-section">
                     <span class="header-mobile-open-icon visible-sm visible-xs">
                         <i class="ion-navicon"></i>
                     </span>
@@ -16,7 +16,7 @@
                         <div class="col-sm-3 col-md-2 col-lg-2" id="logo-image">
                             <div class="site-branding">
                                 <p class="logo" id="logo">
-                                    <a href="{{url('/')}}" rel="home"> 
+                                    <a href="{{url('/')}}" rel="home">
                                         <img class="img-responsive" src="{{ Voyager::image(Voyager::setting('logo'))}}" />
                                     </a>
                                 </p>
@@ -40,14 +40,14 @@
                                 </div>
                             </form>
                             -->
-                            <div id="main-menu" class="main-menu hidden-xs">
+                            <div id="" class="main-menu hidden-xs">
                                 {{ menu('main-navigation') }}
                             </div>
-                            
-                            <div id="main-menu-mobile" class="hidden-lg hidden-md hidden-sm">
+
+                            <div id="" class="hidden-lg hidden-md hidden-sm">
                                 {{ menu('main-navigation') }}
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>

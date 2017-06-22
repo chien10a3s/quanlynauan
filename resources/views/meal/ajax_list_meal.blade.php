@@ -1,6 +1,6 @@
 <style>
     .alert:hover{
-        background-color: #6d55b5 !important;
+        background: #55abb5 !important;
     }
 </style>
 @if (count($all_meal) > 0)
@@ -10,7 +10,7 @@
                 @if (count($item_meal->daily_meal) > 0)
                     @foreach ($item_meal->daily_meal as $item_daily_meal)
                         <a href="{{ route('admin.user.double',$item_daily_meal->id) }}">
-                            <div class="alert alert-success fade in alert-dismissable" style="margin-top:18px;">
+                            <div class="alert alert-info fade in alert-dismissable" style="margin-top:18px;">
                                 Bữa ăn thứ {{ @$day_of_week[\Carbon\Carbon::parse($item_daily_meal->day)->dayOfWeek] }}
                                 ngày {{ \Carbon\Carbon::parse($item_daily_meal->day)->format('d/m/Y') }}
                             </div>

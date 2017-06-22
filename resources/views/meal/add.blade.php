@@ -1,6 +1,6 @@
-@extends('voyager::master')
+@extends('layouts.1column')
 
-@section('page_header')
+@section('header')
     {!! Html::script('plugin/datepicker/bootstrap-datepicker.js') !!}
     {!! Html::script('plugin/datepicker/jquery.datetimepicker.min.js') !!}
     {!! Html::style('plugin/datepicker/datepicker3.css') !!}
@@ -14,7 +14,9 @@
             margin-bottom: 10px;
             width: 100% !important;
         }
-
+        .panel-title{
+            font-weight: 600;
+        }
         .td_nguyen_lieu {
             width: 30%;
         }
@@ -62,14 +64,9 @@
         }
 
     </style>
-    <h1 class="page-title">
-        <i class="voyager-list"></i> Đăng ký món ăn trong ngày
-    </h1>
-    &nbsp;
-    <a href="#" class="btn btn-success" data-toggle="modal" title="Chọn thực đơn" onclick="select_meal_list()">
-        <i class="voyager-plus"></i> Chọn từ danh sách
-    </a>
-    <div class="modal modal-success fade" tabindex="-1" id="select_meal" role="dialog">
+@stop
+@section('main-content')
+    <div class="modal fade" tabindex="-1" id="select_meal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -87,10 +84,14 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-@stop
-@section('content')
-    <div class="page-content container-fluid">
+    <div class="page-content container-fluid panel">
         <div class="row">
+            <h1 class="page-title" style="border-bottom: 1px solid #eee;padding-bottom: 15px">
+                <i class="voyager-list"></i> Đăng ký món ăn trong ngày
+                <a href="#" class="btn btn-success pull-right" data-toggle="modal" title="Chọn thực đơn" onclick="select_meal_list()">
+                    <i class="voyager-plus"></i> Chọn từ danh sách
+                </a>
+            </h1>
             @if(Session::has('message'))
                 <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
             @endif
@@ -125,7 +126,7 @@
                     <div class="panel-heading col-md-12">
                         <h3 class="panel-title">Món chính</h3>
                     </div>
-                    <table class="table table-hover table-bordered" id="main">
+                    <table class="table table-hover table-bordered" id="main" style="margin-bottom: 15px;border: 1px solid #eee">
                         <thead>
                         <tr>
                             <th>Tên món</th>
@@ -171,7 +172,7 @@
     </div>
 @stop
 
-@section('javascript')
+@section('page-script')
     <script src="/plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -236,8 +237,8 @@
                 @endforeach
                     html += '</select></td>';
                 $(this).closest("tr").find('.td_nguyen_lieu').append(html);
-                $(this).closest("tr").find('.td_so_luong').append('<input type="number" required name="so_luong[' + a + '][]" class="so_luong form-control" style="margin-top: 10px">');
-//                $(this).closest("tr").find('.td_don_vi').append('<input type="text" required name="don_vi[' + a + '][]" class="don_vi form-control" style="margin-top: 10px">');
+                $(this).closest("tr").find('.td_so_luong').append('<input type="number" required name="so_luong[' + a + '][]" class="so_luong form-control" style="margin-top: 20px">');
+//                $(this).closest("tr").find('.td_don_vi').append('<input type="text" required name="don_vi[' + a + '][]" class="don_vi form-control" style="margin-top: 20px">');
                 $('select').select2({
                     placeholder: "Select a state or many…",
                     formatResult: format,
@@ -261,7 +262,7 @@
                     },
                     success: function (data) {
                         status = data.state;
-                        if (data.state == 0) {
+                        if (status == 0) {
                             toastr.error(data.name);
                             $('.datetimepicker1').css('border', '1px solid #F00')
                             e.preventDefault();

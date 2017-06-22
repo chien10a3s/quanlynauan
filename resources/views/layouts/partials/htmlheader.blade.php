@@ -10,6 +10,8 @@
     <link href="{{ asset('/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/jquery.mmenu.all.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{ voyager_asset('lib/css/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ voyager_asset('fonts/voyager/styles.css') }}">
     
     <link href="{{ asset('/css/icofont.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/front.css') }}" rel="stylesheet" type="text/css" />
@@ -22,4 +24,29 @@
     <script type="text/javascript" src="{{ asset('/js/jquery.sticky.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/jquery.mmenu.all.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/front.js') }}"></script>
+    <script type="text/javascript" src="{{ voyager_asset('lib/js/toastr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ voyager_asset('lib/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ voyager_asset('lib/js/bootstrap-switch.min.js') }}"></script>
+    <script>
+                @if(Session::has('alerts'))
+        let alerts = {!! json_encode(Session::get('alerts')) !!};
+
+        displayAlerts(alerts, toastr);
+        @endif
+
+        @if(Session::has('message'))
+
+        // TODO: change Controllers to use AlertsMessages trait... then remove this
+        var alertType = {!! json_encode(Session::get('alert-type', 'info')) !!};
+        var alertMessage = {!! json_encode(Session::get('message')) !!};
+        var alerter = toastr[alertType];
+
+        if (alerter) {
+            alerter(alertMessage);
+        } else {
+            toastr.error("toastr alert-type " + alertType + " is unknown");
+        }
+
+        @endif
+    </script>
 </head>

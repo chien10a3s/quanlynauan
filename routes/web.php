@@ -13,11 +13,32 @@
 
 Route::get('/', 'LandingController@index');
 
-Route::get('account', 'CustomerController@index');
-Route::get('account/food', 'CustomerController@food');
-Route::get('account/orderhistory', 'CustomerController@orderHistory');
-Route::get('account/transaction', 'CustomerController@transaction');
+Route::group(['middleware' => 'admin.user'], function () {
+    Route::get('account', 'CustomerController@index');
+    Route::get('account/food', 'CustomerController@food');
+    Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
+    Route::get('account/transaction', 'CustomerController@transaction');
 
+    Route::group(['prefix' => 'meal-daily'], function () {
+        Route::get('/', 'UserController@index')->name('admin.user.index');
+        Route::get('/{id}/view', 'UserController@view')->name('admin.user.view');
+
+        Route::get('/add', 'UserController@add')->name('admin.user.add');
+        Route::post('/store', 'UserController@store')->name('admin.user.store');
+        Route::get('/checkdate', 'UserController@checkDate')->name('admin.user.checkdate');
+
+        Route::get('/{id}/edit', 'UserController@edit')->name('admin.user.edit');
+        Route::post('/{id}/update', 'UserController@update')->name('admin.user.update');
+        Route::get('/check-date-update', 'UserController@checkDateUpdate')->name('admin.user.check-date-update');
+
+        Route::get('/{id}/double', 'UserController@double')->name('admin.user.double');
+
+        Route::post('/delete/{id}', 'UserController@delete')->name('admin.user.delete');
+
+        Route::get('/ajax_get_list_meal', 'UserController@getLisstMeal')->name('admin.user.ajax_get_list_meal');
+
+    });
+});
 
 Route::get('blog/{slug}',['as' => 'blog', 'uses' => 'BlogController@show'])->where('slug', '[A-Za-z0-9-_]+');
 Route::get('blog/category/{slug}',['as' => 'post', 'uses' => 'BlogController@showCategory'])->where('slug', '[A-Za-z0-9-_]+');
@@ -33,8 +54,18 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/', 'KitchenController@index')->name('admin.kitchen.index');
             Route::get('/{id}/detail', 'KitchenController@detail')->name('admin.kitchen.detail');
 
-            Route::get('/add', 'KitchenController@add')->name('admin.kitchens.addnew');
-            Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
+//<<<<<<< HEAD
+//<<<<<<< HEAD
+        Route::get('/add/{id}', 'KitchenController@add')->name('admin.kitchens.addnew');
+        Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
+//=======
+//            Route::get('/add', 'KitchenController@add')->name('admin.kitchens.addnew');
+//            Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
+//>>>>>>> 750cd419ffa72cce7ff7accc05eed2ad12f76069
+//=======
+//            Route::get('/add', 'KitchenController@add')->name('admin.kitchens.addnew');
+//            Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
+//>>>>>>> f316e9cbee16f97cfad6f623099abbf3d371f6eb
 
             Route::get('/{id}/edit-kitchen', 'KitchenController@edit')->name('admin.kitchen.edit');
             Route::post('/update/{id}', 'KitchenController@update')->name('admin.kitchen.update');
@@ -43,25 +74,6 @@ Route::group(['prefix' => 'admin'], function () {
 
             Route::get('/{id}/user', 'KitchenController@user')->name('admin.kitchen.user');
             Route::post('/{id}/update-user', 'KitchenController@updateUser')->name('admin.kitchen.update-user');
-        });
-        Route::group(['prefix' => 'meal-daily'], function () {
-            Route::get('/', 'UserController@index')->name('admin.user.index');
-            Route::get('/{id}/view', 'UserController@view')->name('admin.user.view');
-
-            Route::get('/add', 'UserController@add')->name('admin.user.add');
-            Route::post('/store', 'UserController@store')->name('admin.user.store');
-            Route::get('/checkdate', 'UserController@checkDate')->name('admin.user.checkdate');
-
-            Route::get('/{id}/edit', 'UserController@edit')->name('admin.user.edit');
-            Route::post('/{id}/update', 'UserController@update')->name('admin.user.update');
-            Route::get('/check-date-update', 'UserController@checkDateUpdate')->name('admin.user.check-date-update');
-
-            Route::get('/{id}/double', 'UserController@double')->name('admin.user.double');
-
-            Route::post('/delete/{id}', 'UserController@delete')->name('admin.user.delete');
-
-            Route::get('/ajax_get_list_meal', 'UserController@getLisstMeal')->name('admin.user.ajax_get_list_meal');
-
         });
 
         Route::group(['prefix' => 'food'], function () {
@@ -73,7 +85,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/duplicate/{food_id}', 'FoodController@duplicate')->name('admin.food.duplicate');
             Route::get('/delete/{food_id}', 'FoodController@delete')->name('admin.food.delete');
         });
-
+        require(__DIR__ . '/chef/chef.php');
     });
     
     Route::resource('foodcategory', 'FoodCategoryController', ['only' => [

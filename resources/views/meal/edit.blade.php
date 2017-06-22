@@ -1,6 +1,6 @@
-@extends('voyager::master')
+@extends('layouts.1column')
 
-@section('page_header')
+@section('header')
     {!! Html::script('plugin/datepicker/bootstrap-datepicker.js') !!}
     {!! Html::script('plugin/datepicker/jquery.datetimepicker.min.js') !!}
     {!! Html::style('plugin/datepicker/datepicker3.css') !!}
@@ -56,20 +56,16 @@
             background: aliceblue;
         }
     </style>
-    <h1 class="page-title">
-        <i class="voyager-list"></i> Đăng ký món ăn trong ngày
-    </h1>
-    &nbsp;
-    {{--<a href="{{ route('admin.kitchen.add') }}" class="btn btn-success">--}}
-    {{--<i class="voyager-plus"></i> Add New--}}
-    {{--</a>--}}
 @stop
-@section('content')
-    <div class="page-content container-fluid">
+@section('main-content')
+    <div class="page-content container-fluid panel">
         <div class="row">
             @if(Session::has('message'))
                 <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
             @endif
+            <h1 class="page-title" style="border-bottom: 1px solid #eee;padding-bottom: 15px">
+                <i class="voyager-list"></i> Đăng ký món ăn trong ngày
+            </h1>
             <form id="my_form" action="{{ route('admin.user.update',$info_meal->id) }}" method="post">
                 {{ csrf_field() }}
                 <div class="panel panel-bordered col-md-12">
@@ -147,6 +143,9 @@
                                     <a href="#" class="btn btn-success" title="Thêm nguyên liệu" id="add_nl">
                                         <i class="voyager-plus"></i>
                                     </a>
+                                    <a href="#" class="btn btn-danger remove_field" title="Xóa">
+                                        <i class="voyager-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -161,7 +160,7 @@
     </div>
 @stop
 
-@section('javascript')
+@section('page-script')
     <script src="/plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -269,6 +268,7 @@
                 autoclose: true,
                 todayHighlight: true,
                 format: 'dd/mm/yyyy',
+                startDate: new Date(),
             });
             $('select').select2({
                 placeholder: "Select a state or many…",

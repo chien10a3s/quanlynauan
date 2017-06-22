@@ -22,7 +22,7 @@
                                     </a>
                                 </div>
                                 <div class="blog-info">
-                                    <h4><a href="{{ url('blog/'.$post->slug) }}" rel="bookmark" title="Permanent Link: {{$post->title}}">{{$post->title}}</a></h4> 
+                                    <h4><a href="{{ url('blog/'.$post->slug) }}" rel="bookmark" title="Permanent Link: {{$post->title}}">{{$post->title}}</a></h4>
                                     <span class="dgt-blog-date">{{ date('d-m-Y', $post->created_at->timestamp) }}</span>
                                 </div>
                             </div>

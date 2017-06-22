@@ -85,6 +85,23 @@ class ChefController extends Controller
         return view('chef.meal', compact('data'));
     }
 
+    public function ajaxMeals($kitchent_id, Request $request){
+        if (isset($request->date)) {
+            $request_date = Carbon::createFromFormat('d/m/Y', $request->date);
+            $day = Carbon::parse($request_date)->format('Y-m-d');
+        }
+        $meals_date = DailyMeal::with([
+            'daily_dish' => function ($query) {
+                $query->where('status', 1);
+                $query->with(['detail_dish']);
+            }
+        ])
+            ->where('id_kitchen', $kitchent_id)
+            ->where('day', '=', $day)
+            ->where('status', 1)->get();
+        return $meals_date;
+    }
+
     /**
      * Update total money when go to market
      * @param Request $request
@@ -122,6 +139,16 @@ class ChefController extends Controller
             ->where('date',  $day)->get();
         $data['date'] = $day;
         $data['kitchen_id'] = $kitchen_id;
+
+        $data['meals'] = DailyMeal::with([
+            'daily_dish' => function ($query) {
+                $query->where('status', 1);
+                $query->with(['detail_dish']);
+            }
+        ])
+            ->where('id_kitchen', $kitchen_id)
+            ->where('day', '=', $day)
+            ->where('status', 1)->get();
         return view('chef.feedback', compact('data'));
     }
 

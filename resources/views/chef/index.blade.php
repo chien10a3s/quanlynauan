@@ -58,7 +58,7 @@
                                                 <i class="voyager-comment"></i>Feedback
                                             </a>&nbsp;
 
-                                            <a href="{{ route('admin.chef.meal', $item['id']) }}"
+                                            <a href="{{ route('admin.chef.spice', $item['id']) }}"
                                                class="btn-sm btn-warning" title="Danh sách thực đơn">
                                                 <i class="voyager-eyes"></i>Gia vị
                                             </a>&nbsp;

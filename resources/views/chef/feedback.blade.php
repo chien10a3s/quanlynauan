@@ -42,12 +42,22 @@
                 <div class="panel panel-bordered">
 
                     <div class="panel-body">
-                        {{ Form::open(['route' => ['admin.chef.feedback', @$data['kitchen_id']], 'class' => 'form-horizontal', 'role' => 'form','method' => 'GET']) }}
-                        <div class="input-group date date-picker col-md-3" style="float: left;">
-                            <input type="text" class="form-control date_time"
-                                   value="{{ \Carbon\Carbon::parse($data['date'])->format('d/m/Y') }}" readonly=""
-                                   name="day">
+                        {{ Form::open(['route' => ['admin.chef.feedback', @$data['kitchen_id']], 'class' => 'form-horizontal', 'role' => 'form','method' => 'GET', 'style' => 'margin-bottom:20px']) }}
+                        <div class="input-group date date-picker col-md-6" style="float: left;">
+                            <div class="col-md-4" style="padding-left: 0px">
+                                <input type="text" class="form-control date_time"
+                                       value="{{ \Carbon\Carbon::parse($data['date'])->format('d/m/Y') }}" readonly=""
+                                       name="day" id="date_meal">
+                            </div>
 
+                            <div class="col-md-8">
+                                <select class="form-control" name="meal_date" id="meal_date">
+                                    <option value="">Chọn thực đơn</option>
+                                    @foreach($data['meals'] as $key => $meal)
+                                        <option value="{{$meal->id}}">Thực đơn {{$key+1}}: {{$meal->number_of_meals}} suất, {{$meal->money_meals}}/1 suất</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-success" style="margin-left: 5px; margin-top: 0px;">
                             Xem
@@ -149,9 +159,28 @@
 
 @section('javascript')
     <!-- DataTables -->
+    <script src="/js/jquery-number-master/jquery.number.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#sample_1').DataTable({"order": []});
+            $('.number-format').number(true);
+            $("#date_meal").on('change', function(){
+                $('#meal_date').empty();
+                $.ajax({
+                    url: '{{route('admin.chef.meal.ajax', $data['kitchen_id'])}}',
+                    type: 'get',
+                    data: {date: $(this).val()},
+                    success: function(data){
+                        $('#meal_date').append($('<option></option>').attr("value", null).text('Chọn thực đơn'));
+                        $.each(data, function (key, value) {
+                            if (value !== null) {
+                                $('#meal_date').append($('<option class="number-format"></option>').attr("value", value.id).text('Thực đơn '+(key + 1)+': '+value.number_of_meals+' suất, '+value.money_meals+'/suất'));
+                            }
+                        });
+                    }
+                });
+            });
+
         });
         $('.date_time').datepicker({
             todayBtn: false,

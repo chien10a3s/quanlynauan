@@ -38,4 +38,12 @@ class Feeback extends Model
     public function create_user(){
         return $this->hasOne(User::class, 'id', 'created_by');
     }
+
+    /**
+     * Get child feedback
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function child(){
+        return $this->hasMany(Feeback::class, 'parent_id');
+    }
 }

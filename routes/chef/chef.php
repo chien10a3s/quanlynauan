@@ -17,6 +17,7 @@ Route::group(['prefix' => 'chefs'], function(){
 
     Route::group(['prefix' => 'food-over'], function(){
         Route::get('{kitchen_id}', 'FoodOverController@index')->name('admin.chef.food-over');
+        Route::put('update-food-over/{food_over_id}', 'FoodOverController@update')->name('admin.chef.food-over.update');
     });
 
 });

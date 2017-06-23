@@ -4,6 +4,8 @@
     <h1 class="page-title">
         <i class="voyager-list"></i> Thức ăn thừa của <span style="color: red;">{{@$data['kitchen']->name}}</span>
     </h1>
+    <link rel="stylesheet" type="text/css"
+          href="{{ voyager_asset('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
     <style>
         a, a:hover {
             text-decoration: none !important;
@@ -32,8 +34,9 @@
         .btn {
             font-size: 13px;
         }
+
         /*.form-inline .form-group{*/
-            /*margin-bottom: 15px;*/
+        /*margin-bottom: 15px;*/
         /*}*/
     </style>
 @stop
@@ -56,9 +59,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($data['food']) > 0)
+                            @if(count($data['food_over']) > 0)
                                 <?php $i = 1; ?>
-                                @foreach($data['food'] as $item)
+                                @foreach($data['food_over'] as $item)
                                     <tr>
                                         <td>{{ $i++ }}</td>
                                         <td>{{@$item->food->name}}</td>
@@ -69,19 +72,20 @@
                                             @if($item->status == 0)
                                                 <span class="label label-sm label-success">Đang thừa</span>
                                             @elseif($item->status == 1)
-                                                <span class="label label-sm label-warning">Đã hết</span>
+                                                <span class="label label-warning">Đã hết</span>
                                             @else
-                                                <span class="label label-sm label-danger">Hủy bỏ(Không dùng nữa)</span>
+                                                <span class="label label-danger">Hủy bỏ(Không dùng nữa)</span>
                                             @endif
                                         </td>
                                         <td>
-                                            <a class="btn-sm btn-warning" style="cursor: pointer;"
+                                            <a class="btn-sm btn-primary" style="cursor: pointer;"
                                                title="Sửa"
                                                data-toggle="modal"
                                                data-target="#edit_food_over{{$item->id}}">
-                                                <i class="voyager-eye"></i>
+                                                <i class="voyager-edit"></i>
                                             </a> &nbsp;
-                                            <div class="modal fade" id="edit_food_over{{$item->id}}" role="dialog" tabindex="1">
+                                            <div class="modal fade" id="edit_food_over{{$item->id}}" role="dialog"
+                                                 tabindex="1">
                                                 <div class="modal-dialog">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
@@ -94,13 +98,18 @@
                                                                 món {{@$item->food->name}}
                                                             </h4>
                                                         </div>
-                                                        {!! Form::model($item, ['route' => ['admin.chef.meal.update', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PUT']) !!}
+                                                        {!! Form::model($item, ['route' => ['admin.chef.food-over.update', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PUT']) !!}
                                                         <div class="modal-body">
                                                             <div class="form-group col-md-12">
                                                                 <label class="control-label col-md-4">Chọn thực
                                                                     phẩm</label>
                                                                 <div class="col-md-8">
-                                                                    {!! Form::select('food_id', [], null, ['class' => 'form-control', 'required'=>true]) !!}
+                                                                    <select class="form-control" name="food_id" required>
+                                                                        <option value="">Chọn thực phẩm</option>
+                                                                        @foreach($data['food'] as $food)
+                                                                            <option value="{{$food->id}}" @if($item->food_id == $item->id) selected @endif>{{$food->name}} ({{$food->quantity}} {{$food->quantity}} - Đơn giá {{$food->price}})</option>
+                                                                        @endforeach
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group col-md-12">
@@ -118,7 +127,7 @@
                                                             <div class="form-group col-md-12">
                                                                 <label class="control-label col-md-4">Ngày</label>
                                                                 <div class="col-md-8">
-                                                                    {!! Form::text('date', null, ['class' => 'form-control date_time', 'required'=>true]) !!}
+                                                                    {!! Form::text('date', isset($item->date) ? \Carbon\Carbon::parse($item->date)->format('d/m/y H:i:s') : null, ['class' => 'form-control date_time', 'required'=>true]) !!}
                                                                 </div>
                                                             </div>
                                                             <div class="form-group col-md-12">
@@ -130,7 +139,7 @@
                                                             <div class="form-group col-md-12">
                                                                 <label class="control-label col-md-4">Ngày</label>
                                                                 <div class="col-md-8">
-                                                                    {!! Form::select('status', [0 => 'Đang thừa', 1 => 'Đã hết', 2 => 'Hủy bỏ'], null, ['class' => 'form-control', 'required'=>true]) !!}
+                                                                    {!! Form::select('status', [0 => 'Đang thừa', 1 => 'Đã hết', 2 => 'Hủy bỏ'], $item->status, ['class' => 'form-control', 'required'=>true]) !!}
                                                                 </div>
                                                             </div>
                                                             <div style="clear: both;"></div>
@@ -161,12 +170,13 @@
 
 @section('javascript')
     <script type="text/javascript" src="/js/jquery-number-master/jquery.number.min.js"></script>
-    <script type="text/javascript" src="{{ voyager_asset('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ voyager_asset('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
     <!-- DataTables -->
     <script>
         $(document).ready(function () {
             var table = $('#sample_1').DataTable({"order": []});
-            $( table.table().container() ).removeClass( 'form-inline' );
+            $(table.table().container()).removeClass('form-inline');
             $('.number-format').number(true);
             $('.number-format-edit').number(true);
         });
@@ -176,7 +186,7 @@
             language: "en",
             autoclose: true,
             todayHighlight: true,
-            format: 'dd/mm/yyyy hh:ii:ss',
+            format: 'dd/mm/yyyy hh:ii:ss'
         });
 
     </script>

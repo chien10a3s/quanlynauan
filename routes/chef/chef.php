@@ -14,4 +14,9 @@ Route::group(['prefix' => 'chefs'], function(){
     Route::get('feedback/{kitchen_id}', 'ChefController@getFeedback')->name('admin.chef.feedback');
     Route::post('feedback-create', 'ChefController@storeFeedback')->name('admin.chef.feedback.store');
     Route::get('spice/{kitchen_id}', 'ChefController@spice')->name('admin.chef.spice');
+
+    Route::group(['prefix' => 'food-over'], function(){
+        Route::get('{kitchen_id}', 'FoodOverController@index')->name('admin.chef.food-over');
+    });
+
 });

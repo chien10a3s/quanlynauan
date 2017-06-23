@@ -62,6 +62,10 @@
                                                class="btn-sm btn-warning" title="Danh sách thực đơn">
                                                 <i class="voyager-eyes"></i>Gia vị
                                             </a>&nbsp;
+                                            <a href="{{ route('admin.chef.food-over', $item['id']) }}"
+                                               class="btn-sm btn-warning" title="Danh sách thực đơn">
+                                                <i class="voyager-eyes"></i>Thức ăn thừa
+                                            </a>&nbsp;
                                         </td>
                                     </tr>
                                 @endforeach

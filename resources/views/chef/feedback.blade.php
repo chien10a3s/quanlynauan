@@ -98,30 +98,36 @@
             height: 4.2rem;
             border: 1px solid #ddd;
         }
-        .comments-item-child{
-            padding-top: 30px;
+
+        .comments-item-child {
+            padding-top: 25px;
             padding-left: 65px;
-        }
-        .comments-item-child .img-circle{
-            width: 3.5rem;
-            height: 3.5rem;
-        }
-        .comments-item-child .comments-date a{
-            font-size: 1.2rem;
-        }
-        .comments-item-child .comments-content{
-            margin-left: 4rem;
-            font-size: 1.2rem;
         }
 
-        .comments-item-child-new .img-circle{
+        .comments-item-child .img-circle {
             width: 3.5rem;
             height: 3.5rem;
         }
-        .comments-item-child-new{
-            padding-top: 30px;
+
+        .comments-item-child .comments-date a {
+            font-size: 1.1rem;
+        }
+
+        .comments-item-child .comments-content {
+            margin-left: 4rem;
+            font-size: 1.1rem;
+        }
+
+        .comments-item-child-new .img-circle {
+            width: 3.5rem;
+            height: 3.5rem;
+        }
+
+        .comments-item-child-new {
+            padding-top: 20px;
             padding-left: 65px;
         }
+
         .header-avatar {
             float: left;
             margin-right: 10px;
@@ -218,7 +224,7 @@
         .comments-date a {
             color: rgb(54, 54, 54);
             font-weight: 500;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 0.2rem;
         }
 
@@ -228,7 +234,7 @@
 
         .comments-content {
             color: rgb(103, 103, 103);
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             padding-top: 5px;
             line-height: 23px;
             margin-left: 5rem;
@@ -343,7 +349,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-bordered">
-                    <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}" />
+                    <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}"/>
                     <div class="panel-body">
                         {{ Form::open(['route' => ['admin.chef.feedback', @$data['kitchen_id']], 'class' => 'form-horizontal', 'role' => 'form','method' => 'GET', 'style' => 'margin-bottom:20px']) }}
                         <div class="input-group date date-picker col-md-6" style="float: left;">
@@ -357,7 +363,9 @@
                                 <select class="form-control" name="daily_meal_id" id="daily_meal_id">
                                     <option value="">Chọn thực đơn</option>
                                     @foreach($data['meals'] as $key => $meal)
-                                        <option value="{{$meal->id}}">Thực đơn {{$key+1}}: {{$meal->number_of_meals}}
+                                        <option value="{{$meal->id}}"
+                                                @if($meal->id == $data['daily_meal_id']) selected @endif>Thực
+                                            đơn {{$key+1}}: {{$meal->number_of_meals}}
                                             suất, {{$meal->money_meals}}/1 suất
                                         </option>
                                     @endforeach
@@ -372,13 +380,13 @@
                             <div class="tool">
                                 <div class="like-comments">
                                     {{--<div class="like">--}}
-                                        {{--<img src="/social/like-icon.png">--}}
+                                    {{--<img src="/social/like-icon.png">--}}
                                     {{--<span style="font-size: 1.3rem" class="count-like">0--}}
-                                        {{--like</span>--}}
+                                    {{--like</span>--}}
                                     {{--</div>--}}
                                     <div class="like">
                                         <img src="/social/comment-icon.png">
-                                        <span style="font-size: 1.3rem">{{$data['count_feedback']}} phản hồi</span>
+                                        <span style="font-size: 1.3rem" id="count-feedback">{{$data['count_feedback']}} phản hồi</span>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -400,63 +408,72 @@
                             {{--</div>--}}
 
                             <div class="list-comments">
+                                <div class="content-parent">
                                 @foreach($data['feedback'] as $key => $feedback)
                                     <div class="comments-item">
                                         <div class="comment-header">
                                             <div class="comments-avatar">
                                                 <img class="img-responsive img-circle"
-                                                     src="{{ asset( $feedback->create_user->avatar ) }}">
+                                                     src="{{ asset( $feedback['avatar'] ) }}">
                                             </div>
                                             <div class="comments-date">
-                                                <a>{{@$feedback->create_user->name}}</a>
-                                                <div style="color: rgb(140, 140, 140); font-size: 1.1rem; padding-top: 4px;">
-                                                    {{ (isset($feedback->created_at)) ? \Carbon\Carbon::parse($feedback->created_at)->format('H:i d/m/Y') : null }}
+                                                <a>{{@$feedback['user']}}</a>
+                                                <div style="color: rgb(140, 140, 140); font-size: 1rem; padding-top: 4px;">
+                                                    {{ @$feedback['date'] }}
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="comments-content">
-                                            {{@$feedback->content}}
+                                            {{@$feedback['content']}}
                                         </div>
 
-                                        @foreach($feedback->child as $key_child => $child)
-                                            <div class="comments-item-child">
-                                                <div class="comment-header">
-                                                    <div class="comments-avatar">
-                                                        <img class="img-responsive img-circle"
-                                                             src="{{ asset( $child->create_user->avatar ) }}">
-                                                    </div>
-                                                    <div class="comments-date">
-                                                        <a>{{@$child->create_user->name}}</a>
-                                                        <div style="color: rgb(140, 140, 140); font-size: 1rem; padding-top: 4px;">
-                                                            {{ (isset($child->created_at)) ? \Carbon\Carbon::parse($child->created_at)->format('H:i d/m/Y') : null }}
+                                        <div class="content-child">
+                                            @foreach($feedback['child'] as $key_child => $child)
+                                                <div class="comments-item-child">
+                                                    <div class="comment-header">
+                                                        <div class="comments-avatar">
+                                                            <img class="img-responsive img-circle"
+                                                                 src="{{ asset( $child['avatar'] ) }}">
                                                         </div>
+                                                        <div class="comments-date">
+                                                            <a>{{@$child['user']}}</a>
+                                                            <div style="color: rgb(140, 140, 140); font-size: 1rem; padding-top: 4px;">
+                                                                {{@$child['date']}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
                                                     </div>
-                                                    <div class="clearfix"></div>
+                                                    <div class="comments-content">
+                                                        {{@$child['content']}}
+                                                    </div>
                                                 </div>
-                                                <div class="comments-content">
-                                                    {{@$child->content}}
-                                                </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
+                                        </div>
                                         <div class="comments-item-child-new">
                                             <div class="new-comment">
-                                                <div style="padding: 16px 0 12px; display: inline-flex;">
-                                                    <img class="img-responsive img-circle" src="{{ asset( Auth()->user()->avatar ) }}">
-                                            <textarea id="0" class="enter-comment" data-parent_id="{{@$feedback->id}}" placeholder="Nhập phản hồi..." rows="1"
-                                                      cols="60"></textarea>
+                                                <div style="padding: 0 0 12px; display: inline-flex;">
+                                                    <img class="img-responsive img-circle"
+                                                         src="{{ asset( Auth()->user()->avatar ) }}">
+                                                    <textarea id="0" class="enter-comment"
+                                                              data-parent_id="{{@$feedback['id']}}"
+                                                              placeholder="Nhập phản hồi..." rows="1"
+                                                              cols="60"></textarea>
                                                     <div class="clearfix"></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
+                                </div>
                                 <div class="comments-item-new"
                                      style="padding-top: 5px !important; padding-bottom: 5px !important;">
                                     <div class="new-comment">
-                                        <div style="padding: 16px 0 12px; display: inline-flex;">
-                                            <img class="img-responsive img-circle" src="{{ asset( Auth()->user()->avatar ) }}">
-                                            <textarea id="0" class="enter-comment" data-parent_id="null" placeholder="Nhập phản hồi..." rows="1"
+                                        <div style="padding: 0 0 12px; display: inline-flex;">
+                                            <img class="img-responsive img-circle"
+                                                 src="{{ asset( Auth()->user()->avatar ) }}">
+                                            <textarea id="0" class="enter-comment-parent" data-parent_id="0"
+                                                      placeholder="Nhập phản hồi..." rows="1"
                                                       cols="60"></textarea>
                                             <div class="clearfix"></div>
                                         </div>
@@ -470,10 +487,10 @@
             </div>
         </div>
     </div>
-    @stop
+@stop
 
-    @section('javascript')
-            <!-- DataTables -->
+@section('javascript')
+    <!-- DataTables -->
     <script src="/js/jquery-number-master/jquery.number.min.js"></script>
     <script>
 
@@ -500,49 +517,97 @@
                 });
             });
 
+            newFeedbackParent();
+            newFeedback();
             //create new feedback
-            $(".enter-comment").keypress(function (e) {
-                var daily_meal_id = {{@$data['daily_meal_id']}};
-                var id_kitchen = {{@$data['kitchen_id']}};
-                var parent_id = $(this).attr('data-parent_id');
-                var _token = $("#_token").val();
-                var key = e.which;
-                if (key == 13) {
-                    e.preventDefault();
+            function newFeedback(){
+                $(".enter-comment").keypress(function (e) {
+                    var daily_meal_id = {{@$data['daily_meal_id']}};
+                    var id_kitchen = {{@$data['kitchen_id']}};
+                    var parent_id = $(this).attr('data-parent_id');
+                    var _token = $("#_token").val();
+                    var key = e.which;
+                    if (key == 13) {
+                        e.preventDefault();
 //                    $(e.target).closest('.comments-item-new').LoadingOverlay("show");
-                    $.ajax({
-                        method: "POST",
-                        async: false,
-                        url: '{{route('admin.chef.feedback.store')}}',
-                        data: {
-                            'daily_meal_id': daily_meal_id,
-                            'id_kitchen': id_kitchen,
-                            'parent_id': parent_id,
-                            '_token': _token,
-                            'content': $(this).val()
-                        },
-                        success: function (data) {
-                            console.log(data.feedback.create_user);
-                            $(e.target).val(null);
-                            $(e.target).closest('.list-comments').append('<div class="comments-item-child">'+
-                                    +'<div class="comment-header">'+
-                                    +' <div class="comments-avatar">'+
-                                    +'<img class="img-responsive img-circle" src="{{ asset( $child->create_user->avatar ) }}"></div>'+
-                                    +'<div class="comments-date">'+
-                                    +'<a>'+data.feedback.create_user.name+'</a>'+
-                                    +'<div style="color: rgb(140, 140, 140); font-size: 1rem; padding-top: 4px;">'+
-                                    +'{{ (isset($child->created_at)) ? \Carbon\Carbon::parse($child->created_at)->format('H:i d/m/Y') : null }}'+
-                                    +'</div>'+
-                                    +'</div>'+
-                                    +'<div class="clearfix"></div></div>'+
-                                    +'<div class="comments-content">{{@$child->content}}</div>'+
-                                    +'</div>');
+                        $.ajax({
+                            method: "POST",
+                            async: false,
+                            url: '{{route('admin.chef.feedback.store')}}',
+                            data: {
+                                'daily_meal_id': daily_meal_id,
+                                'id_kitchen': id_kitchen,
+                                'parent_id': parent_id,
+                                '_token': _token,
+                                'content': $(this).val()
+                            },
+                            success: function (data) {
+                                $(e.target).val(null);
+                                $(e.target).closest('.comments-item').find('.content-child').append('<div class="comments-item-child"><div class="comment-header">' +
+                                    '<div class="comments-avatar"><img class="img-responsive img-circle" src="' + data.feedback.avatar + '"></div>' +
+                                    '<div class="comments-date"><a>' + data.feedback.user + '</a>' +
+                                    '<div style="color: rgb(140, 140, 140); font-size: 1rem; padding-top: 4px;">' + data.feedback.date + '</div></div>' +
+                                    '<div class="clearfix"></div></div>' +
+                                    '<div class="comments-content">' + data.feedback.content + '</div>' +
+                                    '</div>');
+
+                                $("#count-feedback").text(data.count_feedback+' phản hồi');
 //                            $(e.target).closest('.comments-item-new').LoadingOverlay("hide");
 //                            $(e.target).closest('.list-comments').find('.comments-item').last().hide(10000);
-                        }
-                    });
-                }
-            });
+                            }
+                        });
+                    }
+                });
+            }
+
+            //create new feedback parent
+            function newFeedbackParent(){
+                $(".enter-comment-parent").keypress(function (e) {
+                    var daily_meal_id = {{@$data['daily_meal_id']}};
+                    var id_kitchen = {{@$data['kitchen_id']}};
+                    var parent_id = $(this).attr('data-parent_id');
+                    var _token = $("#_token").val();
+                    var key = e.which;
+                    if (key == 13) {
+                        e.preventDefault();
+//                    $(e.target).closest('.comments-item-new').LoadingOverlay("show");
+                        $.ajax({
+                            method: "POST",
+                            async: false,
+                            url: '{{route('admin.chef.feedback.store')}}',
+                            data: {
+                                'daily_meal_id': daily_meal_id,
+                                'id_kitchen': id_kitchen,
+                                'parent_id': parent_id,
+                                '_token': _token,
+                                'content': $(this).val()
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                $(e.target).val(null);
+                                $(e.target).closest('.list-comments').find('.content-parent').append('<div class="comments-item"><div class="comment-header">' +
+                                    '<div class="comments-avatar"><img class="img-responsive img-circle" src="' + data.feedback.avatar + '"></div>' +
+                                    '<div class="comments-date"><a>' + data.feedback.user + '</a>' +
+                                    '<div style="color: rgb(140, 140, 140); font-size: 1rem; padding-top: 4px;">' + data.feedback.date + '</div></div>' +
+                                    '<div class="clearfix"></div></div>' +
+                                    '<div class="comments-content">' + data.feedback.content + '</div>' +
+                                    '<div class="content-child"></div><div class="comments-item-child-new">' +
+                                    '<div class="new-comment">' +
+                                    '<div style="padding: 0 0 12px; display: inline-flex;">' +
+                                    '<img class="img-responsive img-circle" src="' + data.feedback.avatar + '">' +
+                                    '<textarea id="0" class="enter-comment" data-parent_id="'+data.feedback.id+'" placeholder="Nhập phản hồi..." rows="1" cols="60"></textarea>' +
+                                    '<div class="clearfix"></div>' +
+                                    '</div></div></div></div>'
+                                );
+                                $("#count-feedback").text(data.count_feedback+' phản hồi');
+                                newFeedback();
+//                            $(e.target).closest('.comments-item-new').LoadingOverlay("hide");
+//                            $(e.target).closest('.list-comments').find('.comments-item').last().hide(10000);
+                            }
+                        });
+                    }
+                });
+            }
 
         });
         $('.date_time').datepicker({

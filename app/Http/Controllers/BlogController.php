@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use TCG\Voyager\Models\Post;
 use TCG\Voyager\Models\Category;
+use Illuminate\Support\Str;
+
 class BlogController extends Controller
 {
     /**

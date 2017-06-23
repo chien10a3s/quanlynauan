@@ -56,7 +56,12 @@
                                             <a href="{{ route('admin.chef.feedback', $item['id']) }}"
                                                class="btn-sm btn-warning" title="Danh sách feedback">
                                                 <i class="voyager-comment"></i>Feedback
-                                            </a>
+                                            </a>&nbsp;
+
+                                            <a href="{{ route('admin.chef.spice', $item['id']) }}"
+                                               class="btn-sm btn-warning" title="Danh sách thực đơn">
+                                                <i class="voyager-eyes"></i>Gia vị
+                                            </a>&nbsp;
                                         </td>
                                     </tr>
                                 @endforeach

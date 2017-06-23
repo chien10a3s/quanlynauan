@@ -1,6 +1,6 @@
-@extends('voyager::master')
+@extends('layouts.1column')
 
-@section('page_header')
+@section('header')
     {!! Html::script('plugin/datepicker/bootstrap-datepicker.js') !!}
     {!! Html::script('plugin/datepicker/jquery.datetimepicker.min.js') !!}
     {!! Html::style('plugin/datepicker/datepicker3.css') !!}
@@ -15,17 +15,17 @@
             width: 100% !important;
         }
     </style>
-    <h1 class="page-title">
-        <i class="voyager-list"></i> Đăng ký món ăn trong ngày
-    </h1>
-    &nbsp;
+    &nbsp
     {{--<a href="{{ route('admin.kitchen.add') }}" class="btn btn-success">--}}
     {{--<i class="voyager-plus"></i> Add New--}}
     {{--</a>--}}
 @stop
-@section('content')
-    <div class="page-content container-fluid">
+@section('main-content')
+    <div class="page-content container-fluid panel">
         <div class="row">
+            <h1 class="page-title" style="border-bottom: 1px solid #eee;padding-bottom: 15px">
+                <i class="voyager-plus"></i> Đăng ký món ăn trong ngày {{ \Carbon\Carbon::createFromFormat('Y-m-d',$info_meal->day)->format('d/m/Y') }}
+            </h1>
             <div class="panel panel-bordered col-md-12">
                 <div class="panel-heading col-md-6">
                     <h3 class="panel-title">Ngày đăng ký <b style="color: red">*</b></h3>
@@ -46,6 +46,12 @@
                     <div class="panel-body">
                         <input readonly type="number" class="form-control" required name="money"
                                value="{{$info_meal->money_meals}}">
+                    </div>
+                </div>
+                <div class="panel-heading col-md-6" style="padding-bottom: 10px;">
+                    <h3 class="panel-title">Ủy quyền đi chợ</h3>
+                    <div class="panel-body">
+                        <input disabled type="checkbox" @if($info_meal->is_permission == 1) checked @endif class="uyquyen" name="uyquyen" value="1"> Ủy quyền đi chợ,chọn món
                     </div>
                 </div>
                 <div class="panel-heading col-md-12">

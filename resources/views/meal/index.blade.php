@@ -1,8 +1,59 @@
-@extends('voyager::master')
+@extends('layouts.1column')
 
-@section('css')
-    <link rel="stylesheet" type="text/css" href="{{ voyager_asset('css/ga-embed.css') }}">
+@section('header')
     <style>
+        .select2-container {
+            margin-bottom: 10px;
+            width: 100% !important;
+        }
+        .panel-title{
+            font-weight: 600;
+        }
+        .td_nguyen_lieu {
+            width: 30%;
+        }
+        .container-fluid {
+            padding-top: 30px;
+        }
+
+        .select2-results-dept-0 { /* do the columns */
+            float: left;
+            width: 50%;
+        }
+
+        img.flag {
+            height: 10px;
+            padding-right: 5px;
+            width: 15px;
+        }
+
+        /* move close cross [x] from left to right on the selected value (tag) */
+        #s2id_e2_2.select2-container-multi .select2-choices .select2-search-choice {
+            padding: 3px 18px 3px 5px;
+        }
+        #s2id_e2_2.select2-container-multi .select2-search-choice-close {
+            left: auto;
+            right: 3px;
+        }
+        .select2-container .select2-choice {
+            height: 34px !important;
+            line-height: 34px !important;
+        }
+        .select2-drop.select2-drop-above.select2-drop-active.select2-display-none {
+            width: 900px !important;
+            left: 10% !important;
+            height: 300px;
+            border: 1px solid #eee !important;
+        }
+        .select2-drop-active {
+            width: 900px !important;
+            left: 10% !important;
+            height: 300px;
+            border: 1px solid #eee !important;
+        }
+        .select2-results {
+            background: aliceblue;
+        }
         .FlexGrid-item {
             margin: 0 0 1em 2em !important;
         }
@@ -22,20 +73,16 @@
         }
     </style>
 @stop
-
-@section('page_header')
-    <h1 class="page-title">
-        <i class="voyager-list"></i> Danh sách thực đơn
-    </h1>
-    &nbsp;
-    <a href="{{ route('admin.user.add') }}" class="btn btn-success">
-        <i class="voyager-plus"></i> Thêm mới
-    </a>
-@stop
-@section('content')
+@section('main-content')
     <div class="page-content">
         @include('voyager::alerts')
-        <div>
+        <div class="page-content container-fluid panel" style="padding-top:30px;">
+            <h1 class="page-title" style="padding-bottom: 30px;border-bottom: 1px solid #eee">
+                <i class="voyager-list"></i> Danh sách thực đơn
+                <a href="{{ route('admin.user.add') }}" class="btn btn-success pull-right">
+                    <i class="voyager-plus"></i> Thêm mới
+                </a>
+            </h1>
             <div class="Dashboard col-md-12" id="">
                 <div id="view-selector-container " class="col-md-12">
                     @if(count($all_meal) > 0)
@@ -75,7 +122,7 @@
                                                                data-target="#delete_modal-{{ $item_daily_meal->id }}">
                                                                 <i class="voyager-trash"></i> Xóa
                                                             </a>
-                                                            <div class="modal modal-danger fade" tabindex="-1"
+                                                            <div class="modal fade" tabindex="-1"
                                                                  id="delete_modal-{{ $item_daily_meal->id }}" role="dialog">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">

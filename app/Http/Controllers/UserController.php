@@ -63,7 +63,7 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
             }
         }
         return view('meal.view', compact('option', 'info_meal'));
@@ -79,7 +79,7 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
             }
         }
         return view('meal.add', compact('get_all_thuc_pham', 'option'));
@@ -127,83 +127,106 @@ class UserController extends Controller
         $number_eat = (int)$input['number_of_meals'];
         $money_eat = (int)$input['money'];
 
-        //Số lượng món ăn
-        $number_dish = $input['tenmon'];
-        if (count($number_dish) > 0) {
-            DB::beginTransaction();
-            try {
-                // Lưu vào Bảng thực đơn hàng ngày daily_meals
-                $data_create_daily_meal = [];
-                $data_create_daily_meal['id_kitchen'] = $id_kitchen;
-                $data_create_daily_meal['day'] = $date;
-                $data_create_daily_meal['number_of_meals'] = $number_eat;
-                $data_create_daily_meal['money_meals'] = $money_eat;
-                $data_create_daily_meal['status'] = 0;
-                $data_create_daily_meal['id_parent'] = 0;
-                $data_create_daily_meal['created_by'] = Auth::user()->id;
-                $data_create_daily_meal['updated_by'] = Auth::user()->id;
-                $data_create_daily_meal['created_at'] = Carbon::now();
+        if (isset($input['uyquyen'])){
+            $data_create_daily_meal = [];
+            $data_create_daily_meal['id_kitchen'] = $id_kitchen;
+            $data_create_daily_meal['day'] = $date;
+            $data_create_daily_meal['number_of_meals'] = $number_eat;
+            $data_create_daily_meal['money_meals'] = $money_eat;
+            $data_create_daily_meal['status'] = 0;
+            $data_create_daily_meal['is_permission'] = 1;
+            $data_create_daily_meal['id_parent'] = 0;
+            $data_create_daily_meal['created_by'] = Auth::user()->id;
+            $data_create_daily_meal['updated_by'] = Auth::user()->id;
+            $data_create_daily_meal['created_at'] = Carbon::now();
 
-                $id_daily_meal = DailyMeal::insertGetId($data_create_daily_meal);
-
-                foreach ($number_dish as $key => $item) {
-                    $name_dish = $item;//Tên Món ăn
-                    $name_note = $input['ghi_chu'][$key];//Ghi chú
-                    $name_recipe = $input['cong_thuc'][$key];//Công thức
-                    $arr_ingredient = $input['nguyen_lieu'][$key];//Nguyên liệu
-                    $arr_number = $input['so_luong'][$key];//Số lượng của nguyên liệu
-                    $arr_unit = $input['don_vi'][$key];//Đơn vị của số lượng
-
-                    // Lưu vào bảng Món ăn cho thực đơn
-                    $data_create_daily_dish = [];
-                    $data_create_daily_dish['id_daily_meal'] = $id_daily_meal;
-                    $data_create_daily_dish['name'] = $name_dish;
-                    $data_create_daily_dish['cooking_note'] = $name_recipe;
-                    $data_create_daily_dish['note'] = $name_note;
-                    $data_create_daily_dish['status'] = 0;
-                    $data_create_daily_dish['created_by'] = Auth::user()->id;
-                    $data_create_daily_dish['updated_by'] = Auth::user()->id;
-                    $data_create_daily_dish['created_at'] = Carbon::now();
-
-                    $id_daily_dish = DailyDish::insertGetId($data_create_daily_dish);
-                    foreach ($arr_ingredient as $key_ing => $item_ing) {
-                        $name_ingredient = $item_ing;//id nguyên liệu
-                        $number = $arr_number[$key_ing];
-                        $unit = $arr_unit[$key_ing];
-
-
-                        //Lưu thông tin chi tiết của món ăn
-                        $arr_dish_detail = [];
-
-                        $arr_dish_detail['id_daily_dish'] = $id_daily_dish;
-                        $arr_dish_detail['id_food'] = $name_ingredient;
-                        $arr_dish_detail['name'] = $name_ingredient;
-                        $arr_dish_detail['number'] = $number;
-                        $arr_dish_detail['unit'] = $unit;
-                        $arr_dish_detail['money'] = 0;
-                        $arr_dish_detail['status'] = 0;
-                        $arr_dish_detail['created_by'] = Auth::user()->id;
-                        $arr_dish_detail['updated_by'] = Auth::user()->id;
-                        $arr_dish_detail['created_at'] = Carbon::now();
-                        DishDetail::insertGetId($arr_dish_detail);
-                    }
-                }
-            } catch (\Exception $e) {
-                DB::rollBack();
-                return redirect()
-                    ->back()
-                    ->with([
-                        'message' => 'Đăng ký không thành công. Vui lòng điền đầy đủ thông tin đăng ký.',
-                        'alert-type' => 'error',
-                    ]);
-            }
-            DB::commit();
+            DailyMeal::insertGetId($data_create_daily_meal);
             return redirect()
-                ->route('admin.user.index')
+                ->route('user.account.orderhistory')
                 ->with([
                     'message' => 'Đăng ký món ăn thành công.',
                     'alert-type' => 'success',
                 ]);
+        }else{
+            //Số lượng món ăn
+            $number_dish = $input['tenmon'];
+            if (count($number_dish) > 0) {
+                DB::beginTransaction();
+                try {
+                    // Lưu vào Bảng thực đơn hàng ngày daily_meals
+                    $data_create_daily_meal = [];
+                    $data_create_daily_meal['id_kitchen'] = $id_kitchen;
+                    $data_create_daily_meal['day'] = $date;
+                    $data_create_daily_meal['number_of_meals'] = $number_eat;
+                    $data_create_daily_meal['money_meals'] = $money_eat;
+                    $data_create_daily_meal['status'] = 0;
+                    $data_create_daily_meal['id_parent'] = 0;
+                    $data_create_daily_meal['is_permission'] = 0;
+                    $data_create_daily_meal['created_by'] = Auth::user()->id;
+                    $data_create_daily_meal['updated_by'] = Auth::user()->id;
+                    $data_create_daily_meal['created_at'] = Carbon::now();
+
+                    $id_daily_meal = DailyMeal::insertGetId($data_create_daily_meal);
+                    foreach ($number_dish as $key => $item) {
+                        $name_dish = $item;//Tên Món ăn
+                        $name_note = $input['ghi_chu'][$key];//Ghi chú
+                        $name_recipe = $input['cong_thuc'][$key];//Công thức
+                        $arr_ingredient = $input['nguyen_lieu'][$key];//Nguyên liệu
+                        $arr_number = $input['so_luong'][$key];//Số lượng của nguyên liệu
+
+                        // Lưu vào bảng Món ăn cho thực đơn
+                        $data_create_daily_dish = [];
+                        $data_create_daily_dish['id_daily_meal'] = $id_daily_meal;
+                        $data_create_daily_dish['name'] = $name_dish;
+                        $data_create_daily_dish['cooking_note'] = $name_recipe;
+                        $data_create_daily_dish['note'] = $name_note;
+                        $data_create_daily_dish['status'] = 0;
+                        $data_create_daily_dish['created_by'] = Auth::user()->id;
+                        $data_create_daily_dish['updated_by'] = Auth::user()->id;
+                        $data_create_daily_dish['created_at'] = Carbon::now();
+
+                        $id_daily_dish = DailyDish::insertGetId($data_create_daily_dish);
+                        foreach ($arr_ingredient as $key_ing => $item_ing) {
+                            $name_ingredient = $item_ing;//id nguyên liệu
+//                            dd($item_ing);
+                            $number = $arr_number[$key_ing];
+//                            $unit = $arr_unit[$key_ing];
+
+
+                            //Lưu thông tin chi tiết của món ăn
+                            $arr_dish_detail = [];
+
+                            $arr_dish_detail['id_daily_dish'] = $id_daily_dish;
+                            $arr_dish_detail['id_food'] = $name_ingredient;
+                            $arr_dish_detail['name'] = $name_ingredient;
+                            $arr_dish_detail['number'] = $number;
+                            $arr_dish_detail['unit'] = 1;
+                            $arr_dish_detail['money'] = 0;
+                            $arr_dish_detail['status'] = 0;
+                            $arr_dish_detail['created_by'] = Auth::user()->id;
+                            $arr_dish_detail['updated_by'] = Auth::user()->id;
+                            $arr_dish_detail['created_at'] = Carbon::now();
+                            DishDetail::insertGetId($arr_dish_detail);
+                        }
+                    }
+                } catch (\Exception $e) {
+                    dd($e);
+                    DB::rollBack();
+                    return redirect()
+                        ->back()
+                        ->with([
+                            'message' => 'Đăng ký không thành công. Vui lòng điền đầy đủ thông tin đăng ký.',
+                            'alert-type' => 'error',
+                        ]);
+                }
+                DB::commit();
+                return redirect()
+                    ->route('user.account.orderhistory')
+                    ->with([
+                        'message' => 'Đăng ký món ăn thành công.',
+                        'alert-type' => 'success',
+                    ]);
+            }
         }
         return redirect()
             ->back()
@@ -233,7 +256,7 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
             }
         }
         return view('meal.edit', compact('option', 'info_meal'));
@@ -258,7 +281,7 @@ class UserController extends Controller
                 if (count($item_food->supplier) > 0) {
                     $name = $item_food->supplier->name;
                 }
-                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) ';
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
             }
         }
         return view('meal.double', compact('option', 'info_meal'));
@@ -306,8 +329,33 @@ class UserController extends Controller
         $number_eat = (int)$input['number_of_meals'];
         $money_eat = (int)$input['money'];
 
+
+        if (isset($input['uyquyen'])){
+            //Xóa chi tiết bữa ăn
+            $this->delete($id, false);
+
+            //Cập nhật lại bữa ăn
+            $data_create_daily_meal = [];
+            $data_create_daily_meal['id_kitchen'] = $id_kitchen;
+            $data_create_daily_meal['day'] = $date;
+            $data_create_daily_meal['number_of_meals'] = $number_eat;
+            $data_create_daily_meal['money_meals'] = $money_eat;
+            $data_create_daily_meal['status'] = 0;
+            $data_create_daily_meal['is_permission'] = 1;
+            $data_create_daily_meal['id_parent'] = 0;
+            $data_create_daily_meal['updated_by'] = Auth::user()->id;
+            $data_create_daily_meal['updated_at'] = Carbon::now();
+
+            DailyMeal::where('id', $id)->update($data_create_daily_meal);
+            return redirect()
+                ->route('user.account.orderhistory')
+                ->with([
+                    'message' => 'Cập nhật món ăn thành công.',
+                    'alert-type' => 'success',
+                ]);
+        }
         //Số lượng món ăn
-        $number_dish = $input['tenmon'];
+        $number_dish = @$input['tenmon'];
         if (count($number_dish) > 0) {
             DB::beginTransaction();
             try {
@@ -321,6 +369,7 @@ class UserController extends Controller
                 $data_create_daily_meal['money_meals'] = $money_eat;
                 $data_create_daily_meal['status'] = 0;
                 $data_create_daily_meal['id_parent'] = 0;
+                $data_create_daily_meal['is_permission'] = 0;
                 $data_create_daily_meal['updated_by'] = Auth::user()->id;
                 $data_create_daily_meal['updated_at'] = Carbon::now();
 
@@ -332,7 +381,7 @@ class UserController extends Controller
                     $name_recipe = $input['cong_thuc'][$key];//Công thức
                     $arr_ingredient = $input['nguyen_lieu'][$key];//Nguyên liệu
                     $arr_number = $input['so_luong'][$key];//Số lượng của nguyên liệu
-                    $arr_unit = $input['don_vi'][$key];//Đơn vị của số lượng
+//                    $arr_unit = $input['don_vi'][$key];//Đơn vị của số lượng
 
                     // Lưu vào bảng Món ăn cho thực đơn
                     $data_create_daily_dish = [];
@@ -349,7 +398,7 @@ class UserController extends Controller
                     foreach ($arr_ingredient as $key_ing => $item_ing) {
                         $name_ingredient = $item_ing;//id nguyên liệu
                         $number = $arr_number[$key_ing];
-                        $unit = $arr_unit[$key_ing];
+//                        $unit = $arr_unit[$key_ing];
 
 
                         //Lưu thông tin chi tiết của món ăn
@@ -359,7 +408,7 @@ class UserController extends Controller
                         $arr_dish_detail['id_food'] = $name_ingredient;
                         $arr_dish_detail['name'] = $name_ingredient;
                         $arr_dish_detail['number'] = $number;
-                        $arr_dish_detail['unit'] = $unit;
+                        $arr_dish_detail['unit'] = 1;
                         $arr_dish_detail['money'] = 0;
                         $arr_dish_detail['status'] = 0;
                         $arr_dish_detail['created_by'] = Auth::user()->id;
@@ -370,6 +419,7 @@ class UserController extends Controller
                 }
             } catch (\Exception $e) {
                 DB::rollBack();
+                dd($e);
                 return redirect()
                     ->back()
                     ->with([
@@ -379,7 +429,7 @@ class UserController extends Controller
             }
             DB::commit();
             return redirect()
-                ->route('admin.user.index')
+                ->route('user.account.orderhistory')
                 ->with([
                     'message' => 'Đăng ký món ăn thành công.',
                     'alert-type' => 'success',
@@ -408,7 +458,7 @@ class UserController extends Controller
                     DailyMeal::where('id', $id_meal)->delete();
                 }
                 return redirect()
-                    ->route('admin.user.index')
+                    ->route('user.account.orderhistory')
                     ->with([
                         'message' => 'Xóa đăng ký thành công.',
                         'alert-type' => 'success',

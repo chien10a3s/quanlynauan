@@ -5,19 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use App;
-use Cookie;
-use Response;
-use App\Shop;
-use App\Product;
-use App\Setting; 
+use TCG\Voyager\Models\Post;
+use App\Slide;
+use App\BannerGroup;
 /**
  * Class HomeController
  * @package App\Http\Controllers
  */
  
 
-class HomeController extends Controller
+class LandingController extends Controller
 {
     public function __construct()
     {
@@ -26,6 +23,9 @@ class HomeController extends Controller
     
     public function index()
     {
-        die('dfsfsfs');
+        $featuredposts = \TCG\Voyager\Models\Post::where(array('status' => 'PUBLISHED', 'featured' => 1))->orderBy('created_at', 'DESC')->limit(3)->get();
+        $slides = Slide::where('active', 1)->get();
+        $banners = BannerGroup::find(1)->banners;
+        return view('home', compact(['slides', 'featuredposts', 'banners']));
     }
 }

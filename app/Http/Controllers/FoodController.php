@@ -53,39 +53,39 @@ class FoodController extends Controller
     }
     
     public function store(Request $request){
-        
-        $fullFilename = null;
-        $resizeWidth = 800;
-        $resizeHeight = null;
-        $file = $request->file('image');
-        $filename = Str::random(20);
-        $fullPath = 'food/'.date('F').date('Y').'/'.$filename.'.'.$file->getClientOriginalExtension();
-
-        $ext = $file->guessClientExtension();
-        $extension_allow = ['jpeg', 'jpg', 'png', 'gif'];
-        if (in_array($ext, $extension_allow)) {
-            $image = Image::make($file)
-                ->resize($resizeWidth, $resizeHeight, function (Constraint $constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->encode($file->getClientOriginalExtension(), 75);
-
-            // move uploaded file from temp to uploads directory
-            if (Storage::disk(config('voyager.storage.disk'))->put($fullPath, (string) $image, 'public')) {
-                $status = 'Image successfully uploaded!';
-                $fullFilename = $fullPath;
-            } else {
-                $status = 'Upload Fail: Unknown error occurred!';
-            }
-        } else {
-            $status = 'Upload Fail: Unsupported file format or It is too large to upload!';
-        }
-        
         $data_input = $request->only(['name', 'description', 'unit', 'quantity', 'price', 'id_category', 'id_supplier', 'status']);
+        
+        if($request->hasFile('image')){                
+            $fullFilename = null;
+            $resizeWidth = 800;
+            $resizeHeight = null;
+            $file = $request->file('image');
+            $filename = Str::random(20);
+            $fullPath = 'food/'.date('F').date('Y').'/'.$filename.'.'.$file->getClientOriginalExtension();
+    
+            $ext = $file->guessClientExtension();
+            $extension_allow = ['jpeg', 'jpg', 'png', 'gif'];
+            if (in_array($ext, $extension_allow)) {
+                $image = Image::make($file)
+                    ->resize($resizeWidth, $resizeHeight, function (Constraint $constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })
+                    ->encode($file->getClientOriginalExtension(), 75);
+    
+                // move uploaded file from temp to uploads directory
+                if (Storage::disk(config('voyager.storage.disk'))->put($fullPath, (string) $image, 'public')) {
+                    $data_input['image'] = $fullPath;
+                } else {
+                    unset($data_input['image']);
+                }
+            } else {
+                unset($data_input['image']);
+            }
+        }
         $data_input['created_by'] = Auth::user()->id;
         $data_input['updated_by'] = Auth::user()->id;
-        $data_input['image'] = $fullFilename;
+        
         
         Food::insert($data_input);
         

@@ -25,7 +25,7 @@
                         <div class="dgt-header-right col-md-3 pull-right">
                             <ul class="user-info">
                                 <li class="user-link">
-                                    <a href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i> <span class="hidden-xxs">Tài khoản</span></a>
+                                    <a href="{{ url('account') }}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> <span class="hidden-xxs">Tài khoản</span></a>
                                 </li>
                             </ul>
                         </div>

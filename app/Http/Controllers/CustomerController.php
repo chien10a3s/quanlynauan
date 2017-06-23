@@ -9,14 +9,28 @@ use TCG\Voyager\Models\Category;
 use Illuminate\Support\Str;
 use App\Food;
 use App\Models\DailyMeal\DailyMeal;
+use Illuminate\Support\Facades\Auth;
 use DB;
+use App\User;
 
 class CustomerController extends Controller
 {
     public function index()
     {
+        $user_kitchen = Auth::user()->kitchen;
+        if (count($user_kitchen) < 0) {
+            return back()->withErrors('Không có bếp quản lý');
+        }
+        $id_kitchen = 0;
+        foreach ($user_kitchen as $item_kitchen) {
+            $id_kitchen = $item_kitchen->id;
+        }
         $day = Carbon::now()->format('Y-m-d');
-        $info_meal = DailyMeal::with(['daily_dish', 'daily_dish.detail_dish'])->where('day', $day)->first();
+        $info_meal = DailyMeal::with(['daily_dish', 'daily_dish.detail_dish'])
+            ->where('day', $day)
+            ->where('id_kitchen', $id_kitchen)
+            ->first();
+//        dd($day);
 
         /*
          * all food
@@ -41,7 +55,23 @@ class CustomerController extends Controller
 
     public function orderHistory()
     {
-        return view('customer.orderhistory');
+        $user_kitchen = Auth::user()->kitchen;
+        if (count($user_kitchen) < 0) {
+            return back()->withErrors('Không có bếp quản lý');
+        }
+        $id_kitchen = 0;
+        foreach ($user_kitchen as $item_kitchen) {
+            $id_kitchen = $item_kitchen->id;
+        }
+        $all_meal = User::with(['kitchen' => function ($query) use ($id_kitchen) {
+            return $query->where('id_kitchen', $id_kitchen);
+        }, 'kitchen.daily_meal' => function ($query) use ($id_kitchen) {
+            return $query->orderBy('day', 'desc');
+        }])
+            ->where('id', Auth::user()->id)
+            ->take(10)
+            ->get();
+        return view('customer.orderhistory',compact('all_meal'));
     }
 
     public function transaction()

@@ -152,55 +152,18 @@
     </div>
     
     <div id="testimonial" class="owl-carousel">
+        @foreach($testimonials as $testimonial)
         <div class="dgt-testimonial-item dgt-al-center">
             <div class="dgt-testimonial-avatar"> 
-                <img width="180" height="180" src="{{ asset('/images/avatar-1.png') }}" class="attachment-full size-full img-responsive" alt="">
+                <img width="180" height="180" src="{{ Voyager::image($testimonial->image) }}" class="attachment-full size-full img-responsive" alt="">
             </div>
             <div class="dgt-testimonial-info">
-                <p style="color: #ffffff">Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu. Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu. Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu</p>
-                <h3 style="color: #ffffff">NK Hoài</h3>
-                <h4>Types Of Cookware Pots And Pans</h4>
+                <p style="color: #ffffff">{{ $testimonial->testimonial }}</p>
+                <h3 style="color: #ffffff">{{ $testimonial->name }}</h3>
+                <h4>{{ $testimonial->about }}</h4>
             </div>
         </div>
-        <div class="dgt-testimonial-item dgt-al-center">
-            <div class="dgt-testimonial-avatar"> 
-                <img width="180" height="180" src="{{ asset('/images/avatar-2.png') }}" class="attachment-full size-full img-responsive" alt="">
-            </div>
-            <div class="dgt-testimonial-info">
-                <p style="color: #ffffff">Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu. Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu. Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu</p>
-                <h3 style="color: #ffffff">NK Hoài</h3>
-                <h4>Types Of Cookware Pots And Pans</h4>
-            </div>
-        </div>
-        <div class="dgt-testimonial-item dgt-al-center">
-            <div class="dgt-testimonial-avatar"> 
-                <img width="180" height="180" src="{{ asset('/images/avatar-19.jpg') }}" class="attachment-full size-full img-responsive" alt="">
-            </div>
-            <div class="dgt-testimonial-info">
-                <p style="color: #ffffff">Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu. Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu. Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu</p>
-                <h3 style="color: #ffffff">NK Hoài</h3>
-                <h4>Types Of Cookware Pots And Pans</h4>
-            </div>
-        </div><div class="dgt-testimonial-item dgt-al-center">
-            <div class="dgt-testimonial-avatar"> 
-                <img width="180" height="180" src="{{ asset('/images/avatar-20.jpg') }}" class="attachment-full size-full img-responsive" alt="">
-            </div>
-            <div class="dgt-testimonial-info">
-                <p style="color: #ffffff">Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu. Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu. Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu</p>
-                <h3 style="color: #ffffff">NK Hoài</h3>
-                <h4>Types Of Cookware Pots And Pans</h4>
-            </div>
-        </div>
-        <div class="dgt-testimonial-item dgt-al-center">
-            <div class="dgt-testimonial-avatar"> 
-                <img width="180" height="180" src="{{ asset('/images/avatar-1.png') }}" class="attachment-full size-full img-responsive" alt="">
-            </div>
-            <div class="dgt-testimonial-info">
-                <p style="color: #ffffff">Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu. Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu. Đồ ăn ngon, rất hợp khẩu vị. Nấu đúng yêu cầu</p>
-                <h3 style="color: #ffffff">NK Hoài</h3>
-                <h4>Types Of Cookware Pots And Pans</h4>
-            </div>
-        </div>
+        @endforeach
     </div>
 </div>
 @endsection

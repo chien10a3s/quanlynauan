@@ -16,7 +16,7 @@ Route::get('/', 'LandingController@index');
 Route::group(['middleware' => 'admin.user'], function () {
     Route::get('account', 'CustomerController@index');
     Route::get('account/food', 'CustomerController@food');
-    Route::get('account/orderhistory', 'CustomerController@orderHistory');
+    Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
     Route::get('account/transaction', 'CustomerController@transaction');
 
     Route::group(['prefix' => 'meal-daily'], function () {
@@ -54,8 +54,18 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/', 'KitchenController@index')->name('admin.kitchen.index');
             Route::get('/{id}/detail', 'KitchenController@detail')->name('admin.kitchen.detail');
 
-            Route::get('/add', 'KitchenController@add')->name('admin.kitchens.addnew');
-            Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
+//<<<<<<< HEAD
+//<<<<<<< HEAD
+        Route::get('/add/{id}', 'KitchenController@add')->name('admin.kitchens.addnew');
+        Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
+//=======
+//            Route::get('/add', 'KitchenController@add')->name('admin.kitchens.addnew');
+//            Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
+//>>>>>>> 750cd419ffa72cce7ff7accc05eed2ad12f76069
+//=======
+//            Route::get('/add', 'KitchenController@add')->name('admin.kitchens.addnew');
+//            Route::post('/store', 'KitchenController@store')->name('admin.kitchen.store');
+//>>>>>>> f316e9cbee16f97cfad6f623099abbf3d371f6eb
 
             Route::get('/{id}/edit-kitchen', 'KitchenController@edit')->name('admin.kitchen.edit');
             Route::post('/update/{id}', 'KitchenController@update')->name('admin.kitchen.update');

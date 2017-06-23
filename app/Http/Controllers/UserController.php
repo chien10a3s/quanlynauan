@@ -142,7 +142,7 @@ class UserController extends Controller
 
             DailyMeal::insertGetId($data_create_daily_meal);
             return redirect()
-                ->route('admin.user.index')
+                ->route('user.account.orderhistory')
                 ->with([
                     'message' => 'Đăng ký món ăn thành công.',
                     'alert-type' => 'success',
@@ -221,7 +221,7 @@ class UserController extends Controller
                 }
                 DB::commit();
                 return redirect()
-                    ->route('admin.user.index')
+                    ->route('user.account.orderhistory')
                     ->with([
                         'message' => 'Đăng ký món ăn thành công.',
                         'alert-type' => 'success',
@@ -348,7 +348,7 @@ class UserController extends Controller
 
             DailyMeal::where('id', $id)->update($data_create_daily_meal);
             return redirect()
-                ->route('admin.user.index')
+                ->route('user.account.orderhistory')
                 ->with([
                     'message' => 'Cập nhật món ăn thành công.',
                     'alert-type' => 'success',
@@ -429,7 +429,7 @@ class UserController extends Controller
             }
             DB::commit();
             return redirect()
-                ->route('admin.user.index')
+                ->route('user.account.orderhistory')
                 ->with([
                     'message' => 'Đăng ký món ăn thành công.',
                     'alert-type' => 'success',
@@ -458,7 +458,7 @@ class UserController extends Controller
                     DailyMeal::where('id', $id_meal)->delete();
                 }
                 return redirect()
-                    ->route('admin.user.index')
+                    ->route('user.account.orderhistory')
                     ->with([
                         'message' => 'Xóa đăng ký thành công.',
                         'alert-type' => 'success',

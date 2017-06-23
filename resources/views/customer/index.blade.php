@@ -67,10 +67,17 @@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body">
-                                <table class="table table-bordered">
+                                <?php
+                                    $total_money_expected = 0;
+                                ?>
+                                @if($info_meal->is_permission == 1)
+                                    Bạn đã ủy quyền đi chợ và chọn món cho đầu bếp.<br><br>
+                                @else
+                                    <table class="table table-bordered">
                                     @if(count($info_meal->daily_dish) > 0)
                                         <?php
                                         $i = 0;
+                                        $total_money_expected = 0;
                                         ?>
                                         <tr>
                                             <th style="width: 10px">#</th>
@@ -96,7 +103,8 @@
                                                     <td>{{ $item_detai_dish->number }}</td>
                                                     <td>{{ number_format(@$option[$item_detai_dish->id_food]['price']).' vnd' }}</td>
                                                     <?php
-                                                    $detail_dish->forget($key);
+                                                        $detail_dish->forget($key);
+                                                        $total_money_expected += $option[$item_detai_dish->id_food]['price'];
                                                     ?>
                                                     @break;
                                                 @endforeach
@@ -107,6 +115,9 @@
                                             </tr>
                                             @if(count($detail_dish)>0)
                                                 @foreach($detail_dish as $key=>$item_detai_dish)
+                                                    <?php
+                                                        $total_money_expected += $option[$item_detai_dish->id_food]['price'];
+                                                    ?>
                                                     <tr>
                                                         <td>{{ @$option[$item_detai_dish->id_food]['name'] }}</td>
                                                         <td>{{ $item_detai_dish->number }}</td>
@@ -124,17 +135,23 @@
                                                 <td class="text-right" colspan="5"><strong>Tổng tiền dự tính</strong>
                                                 </td>
                                                 <td colspan="2">
-                                                    <strong>{{ number_format($info_meal->number_of_meals * $info_meal->money_meals) }}
-                                                        vnd</strong></td>
+                                                    @if($info_meal->is_permission == 0)
+                                                        <strong>{{ number_format($total_money_expected) }} vnd</strong></td>
+                                                    @else
+                                                        <strong>{{ number_format($info_meal->number_of_meals * $info_meal->money_meals) }} vnd</strong><br><br>
+                                                    </td>
+                                                    @endif
                                             </tr>
                                             <tr>
                                                 <td class="text-right" colspan="5"><strong>Tổng tiền thực</strong></td>
-                                                <td colspan="2"><strong>{{ number_format($info_meal->total_meal_chef) }}
-                                                        vnd</strong></td>
+                                                <td colspan="2">
+                                                    <strong>{{ number_format($info_meal->total_meal_chef) }} vnd</strong>
+                                                </td>
                                             </tr>
                                             </tfoot>
                                         @endif
                                 </table>
+                                @endif
                             </div>
                         </div>
                         <!-- /.box -->

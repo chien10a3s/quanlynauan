@@ -84,7 +84,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div class="page-content container-fluid panel">
+    <div class="page-content container-fluid panel" style="padding: 50px">
         <div class="row">
             <h1 class="page-title" style="border-bottom: 1px solid #eee;padding-bottom: 15px">
                 <i class="voyager-list"></i> Đăng ký món ăn trong ngày
@@ -314,7 +314,7 @@
 
         function format(state) {
             if (!state.id) return state.text; // optgroup
-            return "<img class='flag' src='http://os.dev/img-login/so_logo.png'>" + state.text;
+            return "" + state.text;
         }
     </script>
 @stop

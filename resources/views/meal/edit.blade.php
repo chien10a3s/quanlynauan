@@ -58,7 +58,7 @@
     </style>
 @stop
 @section('main-content')
-    <div class="page-content container-fluid panel">
+    <div class="page-content container-fluid panel" style="padding: 50px">
         <div class="row">
             @if(Session::has('message'))
                 <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
@@ -291,7 +291,7 @@
         });
         function format(state) {
             if (!state.id) return state.text; // optgroup
-            return "<img class='flag' src='http://os.dev/img-login/so_logo.png'>" + state.text;
+            return "" + state.text;
         }
     </script>
 @stop

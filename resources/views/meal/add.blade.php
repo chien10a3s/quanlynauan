@@ -87,7 +87,7 @@
     <div class="page-content container-fluid panel" style="padding: 50px">
         <div class="row">
             <h1 class="page-title" style="border-bottom: 1px solid #eee;padding-bottom: 15px">
-                <i class="voyager-list"></i> Đăng ký món ăn trong ngày
+                Đăng ký món ăn trong ngày
                 <a href="#" class="btn btn-success pull-right" data-toggle="modal" title="Chọn thực đơn" onclick="select_meal_list()">
                     <i class="voyager-plus"></i> Chọn từ danh sách
                 </a>

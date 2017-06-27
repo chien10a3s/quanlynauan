@@ -64,7 +64,7 @@
                 <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
             @endif
             <h1 class="page-title" style="border-bottom: 1px solid #eee;padding-bottom: 15px">
-                <i class="voyager-list"></i> Đăng ký món ăn trong ngày
+                Chỉnh sửa đăng ký món ăn trong ngày {{ $info_meal->day }}
             </h1>
             <form id="my_form" action="{{ route('admin.user.update',$info_meal->id) }}" method="post">
                 {{ csrf_field() }}

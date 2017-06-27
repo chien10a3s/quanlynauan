@@ -7,7 +7,7 @@
     </h1>
     @include('chef.navbar')
     <style>
-        a, a:hover{
+        a, a:hover {
             text-decoration: none !important;
         }
     </style>
@@ -47,7 +47,7 @@
                                             @endif
                                         </td>
                                         {{--<td>--}}
-                                            {{--{{ @$item['count_meal'] }}--}}
+                                        {{--{{ @$item['count_meal'] }}--}}
                                         {{--</td>--}}
                                         <td>
                                             <a href="{{ route('admin.chef.meal', $item['id']) }}"

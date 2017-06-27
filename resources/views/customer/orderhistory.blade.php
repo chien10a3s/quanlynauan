@@ -3,44 +3,35 @@
 @section('main-content')
     <div class="page-content container">
         <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-                <li class="{{ Request::is('account') ? 'active' : '' }}"><a href="{{ url('account') }}">Thông tin
-                        chung</a></li>
-                <li class="{{ Request::is('account/food') ? 'active' : '' }}"><a href="{{ url('account/food') }}">Thức
-                        ăn của tôi</a></li>
-                <li class="{{ Request::is('account/orderhistory') ? 'active' : '' }}"><a
-                            href="{{ url('account/orderhistory') }}">Lịch sử đặt hàng</a></li>
-                <li class="{{ Request::is('account/transaction') ? 'active' : '' }}"><a
-                            href="{{ url('account/transaction') }}">Lịch sử giao dịch</a></li>
-            </ul>
+            @include('customer.nav')
             <div class="tab-content">
                 <div class="tab-pane active">
                     <div class="row">
                         <form role="form" id="all_order_form">
                             <div class="form-group col-md-3">
                                 <label>Từ ngày</label>
-                                <input type="text" class="form-control" name="txtdoi" placeholder="Order Date"
-                                       data-date-format="dd/mm/yyyy" id="ord_date" maxlength="10">
+                                <input type="text" class="form-control datetimepicker1" name="start_date" placeholder="Order Date"
+                                       data-date-format="dd/mm/yyyy" id="ord_date" maxlength="10" value="{{ @$start_date_begin }}">
                             </div>
                             <div class="form-group col-md-3">
                                 <label>Đến ngày</label>
-                                <input type="text" class="form-control" name="ord_dt_to" placeholder="Order Date"
-                                       data-date-format="dd/mm/yyyy" id="ord_dt_to" maxlength="10">
+                                <input type="text" class="form-control datetimepicker1" name="end_date" placeholder="Order Date"
+                                       data-date-format="dd/mm/yyyy" id="ord_dt_to" maxlength="10" value="{{ @$end_date_begin }}">
                             </div>
 
                             <div class="col-md-3">
                                 <label style="display: block;">&nbsp;</label>
-                                <input type="button" class="btn btn-info" value="Hiển thị">
-
-                            </div>
-                            <div class="col-md-3">
-                                <label style="display: block;">&nbsp;</label>
-                                <a href="{{ route('admin.user.add') }}" class="btn btn-success pull-right">
-                                    <i class="voyager-plus"></i> Thêm mới
-                                </a>
+                                <input type="submit" class="btn btn-info" value="Hiển thị">
 
                             </div>
                         </form>
+                        <div class="col-md-3">
+                            <label style="display: block;">&nbsp;</label>
+                            <a href="{{ route('admin.user.add') }}" class="btn btn-success pull-right">
+                                <i class="voyager-plus"></i> Thêm mới
+                            </a>
+
+                        </div>
                     </div>
                     <table class="table table-bordered">
                         <tr>
@@ -121,6 +112,23 @@
     </div>
 @stop
 
-@section('javascript')
+@section('page-script')
+    {!! Html::style('plugin/datepicker/datepicker3.css') !!}
+    {!! Html::style('plugin/datepicker/bootstrap-datetimepicker.min.css') !!}
+    {!! Html::script('plugin/datepicker/bootstrap-datetimepicker.min.js') !!}
+    <script src="/plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(function () {
+            $('.datetimepicker1').datepicker({
+                todayBtn: true,
+                language: "en",
+                autoclose: true,
+                todayHighlight: true,
+                format: 'dd/mm/yyyy',
+            });
+            $('#all_order_form').submit(function (){
 
+            })
+        });
+    </script>
 @stop

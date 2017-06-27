@@ -43,9 +43,8 @@ class FoodOverController extends Controller
                 ]);
         }
         $data = array();
-        $data['food_over'] = FoodOver::with(['kitchen', 'food'])->where('kitchen_id', $kitchen_id)->get();
+        $data['food_over'] = FoodOver::with(['kitchen', 'food'])->where('kitchen_id', $kitchen_id)->orderBy('date', 'desc')->get();
         $data['food'] = Food::get();
-        $data['kitchen_id'] = $kitchen_id;
         $data['kitchen'] = Kitchen::find($kitchen_id);
         return view('chef.food_over.index', compact('data'));
     }
@@ -59,14 +58,63 @@ class FoodOverController extends Controller
         $data_update['date'] = Carbon::createFromFormat('d/m/Y H:i:s', $request->date);
         $data_update['description'] = $request->description;
         $data_update['status'] = $request->status;
-        if(FoodOver::where('id', $food_over_id)->update($data_update)){
+        $data_update['updated_by'] = Auth::user()->id;
+        if (FoodOver::where('id', $food_over_id)->update($data_update)) {
             return redirect()
                 ->back()
                 ->with([
                     'message' => 'Cập nhật dữ liệu thành công',
                     'alert-type' => 'success',
                 ]);
-        }else{
+        } else {
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Có lỗi xảy ra, vui lòng kiểm tra lại',
+                    'alert-type' => 'error',
+                ]);
+        }
+    }
+
+    public function store($kitchen_id, Request $request)
+    {
+        $data_insert = array();
+        $data_insert['kitchen_id'] = $kitchen_id;
+        $data_insert['food_id'] = $request->food_id;
+        $data_insert['quantity'] = $request->quantity;
+        $data_insert['unit'] = $request->unit;
+        $data_insert['date'] = isset($request->date) ? Carbon::createFromFormat('d/m/Y H:i:s', $request->date) : Carbon::now();
+        $data_insert['description'] = $request->description;
+        $data_insert['status'] = $request->status;
+        $data_insert['created_by'] = Auth::user()->id;
+        $data_insert['updated_by'] = Auth::user()->id;
+        if (FoodOver::create($data_insert)) {
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Thêm dữ liệu thành công',
+                    'alert-type' => 'success',
+                ]);
+        } else {
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Có lỗi xảy ra, vui lòng kiểm tra lại',
+                    'alert-type' => 'error',
+                ]);
+        }
+    }
+
+    public function delete($id)
+    {
+        if (FoodOver::destroy($id)) {
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Xóa dữ liệu thành công',
+                    'alert-type' => 'success',
+                ]);
+        } else {
             return redirect()
                 ->back()
                 ->with([

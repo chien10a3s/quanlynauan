@@ -4,6 +4,9 @@
     <h1 class="page-title">
         <i class="voyager-list"></i> Thức ăn thừa của <span style="color: red;">{{@$data['kitchen']->name}}</span>
     </h1>
+    <a  class="btn btn-success" data-toggle="modal" data-target="#modal_add">
+        <i class="voyager-plus"></i> Thêm thức ăn thừa
+    </a>
     <link rel="stylesheet" type="text/css"
           href="{{ voyager_asset('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
     <style>
@@ -82,7 +85,13 @@
                                                title="Sửa"
                                                data-toggle="modal"
                                                data-target="#edit_food_over{{$item->id}}">
-                                                <i class="voyager-edit"></i>
+                                                Sửa
+                                            </a> &nbsp;
+                                            <a class="btn-sm btn-danger" style="cursor: pointer;"
+                                               title="Sửa"
+                                               data-toggle="modal"
+                                               data-target="#delete_food_over{{$item->id}}">
+                                                Xóa
                                             </a> &nbsp;
                                             <div class="modal fade" id="edit_food_over{{$item->id}}" role="dialog"
                                                  tabindex="1">
@@ -107,7 +116,7 @@
                                                                     <select class="form-control" name="food_id" required>
                                                                         <option value="">Chọn thực phẩm</option>
                                                                         @foreach($data['food'] as $food)
-                                                                            <option value="{{$food->id}}" @if($item->food_id == $item->id) selected @endif>{{$food->name}} ({{$food->quantity}} {{$food->quantity}} - Đơn giá {{$food->price}})</option>
+                                                                            <option value="{{$food->id}}" @if($item->food_id == $food->id) selected @endif>{{$food->name}} ({{$food->quantity}} {{$food->quantity}} - Đơn giá {{$food->price}})</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
@@ -133,7 +142,7 @@
                                                             <div class="form-group col-md-12">
                                                                 <label class="control-label col-md-4">Ghi chú</label>
                                                                 <div class="col-md-8">
-                                                                    {!! Form::textarea('description', $item->unit, ['class' => 'form-control', 'required'=>true, 'rows' => 5]) !!}
+                                                                    {!! Form::textarea('description', $item->unit, ['class' => 'form-control', 'required'=>true, 'rows' => 3]) !!}
                                                                 </div>
                                                             </div>
                                                             <div class="form-group col-md-12">
@@ -155,12 +164,114 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="modal fade" id="delete_food_over{{$item->id}}" role="dialog"
+                                                 tabindex="1">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header"
+                                                             style="background: #337ab7; color: #fff;">
+                                                            <button type="button" class="close" data-dismiss="modal">
+                                                                &times;
+                                                            </button>
+                                                            <h4 class="modal-title"><i class="voyager-edit"></i> Xóa
+                                                                món {{@$item->food->name}}
+                                                            </h4>
+                                                        </div>
+                                                        {!! Form::model($item, ['route' => ['admin.chef.food-over.delete', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'DELETE']) !!}
+                                                        <div class="modal-body">
+                                                            <div class="form-group col-md-12">
+                                                                Bạn có chắc chắn muốn xóa không?
+                                                            </div>
+                                                            <div style="clear: both;"></div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success">Xóa
+                                                            </button>
+                                                            <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                        </div>
+                                                        {!! Form::close() !!}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
                             @endif
                             </tbody>
                         </table>
+                        <div class="modal fade" id="modal_add" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header"
+                                         style="background: #337ab7; color: #fff;">
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title"><i class="voyager-edit"></i> Thêm thức ăn thừa
+                                        </h4>
+                                    </div>
+                                    {!! Form::open(['route' => ['admin.chef.food-over.store', $data['kitchen']->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PATCH']) !!}
+                                    <div class="modal-body">
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label col-md-4">Chọn thực
+                                                phẩm</label>
+                                            <div class="col-md-8">
+                                                <select class="form-control" name="food_id" required>
+                                                    <option value="">Chọn thực phẩm</option>
+                                                    @foreach($data['food'] as $food)
+                                                        <option value="{{$food->id}}">{{$food->name}} ({{$food->quantity}} {{$food->quantity}} - Đơn giá {{$food->price}})</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label col-md-4">Số lượng</label>
+                                            <div class="col-md-8">
+                                                {!! Form::text('quantity', null, ['class' => 'form-control', 'required'=>true]) !!}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label col-md-4">Đơn vị</label>
+                                            <div class="col-md-8">
+                                                {!! Form::text('unit', null, ['class' => 'form-control', 'required'=>true]) !!}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label col-md-4">Ngày</label>
+                                            <div class="col-md-8">
+                                                {!! Form::text('date', null, ['class' => 'form-control date_time', 'required'=>true]) !!}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label col-md-4">Ghi chú</label>
+                                            <div class="col-md-8">
+                                                {!! Form::textarea('description', null, ['class' => 'form-control', 'required'=>true, 'rows' => 3]) !!}
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label col-md-4">Ngày</label>
+                                            <div class="col-md-8">
+                                                {!! Form::select('status', [0 => 'Đang thừa', 1 => 'Đã hết', 2 => 'Hủy bỏ'], null, ['class' => 'form-control', 'required'=>true]) !!}
+                                            </div>
+                                        </div>
+                                        <div style="clear: both;"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Lưu
+                                        </button>
+                                        <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,7 +286,9 @@
     <!-- DataTables -->
     <script>
         $(document).ready(function () {
-            var table = $('#sample_1').DataTable({"order": []});
+            var table = $('#sample_1').DataTable({
+                "order": []
+            });
             $(table.table().container()).removeClass('form-inline');
             $('.number-format').number(true);
             $('.number-format-edit').number(true);

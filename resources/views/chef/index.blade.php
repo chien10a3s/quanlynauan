@@ -1,9 +1,11 @@
 @extends('voyager::master')
 
 @section('page_header')
+
     <h1 class="page-title">
         <i class="voyager-list"></i> Danh sách bếp
     </h1>
+    @include('chef.navbar')
     <style>
         a, a:hover{
             text-decoration: none !important;
@@ -81,24 +83,17 @@
 
 @section('javascript')
     <script src="/js/jquery-number-master/jquery.number.min.js"></script>
+    <script type="text/javascript" src="{{ voyager_asset('lib/js/bootstrap.min.js') }}"></script>
     <!-- DataTables -->
     <script>
         $(document).ready(function () {
-            $('#sample_1').DataTable({"order": []});
+            $('#sample_1').DataTable({
+                "order": [],
+                "language": {
+                    "emptyTable": "Không có bếp"
+                },
+            });
             $('.number-format').number(true);
         });
-        //        $('td').on('click', '.delete', function (e) {
-        //            var form = $('#delete_form')[0];
-        //
-        //            form.action = parseActionUrl(form.action, $(this).data('id'));
-        //
-        //            $('#delete_modal').modal('show');
-        //        });
-
-        function parseActionUrl(action, id) {
-            return action.match(/\/[0-9]+$/)
-                ? action.replace(/([0-9]+$)/, id)
-                : action + '/' + id;
-        }
     </script>
 @stop

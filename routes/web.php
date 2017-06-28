@@ -13,11 +13,12 @@
 
 Route::get('/', 'LandingController@index');
 
-Route::group(['middleware' => 'admin.user'], function () {
     Route::get('account', 'CustomerController@index');
     Route::get('account/food', 'CustomerController@food');
     Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
     Route::get('account/transaction', 'CustomerController@transaction');
+
+Route::group(['middleware' => 'admin.user'], function () {
 
     Route::group(['prefix' => 'meal-daily'], function () {
         Route::get('/', 'UserController@index')->name('admin.user.index');

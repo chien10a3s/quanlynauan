@@ -76,7 +76,7 @@ class ChefController extends Controller
         $data['meals'] = DailyMeal::with([
             'daily_dish' => function ($query) {
                 $query->where('status', 1);
-                $query->with(['detail_dish']);
+                $query->with(['detail_dish.food']);
             }
         ])
             ->where('id_kitchen', $kitchen_id)
@@ -162,9 +162,8 @@ class ChefController extends Controller
                 $query->where('daily_meal_id', $daily_meal_id);
                 $query->with('create_user');
             }])
-            ->where('parent_id', 0)
+//            ->where('parent_id', 0)
             ->where('daily_meal_id', $daily_meal_id)->get();
-
         $data['feedback'] = array();
         foreach ($feedback as $key => $fee){
             $item = array();
@@ -187,7 +186,6 @@ class ChefController extends Controller
             }
             $data['feedback'][$key] = $item;
         }
-
         $data['count_feedback'] = count(Feeback::where('daily_meal_id', $daily_meal_id)->get());
         return view('chef.feedback', compact('data'));
     }

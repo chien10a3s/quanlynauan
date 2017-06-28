@@ -36,46 +36,39 @@
                             </thead>
                             <tbody>
                             @foreach($all_spices as $item_user)
-                                @if(count($item_user) > 0)
-                                    <?php $i = 0 ?>
-                                    @if(count($item_user->kitchen))
-                                        @foreach($item_user->kitchen as $item_kitchen)
-                                            @if(count($item_kitchen->food))
-                                                @foreach($item_kitchen->food as $item_food)
-                                                    <tr>
-                                                        <td>{{ $i+=1 }}</td>
-                                                        <td>{{ $item_food->name }}</td>
-                                                        <td>{{ $item_food->unit }}</td>
-                                                        <td>
-                                                            @if($item_food->pivot->status == 1)
-                                                                <span class="label label-default">Sắp hết</span>
-                                                            @elseif($item_food->pivot->status == 2)
-                                                                <span class="label label-success">Đang còn</span>
-                                                            @elseif($item_food->pivot->status == 3)
-                                                                <span class="label label-danger">Hủy không dùng</span>
-                                                            @else
-                                                                <span class="label label-danger">Hết</span>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            {{--<a href="{{ route('supplier.edit',$item_food->pivot->id) }}"--}}
-                                                               {{--title="Chỉnh sửa"--}}
-                                                               {{--class="btn-sm btn-primary pull-right edit">--}}
-                                                                {{--<i class="voyager-edit"></i> Sửa--}}
-                                                            {{--</a>--}}
+                                @foreach($item_user->kitchen as $item_kitchen)
+                                    @foreach($item_kitchen->food as $item_food)
+                                        <tr>
+                                            <td>{{ $i+=1 }}</td>
+                                            <td>{{ $item_food->name }}</td>
+                                            <td>{{ $item_food->unit }}</td>
+                                            <td>
+                                                @if($item_food->pivot->status == 1)
+                                                    <span class="label label-default">Sắp hết</span>
+                                                @elseif($item_food->pivot->status == 2)
+                                                    <span class="label label-success">Đang còn</span>
+                                                @elseif($item_food->pivot->status == 3)
+                                                    <span class="label label-danger">Hủy không dùng</span>
+                                                @else
+                                                    <span class="label label-danger">Hết</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{--<a href="{{ route('supplier.edit',$item_food->pivot->id) }}"--}}
+                                                {{--title="Chỉnh sửa"--}}
+                                                {{--class="btn-sm btn-primary pull-right edit">--}}
+                                                {{--<i class="voyager-edit"></i> Sửa--}}
+                                                {{--</a>--}}
 
-                                                            <div class="btn-sm btn-danger pull-right delete"
-                                                                 data-id="{{ $item_food->pivot->id }}"
-                                                                 id="delete-{{ $item_food->pivot->id }}">
-                                                                <i class="voyager-trash"></i> Xóa
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                @endif
+                                                <div class="btn-sm btn-danger pull-right delete"
+                                                     data-id="{{ $item_food->pivot->id }}"
+                                                     id="delete-{{ $item_food->pivot->id }}">
+                                                    <i class="voyager-trash"></i> Xóa
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
                             @endforeach
                             </tbody>
                         </table>

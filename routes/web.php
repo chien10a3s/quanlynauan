@@ -12,13 +12,22 @@
 */
 
 Route::get('/', 'LandingController@index');
-
+Route::get('foo', function () {
+    return view('customer.test_search');
+});
 Route::group(['middleware' => 'admin.user'], function () {
     Route::get('account', 'CustomerController@index');
     Route::get('account/food', 'CustomerController@food');
     Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
     Route::get('account/transaction', 'CustomerController@transaction');
-    require(__DIR__ . '/spices/spices.php');
+//<<<<<<< HEAD
+//    require(__DIR__ . '/spices/spices.php');
+//=======
+
+    Route::get('account/spices', 'SpicesController@index')->name('admin.spices.index');
+    Route::delete('account/spices/delete/{id_food?}', 'SpicesController@delete')->name('admin.spices.delete');
+
+//>>>>>>> 1cf5b695ebc3570d6d12b306b5a24619f454749e
     Route::group(['prefix' => 'meal-daily'], function () {
         Route::get('/', 'UserController@index')->name('admin.user.index');
         Route::get('/{id}/view', 'UserController@view')->name('admin.user.view');

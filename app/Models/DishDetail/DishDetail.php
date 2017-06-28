@@ -2,6 +2,7 @@
 
 namespace App\Models\DishDetail;
 
+use App\Food;
 use Illuminate\Database\Eloquent\Model;
 
 class DishDetail extends Model
@@ -35,5 +36,14 @@ class DishDetail extends Model
     {
         parent::__construct($attributes);
         $this->table = 'detail_dishs';
+    }
+
+    /**
+     * Get detail food
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function food()
+    {
+        return $this->hasOne(Food::class, 'id', 'food_id');
     }
 }

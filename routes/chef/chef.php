@@ -17,7 +17,12 @@ Route::group(['prefix' => 'chefs'], function(){
 
     Route::group(['prefix' => 'food-over'], function(){
         Route::get('{kitchen_id}', 'FoodOverController@index')->name('admin.chef.food-over');
+        Route::patch('store-food-over/{kitchen_id}', 'FoodOverController@store')->name('admin.chef.food-over.store');
         Route::put('update-food-over/{food_over_id}', 'FoodOverController@update')->name('admin.chef.food-over.update');
+        Route::delete('delete-food-over/{food_over_id}', 'FoodOverController@delete')->name('admin.chef.food-over.delete');
     });
 
+    Route::group(['prefix' => 'dashboard'], function(){
+        Route::get('/', 'DashboardChefController@index')->name('admin.chef.dashboard.index');
+    });
 });

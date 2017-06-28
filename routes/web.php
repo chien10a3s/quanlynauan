@@ -18,7 +18,7 @@ Route::group(['middleware' => 'admin.user'], function () {
     Route::get('account/food', 'CustomerController@food');
     Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
     Route::get('account/transaction', 'CustomerController@transaction');
-
+    require(__DIR__ . '/spices/spices.php');
     Route::group(['prefix' => 'meal-daily'], function () {
         Route::get('/', 'UserController@index')->name('admin.user.index');
         Route::get('/{id}/view', 'UserController@view')->name('admin.user.view');

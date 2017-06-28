@@ -1,10 +1,13 @@
 @extends('layouts.1column')
 
 @section('main-content')
+    @if(Session::has('message'))
+        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('message') }}</p>
+    @endif
     <div class="page-content container">
         <div class="nav-tabs-custom">
         	<ul class="nav nav-tabs">
-        		<li class="{{ Request::is('account') ? 'active' : '' }}"><a href="{{ url('account') }}">Thông tin chung</a></li>
+        		<li class="{{ Request::is('account') ? 'active' : '' }}"><a href="{{ route() }}">Thông tin chung</a></li>
                 <li class="{{ Request::is('account/food') ? 'active' : '' }}"><a href="{{ url('account/food') }}">Thức ăn của tôi</a></li>
         		<li class="{{ Request::is('account/orderhistory') ? 'active' : '' }}"><a href="{{ url('account/orderhistory') }}">Lịch sử đặt hàng</a></li>
                 <li class="{{ Request::is('account/transaction') ? 'active' : '' }}"><a href="{{ url('account/transaction') }}">Lịch sử giao dịch</a></li>

@@ -23,6 +23,7 @@ Route::group(['prefix' => 'chefs'], function(){
     });
 
     Route::group(['prefix' => 'dashboard'], function(){
-        Route::get('/', 'DashboardChefController@index')->name('admin.chef.dashboard.index');
+        Route::get('meal', 'DashboardChefController@meal')->name('admin.chef.dashboard.meal');
+        Route::get('food', 'DashboardChefController@food')->name('admin.chef.dashboard.food');
     });
 });

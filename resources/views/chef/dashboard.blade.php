@@ -3,7 +3,7 @@
 @section('page_header')
 
     <h1 class="page-title">
-        <i class="voyager-calendar"></i> Ngày hôm nay có gì?
+        <i class="voyager-calendar"></i> Ngày hôm nay có 3 hóa đơn
     </h1>
     @include('chef.navbar')
     <style>
@@ -18,10 +18,10 @@
         <div class="col-md-12">
             <div class="panel panel-bordered">
                 <div class="panel-body">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Hôm nay có 3 hóa đơn</h3>
-                    </div>
-                    <!-- /.box-header -->
+                {{--<div class="box-header with-border">--}}
+                {{--<h3 class="box-title">Hôm nay có 3 hóa đơn</h3>--}}
+                {{--</div>--}}
+                <!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered" id="sample_1">
                             <thead>
@@ -34,42 +34,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><b>Bếp số 2</b></td>
-                                <td>Nguyễn Xuân Tiến</td>
-                                <td>Số 2, ngõ 59 Láng Hạ, Ba Đình, Hà Nội</td>
-                                <td>aa</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="panel-body">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Hôm nay có 3 hóa đơn</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <table class="table table-bordered" id="sample_1">
-                            <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th><b>Tên bếp</b></th>
-                                <th>Tài khoản</th>
-                                <th>Địa chỉ</th>
-                                <th>Chi tiết</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><b>Bếp số 2</b></td>
-                                <td>Nguyễn Xuân Tiến</td>
-                                <td>Số 2, ngõ 59 Láng Hạ, Ba Đình, Hà Nội</td>
-                                <td>aa</td>
-                            </tr>
+                            @foreach($data['kitchen'] as $key => $item)
+                                <tr>
+                                    <td>{{@$key++}}</td>
+                                    <td><b>{{$item->name}}</b></td>
+                                    <td>Nguyễn Xuân Tiến</td>
+                                    <td>Số 2, ngõ 59 Láng Hạ, Ba Đình, Hà Nội</td>
+                                    <td>aa</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

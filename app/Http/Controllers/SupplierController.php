@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
 use TCG\Voyager\Facades\Voyager;
+use App\Supplier;
 
 class SupplierController extends Controller
 {

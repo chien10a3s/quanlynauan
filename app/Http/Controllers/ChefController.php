@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CommonHelper;
 use App\Models\DailyMeal\DailyMeal;
 use App\Models\Feedback\Feeback;
 use App\Models\Kitchen\Kitchen;
@@ -75,7 +76,7 @@ class ChefController extends Controller
         $data['meals'] = DailyMeal::with([
             'daily_dish' => function ($query) {
                 $query->where('status', 1);
-                $query->with(['detail_dish']);
+                $query->with(['detail_dish.food']);
             }
         ])
             ->where('id_kitchen', $kitchen_id)
@@ -118,7 +119,10 @@ class ChefController extends Controller
         if (DailyMeal::where('id', $daily_meal_id)->update(['total_meal_chef' => $total_meal_chef])) {
             return redirect()->back()->withErrors('Cập nhật dữ liệu thành công');
         }
-        return redirect()->back()->withErrors('Đã xảy ra lỗi');
+        return redirect()->back()->with([
+            'message' => 'Cập nhật thành công',
+            'alert-type' => 'success',
+        ]);
     }
 
     /**
@@ -135,10 +139,7 @@ class ChefController extends Controller
         } else {
             $day = Carbon::now()->format('Y-m-d');
         }
-//        if(!isset($request->daily_meal_id)){
-//            return redirect()->back()->withErrors('Không tìm thấy phản hồi');
-//        }
-        $daily_meal_id = $request->daily_meal_id;
+        $daily_meal_id = isset($request->daily_meal_id) ? $request->daily_meal_id : 0;
         $data = array();
         $data['kitchen'] = Kitchen::find($kitchen_id);
 
@@ -155,24 +156,52 @@ class ChefController extends Controller
             ->where('day', '=', $day)
             ->where('status', 1)->get();
         $data['daily_meal_id'] = $daily_meal_id;
-        $data['feedback'] = Feeback::with([
+        $feedback = Feeback::with([
             'create_user',
             'child' => function ($query) use ($daily_meal_id) {
                 $query->where('daily_meal_id', $daily_meal_id);
                 $query->with('create_user');
             }])
-            ->where('parent_id', null)
+//            ->where('parent_id', 0)
             ->where('daily_meal_id', $daily_meal_id)->get();
-
+        $data['feedback'] = array();
+        foreach ($feedback as $key => $fee){
+            $item = array();
+            $item['user'] = $fee->create_user->name;
+            $item['id'] = $fee->id;
+            $item['avatar'] = CommonHelper::getPublicImagePath($fee->create_user->avatar);
+            $item['date'] = (isset($fee->date)) ? \Carbon\Carbon::parse($fee->date)->format('H:i d/m/Y') : null;
+            $item['content'] = $fee->content;
+            $item['parent_id'] = $fee->parent_id;
+            $item['child'] = array();
+            foreach ($fee->child as $key2 => $chil){
+                $item_child = array();
+                $item_child['user'] = $chil->create_user->name;
+                $item_child['id'] = $chil->id;
+                $item_child['avatar'] = CommonHelper::getPublicImagePath($chil->create_user->avatar);
+                $item_child['date'] = (isset($chil->date)) ? \Carbon\Carbon::parse($chil->date)->format('H:i d/m/Y') : null;
+                $item_child['content'] = $chil->content;
+                $item_child['parent_id'] = null;
+                $item['child'][$key2] = $item_child;
+            }
+            $data['feedback'][$key] = $item;
+        }
         $data['count_feedback'] = count(Feeback::where('daily_meal_id', $daily_meal_id)->get());
         return view('chef.feedback', compact('data'));
     }
 
+    /**
+     * Save feedback ajax
+     * @param Request $request
+     * @return array
+     */
     public function storeFeedback(Request $request)
     {
         $id_kitchen = $request->id_kitchen;
         $daily_meal_id = $request->daily_meal_id;
         $parent_id = $request->parent_id;
+
+        //Save to db
         $data_insert = array();
         $data_insert['content'] = $request['content'];
         $data_insert['title'] = '';
@@ -187,16 +216,34 @@ class ChefController extends Controller
         $data_insert['updated_at'] = Carbon::now();
         $data_new = Feeback::create($data_insert);
 
+        //Get data new insert to append in view
         $data = array();
-        $data['feedback'] = Feeback::with([
+        $feedback = Feeback::with([
             'create_user',
             'child' => function ($query) use ($daily_meal_id) {
                 $query->where('daily_meal_id', $daily_meal_id);
                 $query->with('create_user');
             }])->find($data_new->id);
+
+        $item = array();
+        $item['user'] = $feedback->create_user->name;
+        $item['id'] = $feedback->id;
+        $item['avatar'] = CommonHelper::getPublicImagePath($feedback->create_user->avatar);
+        $item['date'] = (isset($feedback->date)) ? \Carbon\Carbon::parse($feedback->date)->format('H:i d/m/Y') : null;
+        $item['content'] = $feedback->content;
+        $item['parent_id'] = $parent_id;
+        $data['feedback'] = $item;
+
+        //Count all feedback
+        $data['count_feedback'] = count(Feeback::where('daily_meal_id', $daily_meal_id)->get());
         return $data;
     }
 
+    /**
+     * Spice manager
+     * @param $kitchen_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function spice($kitchen_id)
     {
         $user_kitchen = Auth::user()->kitchen;

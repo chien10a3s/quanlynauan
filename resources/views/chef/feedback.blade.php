@@ -494,6 +494,7 @@
 @section('javascript')
     <!-- DataTables -->
     <script src="/js/jquery-number-master/jquery.number.min.js"></script>
+    <script type="text/javascript" src="{{ voyager_asset('lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script>
 
         $(document).ready(function () {

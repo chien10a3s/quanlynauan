@@ -5,6 +5,8 @@
         <i class="voyager-list"></i> Feedback của <span style="color: red;">{{@$data['kitchen']->name}}
             ngày {{ \Carbon\Carbon::parse($data['date'])->format('d/m/Y') }}</span>
     </h1>
+    <link rel="stylesheet" type="text/css" href="{{ voyager_asset('lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ voyager_asset('lib/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
     <style>
         a, a:hover {
             text-decoration: none !important;

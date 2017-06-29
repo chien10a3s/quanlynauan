@@ -840,7 +840,7 @@ ul.related-post li:after {
 div#content {
     background: #f3f3f3;
     padding-bottom: 40px;
-    padding-top: 25px;
+    padding-top: 40px;
 }
 .dgt-about-info i {
     margin-right: 7px;
@@ -1068,7 +1068,7 @@ span.rte.post-image {
     color: #e52402;
 }
 
-#top-bar {padding-top: 10px;}
+#top-bar {padding-top: 10px;    background: #fff;}
 
 #top-bar ul li:last-child a {
     background: #e52402;
@@ -1079,6 +1079,142 @@ span.rte.post-image {
     line-height: 1.5;
     text-align: justify;
 }
+
+.template-customer-index #content, 
+.template-meal-add #content,
+.template-customer-orderhistory #content,
+.template-customer-transaction #content{
+    background: url(../images/account.jpg) no-repeat center;
+    background-size: cover;
+    position: relative;
+}
+.template-customer-index #content:before, 
+.template-meal-add #content:before,
+.template-customer-orderhistory #content:before,
+.template-customer-transaction #content:before
+{
+    content: "";
+    display: block;
+    background: rgba(255,255,255,0.8);
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.template-meal-add .page-content.container, 
+.template-customer-index .page-content.container,
+.template-customer-orderhistory .page-content.container,
+.template-customer-transaction .page-content.container
+{
+    position: relative;
+    z-index: 99;   
+}
+
+.nav-tabs-custom {
+    background: rgba(255,255,255,0.75);
+    border-radius: 0;
+}
+.nav-tabs-custom > .tab-content, .nav-tabs-custom > .nav-tabs > li.active > a, .nav-tabs-custom > .nav-tabs > li.active:hover > a {
+    background: transparent;
+}
+.box {
+    border-radius: 0;
+    background: rgba(255,255,255,0.6);
+    border-top: 0;
+}
+label.checkbox-inline {
+    margin-top: 17px;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 36px;
+    padding: 5px 10px;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.select2-container .select2-choice {
+    height: 36px !important;
+    line-height: 36px !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+}
+.select2-container .select2-choice .select2-arrow{
+    border-left: 1px solid #ccc !important;
+    border-radius: 0 !important; 
+}
+.td_nguyen_lieu .select2-container {
+    clear: both;
+    display: block;
+}
+.td_cong_thuc, .td_ghi_chu{
+    position: relative;
+    width: 18%;
+}
+tr.tr_mon td:last-child {
+    width: 57px;
+}
+tr.tr_mon td:last-child a+a{
+    margin-top: 8px;
+}
+.td_cong_thuc textarea.form-control, .td_ghi_chu textarea.form-control{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    bottom: 8px;
+    right: 8px;
+    width: auto;
+    overflow: hidden;
+    resize: none;
+}
+.template-meal-add #content .page-content.container {
+    padding: 0 20px 20px;
+    background: #fff;
+}
+#masthead {
+    position: relative;
+    z-index: 999;
+}
+.template-meal-add h3.page-title {
+    line-height: 34px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.template-meal-add .btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    line-height: 20px;
+}
+.nav-tabs-custom > .nav-tabs > li.active {
+    border-top-color: #e52402;
+}
+
+.coppyright-inner p {
+    margin: 10px 0;
+    line-height: 1.4;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media only screen and (max-width: 991px){
     #logo-image {
         float: left;

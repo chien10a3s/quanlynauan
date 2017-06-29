@@ -16,6 +16,30 @@ use App\User;
 
 class CustomerController extends Controller
 {
+    
+    public function dichothu()
+    {
+        if(!Auth::check()){
+            $random_id = strtotime("now");
+            $khach = User::create([
+                'role_id' => 4, 
+                'name' => "Khachhang$random_id", 
+                'email' => "example$random_id@gmail.com", 
+                'avatar' => 'users/default-avatar.png', 
+                'password' => '$2y$10$RKANhAtnpDKKoFL7Y1JBh.8MZORXHfIiNhoB4qVdMlJzJ4QWMhd8O'
+            ]);
+            
+            $userdata = array(
+    		    'email'    => "example$random_id@gmail.com",
+    		    'password' => 'password'
+            );
+    
+            Auth::validate($userdata);
+            Auth::attempt($userdata);
+        }
+        return redirect()->intended('meal-daily/add');
+    }
+    
     public function index()
     {
         $user_kitchen = Auth::user()->kitchen;

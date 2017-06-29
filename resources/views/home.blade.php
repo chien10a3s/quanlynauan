@@ -25,52 +25,9 @@
         </div>
     </div>
 
-    <div class="service">
-		<div class="col-xs-6 col-md-3 service-item">
-			<a href="#">
-				<div class="icon text-center">
-					<i class="icofont icofont-free-delivery"></i>
-				</div>
-				<div class="info">
-					<h3>Miễn phí giao hàng</h3>
-					<span>Đơn hàng 300.000 đ trở lên</span>
-				</div>
-			</a>
-		</div>
-		<div class="col-xs-6 col-md-3 service-item">
-			<a href="#">
-				<div class="icon text-center">
-					<i class="icofont icofont-fast-delivery"></i>
-				</div>
-				<div class="info">
-					<h3>Giao hàng trong ngày</h3>
-					<span>Khi đặt hàng trước 10h sáng</span>
-				</div>
-			</a>
-		</div>
-		<div class="col-xs-6 col-md-3 service-item">
-			<a href="#">
-				<div class="icon text-center">
-					<i class="icofont icofont-checked"></i>
-				</div>
-				<div class="info">
-					<h3>Đảm bảo chất lượng</h3>
-					<span>Sản phẩm đã được kiểm định</span>
-				</div>
-			</a>
-		</div>
-		<div class="col-xs-6 col-md-3 service-item">
-			<a href="#">
-				<div class="icon text-center">
-					<i class="icofont icofont-social-wechat"></i>
-				</div>
-				<div class="info">
-					<h3>Hỗ trợ</h3>
-					<span>Hotline: 1900 636 979</span>
-				</div>
-			</a>
-		</div>
-	</div>
+    
+    {!! Voyager::setting('service') !!}
+    <!--
     <div id="section-2">
         <div class="dgt-custom-heading">
             <span class="dgt-heading-icon">
@@ -105,7 +62,7 @@
             </div>
         </div>
     </div>
-    
+    -->
     <div id="blog" class="vc_row wpb_row vc_row-fluid dgt-bg-inherit">
         <div class="wpb_column vc_column_container vc_col-sm-12">
             <div class="vc_column-inner ">

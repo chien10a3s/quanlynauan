@@ -17,17 +17,22 @@ Route::get('foo', function () {
     return view('customer.test_search');
 });
 
-
-Route::get('account', 'CustomerController@index');
-Route::get('account/food', 'CustomerController@food');
-Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
-Route::get('account/transaction', 'CustomerController@transaction');
+Route::get('blog/{slug}',['as' => 'blog', 'uses' => 'BlogController@show'])->where('slug', '[A-Za-z0-9-_]+');
+Route::get('blog/category/{slug}',['as' => 'post', 'uses' => 'BlogController@showCategory'])->where('slug', '[A-Za-z0-9-_]+');
+Route::get('blog/{cate}/{post}',['as' => 'post', 'uses' => 'BlogController@showWithCategory'])->where('cate', '[A-Za-z0-9-_]+')->where('post', '[A-Za-z0-9-_]+');
+Route::get('pages/{url}',['as' => 'pages', 'uses' => 'PageController@show'])->where('url', '[A-Za-z0-9-_]+');
 
 
 Route::group(['middleware' => 'admin.user'], function () {
 
     Route::get('account/spices', 'SpicesController@index')->name('admin.spices.index');
     Route::delete('account/spices/delete/{id_food?}', 'SpicesController@delete')->name('admin.spices.delete');
+    
+    Route::get('account', 'CustomerController@index');
+    Route::get('di-cho-thu', 'CustomerController@dichothu');
+    Route::get('account/food', 'CustomerController@food');
+    Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
+    Route::get('account/transaction', 'CustomerController@transaction');
 
 
     Route::group(['prefix' => 'meal-daily'], function () {
@@ -51,10 +56,6 @@ Route::group(['middleware' => 'admin.user'], function () {
     });
 });
 
-Route::get('blog/{slug}',['as' => 'blog', 'uses' => 'BlogController@show'])->where('slug', '[A-Za-z0-9-_]+');
-Route::get('blog/category/{slug}',['as' => 'post', 'uses' => 'BlogController@showCategory'])->where('slug', '[A-Za-z0-9-_]+');
-Route::get('blog/{cate}/{post}',['as' => 'post', 'uses' => 'BlogController@showWithCategory'])->where('cate', '[A-Za-z0-9-_]+')->where('post', '[A-Za-z0-9-_]+');
-Route::get('pages/{url}',['as' => 'pages', 'uses' => 'PageController@show'])->where('url', '[A-Za-z0-9-_]+');
 
 
 

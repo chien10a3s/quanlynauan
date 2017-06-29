@@ -4,7 +4,7 @@
         @include('layouts.partials.htmlheader')
     @show
     @yield('header')
-    <body>
+    <body class="template-{{ $view_name }}">
         <div id="fb-root"></div>
         <script>(function(d, s, id) {
           var js, fjs = d.getElementsByTagName(s)[0];

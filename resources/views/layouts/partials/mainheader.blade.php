@@ -1,6 +1,6 @@
 <div id="top-bar">
     <div class="container">
-        <div id="mobile-menu" class="visible-xs"><a class="icon voyager-list" href="#main-menu-mobile"><i class="fa fa-bars" aria-hidden="true"></i> Menu</a></div>
+        <div id="mobile-menu" class="visible-xs"><a class="" href="#main-menu-mobile"><i class="fa fa-bars" aria-hidden="true"></i> Menu</a></div>
         {{ menu('topbar') }}
     </div>
 </div>
@@ -44,7 +44,7 @@
                                 {{ menu('main-navigation') }}
                             </div>
 
-                            <div id="" class="hidden-lg hidden-md hidden-sm">
+                            <div id="main-menu-mobile" class="hidden-lg hidden-md hidden-sm">
                                 {{ menu('main-navigation') }}
                             </div>
 

@@ -6,8 +6,7 @@
     <meta name="description" content="{{ Voyager::setting('description') }}">
     
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css" />
+
     <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/jquery.mmenu.all.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ voyager_asset('lib/css/toastr.min.css') }}">

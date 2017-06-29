@@ -28,7 +28,7 @@ class CommonHelper
                 }
             }
         }else{
-            $image_default = "/img/noimage.jpg?time=1477933214";
+            $image_default = "/images/noimage.jpg?time=1477933214";
         }
         return $image_default;
     }

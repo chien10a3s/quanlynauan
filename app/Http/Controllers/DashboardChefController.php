@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DishDetail\DishDetail;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,11 +51,13 @@ class DashboardChefController extends Controller
         $data = array();
         $data['date'] = Carbon::now();
         $data['kitchen'] = array();
-        $data['kitchen'] = $list_kitchen->kitchen;
         $data['count_meal'] = 0;
         foreach ($list_kitchen->kitchen as $kitchen){
             if(count($kitchen->daily_meal) > 0){
-                $data['count_meal'] += 1;
+                foreach($kitchen->daily_meal as $meal){
+                    $data['count_meal'] += 1;
+                }
+                $data['kitchen'][] = $kitchen;
             }
         }
 //        foreach ($list_kitchen->kitchen as $kitchen) {
@@ -107,6 +110,27 @@ class DashboardChefController extends Controller
 
     public function food()
     {
-
+        $user_kitchen = Auth::user()->kitchen;
+        if (is_null($user_kitchen)) {
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Không có bếp được gán cho tài khoản.',
+                    'alert-type' => 'error',
+                ]);
+        }
+        $kitchen_id_arr = array();
+        foreach ($user_kitchen as $item_kitchen) {
+            $kitchen_id_arr[] = $item_kitchen->id;
+        }
+        $list_food = DishDetail::whereHas('daily_dish', function($query) use ($kitchen_id_arr){
+            $query->whereHas('daily_meal', function($query) use ($kitchen_id_arr){
+                $query->whereIn('id_kitchen', $kitchen_id_arr);
+            });
+        })->with([
+            'food',
+            'daily_dish.daily_meal'
+        ])->get();
+        dd($list_food);
     }
 }

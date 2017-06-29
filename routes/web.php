@@ -25,15 +25,18 @@ Route::get('pages/{url}',['as' => 'pages', 'uses' => 'PageController@show'])->wh
 
 Route::group(['middleware' => 'admin.user'], function () {
 
+
     Route::get('account/spices', 'SpicesController@index')->name('admin.spices.index');
     Route::delete('account/spices/delete/{id_food?}', 'SpicesController@delete')->name('admin.spices.delete');
     
     Route::get('account', 'CustomerController@index');
     Route::get('di-cho-thu', 'CustomerController@dichothu');
+
+    Route::get('account', 'CustomerController@index')->name('dashboard.customer');
+
     Route::get('account/food', 'CustomerController@food');
     Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
     Route::get('account/transaction', 'CustomerController@transaction');
-
 
     Route::group(['prefix' => 'meal-daily'], function () {
         Route::get('/', 'UserController@index')->name('admin.user.index');

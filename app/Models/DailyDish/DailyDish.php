@@ -2,6 +2,7 @@
 
 namespace App\Models\DailyDish;
 
+use App\Models\DailyMeal\DailyMeal;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DishDetail\DishDetail;
 
@@ -48,5 +49,13 @@ class DailyDish extends Model
      */
     public function detail_dish(){
         return $this->hasMany(DishDetail::class, 'id_daily_dish', 'id');
+    }
+
+    /**
+     * Get info daily meal
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function daily_meal(){
+        return $this->belongsTo(DailyMeal::class, 'id_daily_meal', 'id');
     }
 }

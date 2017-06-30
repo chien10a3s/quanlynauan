@@ -34,6 +34,7 @@
             font-size: 13px;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/feedback.css')}}">
 @stop
 @section('content')
     <div class="page-content container-fluid">
@@ -82,15 +83,15 @@
                                                 <i class="voyager-eye"></i>
                                             </a> &nbsp;
                                             @if($item->is_permission == 0)
-                                            <a class="btn-sm btn-success" style="cursor: pointer;"
-                                               title="Nhập số tiền thực tế"
-                                               data-toggle="modal"
-                                               data-target="#total_meal_chef{{$item->id}}">
-                                                <i class="voyager-edit"></i>
-                                            </a>
+                                                <a class="btn-sm btn-success" style="cursor: pointer;"
+                                                   title="Nhập số tiền thực tế"
+                                                   data-toggle="modal"
+                                                   data-target="#total_meal_chef{{$item->id}}">
+                                                    <i class="voyager-edit"></i>
+                                                </a>
                                             @endif
                                             <div class="modal fade" id="detail_meal{{$item->id}}" role="dialog">
-                                                <div class="modal-dialog">
+                                                <div class="modal-dialog modal-lg">
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header"
@@ -133,8 +134,8 @@
                                             </div>
                                             <div class="modal fade" id="total_meal_chef{{$item->id}}" role="dialog">
                                                 <div class="modal-dialog">
-                                                {!! Form::model($item, ['route' => ['admin.chef.meal.update', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PUT']) !!}
-                                                <!-- Modal content-->
+                                                    {!! Form::model($item, ['route' => ['admin.chef.meal.update', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PUT']) !!}
+                                                            <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header"
                                                              style="background: #337ab7; color: #fff;">

@@ -3,7 +3,7 @@
 @section('page_header')
 
     <h1 class="page-title">
-        <i class="voyager-calendar"></i> Ngày hôm nay có {{$data['count_meal']}} hóa đơn
+        <i class="voyager-calendar"></i> Xem danh sách thực phẩm cần mua
     </h1>
     @include('chef.navbar')
     <style>
@@ -22,11 +22,17 @@
         .btn {
             font-size: 13px;
         }
-        .list-meal{
+
+        .list-meal {
             padding: 10px !important;
         }
-        .list-meal:not(:last-child){
+
+        .list-meal:not(:last-child) {
             border-bottom: 1px solid #ddd !important;
+        }
+
+        #sample_1 thead tr th {
+            text-align: center;
         }
     </style>
 @stop
@@ -37,37 +43,54 @@
             <div class="col-md-12">
                 <div class="panel panel-bordered">
                     <div class="panel-body">
-                                <!-- /.box-header -->
+                        {{ Form::open(['route' => ['admin.chef.dashboard.supplier'], 'class' => 'form-horizontal', 'role' => 'form','method' => 'GET', 'style' => 'margin-bottom: 40px']) }}
+                        <div class="input-group col-md-3" style="float: left;">
+                            {{ Form::select('id_supplier', $data['supplier'], null, ['class' => 'form-control', 'placeholder' => 'Chọn danh mục']) }}
+                        </div>
+                        <button type="submit" class="btn btn-success" style="margin-left: 5px; margin-top: 0px;">
+                            Xem
+                        </button>
+                        <a href="{{route('admin.chef.dashboard.food')}}" type="button" class="btn btn-warning" style="margin-left: 5px; margin-top: 0px;">
+                            Xem tất cả
+                        </a>
+                        {{ Form::close() }}
+                        <!-- /.box-header -->
                         <table class="table table-bordered" id="sample_1">
                             <thead>
                             <tr>
                                 <th>STT</th>
-                                <th><b>Tên bếp</b></th>
-                                <th>Tài khoản</th>
-                                <th>Avatar</th>
-                                <th>Địa chỉ</th>
-                                <th>Chi tiết</th>
+                                <th>Tên thực phẩm</th>
+                                <th>Ảnh</th>
+                                <th>Số lượng</th>
+                                <th>Nhà cung cấp</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($data['kitchen'] as $key => $kitchen)
+                            <?php $i = 1 ?>
+                            @foreach($data['food'] as $id_food => $food)
                                 <tr>
-                                    <td>{{@$key+1}}</td>
-                                    <td><b>{{@$kitchen->name}}</b></td>
-                                    <td><span class="number-format">{{@$kitchen->money}}</span></td>
+                                    <td>{{@$i++}}</td>
+                                    <td><b>{{@$food['name']}}</b></td>
                                     <td style="text-align: center;">
                                         <img class="img-circle" style="width: 30px; height: 30px;"
-                                             src="{{ asset( \App\Helpers\CommonHelper::getPublicImagePath($kitchen->avatar) ) }}">
+                                             src="{{ asset( \App\Helpers\CommonHelper::getPublicImagePath($food['image']) ) }}">
                                     </td>
-                                    <td>{{@$kitchen->address}}</td>
+                                    <td>
+                                        - {{@$food['total_number']}} {{$food['unit']}} <br>
+                                        - <span class="number-format">{{$food['price']}}</span> VND/{{$food['unit']}}
+                                    </td>
+                                    <td>
+                                        {{@$food['supplier_name']}}
+                                    </td>
                                     <td>
                                         <a class="btn-sm btn-warning" style="cursor: pointer;"
                                            title="Xem chi tiết thực đơn"
                                            data-toggle="modal"
-                                           data-target="#detail_meal{{@$kitchen->id}}">
+                                           data-target="#detail_meal{{@$id_food}}">
                                             <i class="voyager-eye"></i>
                                         </a> &nbsp;
-                                        <div class="modal fade" id="detail_meal{{@$kitchen->id}}" role="dialog">
+                                        <div class="modal fade" id="detail_meal{{@$id_food}}" role="dialog">
                                             <div class="modal-dialog">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
@@ -76,40 +99,17 @@
                                                         <button type="button" class="close" data-dismiss="modal">
                                                             &times;
                                                         </button>
-                                                        <h4 class="modal-title"><i class="voyager-eye"></i> Danh sách
-                                                            thực
-                                                            đơn của {{@$kitchen->name}}
+                                                        <h4 class="modal-title"><i class="voyager-eye"></i> Các khách
+                                                            hàng đã đặt {{@$food['name']}}
                                                         </h4>
                                                     </div>
                                                     <div class="modal-body">
-                                                        @if(count($kitchen->daily_meal) > 0)
-                                                            @foreach($kitchen->daily_meal as $key_meal => $item)
-                                                                @if(count($item->daily_dish) > 0)
-                                                                    <div class="list-meal">
-                                                                        <h4>Thực đơn thứ {{$key_meal+1}}</h4>
-                                                                        @foreach($item->daily_dish as $dish)
-                                                                            <div class="item-meal"
-                                                                                 style="padding-left: 10px;">
-                                                                                <h5>- Món ăn: {{$dish->name}}</h5>
-                                                                            <span><i>&nbsp;(Lưu
-                                                                                    ý: {{$dish->cooking_note}}
-                                                                                    )</i></span> <br>
-
-                                                                                @if(count($dish->detail_dish) > 0)
-                                                                                    @foreach($dish->detail_dish as $detail)
-                                                                                        + {{$detail->number}} {{$detail->unit}} {{@$detail->food->name}}
-                                                                                        (Đơn giá: <span
-                                                                                                class="number-format">{{$detail->money}}</span>
-                                                                                        VND) <br>
-                                                                                    @endforeach
-                                                                                @endif
-                                                                            </div>
-                                                                        @endforeach
-                                                                    </div>
-                                                                @endif
-                                                            @endforeach
-                                                        @endif
-
+                                                        @foreach($food['kitchen'] as $key_kitchen => $kitchen)
+                                                            <h3>{{$kitchen->name}}</h3>
+                                                                &nbsp;+ Tài khoản: <span class="number-format">{{@$kitchen->money}}</span> VND <br>
+                                                                &nbsp;+ Địa chỉ: <span>{{@$kitchen->address}}</span> <br>
+                                                                &nbsp;+ Số lượng đặt mua: <span>{{@$food['number'][$key_kitchen]}}</span> {{$food['unit']}} <br>
+                                                        @endforeach
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default"

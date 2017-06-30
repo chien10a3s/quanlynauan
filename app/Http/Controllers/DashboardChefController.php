@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CommonHelper;
 use App\Models\DishDetail\DishDetail;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardChefController extends Controller
 {
@@ -36,7 +38,7 @@ class DashboardChefController extends Controller
         $user_kitchen = Auth::user()->kitchen;
         $list_kitchen = User::with(['kitchen.daily_meal' => function ($query) use ($day) {
             $query->where('day', $day);
-            $query->with('daily_dish.detail_dish');
+            $query->with('daily_dish.detail_dish.food');
         }])->find(Auth::user()->id);
         if (is_null($list_kitchen->kitchen)) {
             return redirect()
@@ -52,9 +54,9 @@ class DashboardChefController extends Controller
         $data['date'] = Carbon::now();
         $data['kitchen'] = array();
         $data['count_meal'] = 0;
-        foreach ($list_kitchen->kitchen as $kitchen){
-            if(count($kitchen->daily_meal) > 0){
-                foreach($kitchen->daily_meal as $meal){
+        foreach ($list_kitchen->kitchen as $kitchen) {
+            if (count($kitchen->daily_meal) > 0) {
+                foreach ($kitchen->daily_meal as $meal) {
                     $data['count_meal'] += 1;
                 }
                 $data['kitchen'][] = $kitchen;
@@ -111,6 +113,7 @@ class DashboardChefController extends Controller
     public function food()
     {
         $user_kitchen = Auth::user()->kitchen;
+        $day = Carbon::now()->format('Y-m-d');
         if (is_null($user_kitchen)) {
             return redirect()
                 ->back()
@@ -123,14 +126,38 @@ class DashboardChefController extends Controller
         foreach ($user_kitchen as $item_kitchen) {
             $kitchen_id_arr[] = $item_kitchen->id;
         }
-        $list_food = DishDetail::whereHas('daily_dish', function($query) use ($kitchen_id_arr){
-            $query->whereHas('daily_meal', function($query) use ($kitchen_id_arr){
-                $query->whereIn('id_kitchen', $kitchen_id_arr);
+
+        $list_food = DishDetail::whereHas('daily_dish', function ($query) use ($kitchen_id_arr, $day) {
+            $query->whereHas('daily_meal', function ($query) use ($kitchen_id_arr, $day) {
+                $query->where('day', $day)->whereIn('id_kitchen', $kitchen_id_arr);
             });
         })->with([
             'food',
-            'daily_dish.daily_meal'
+            'daily_dish.daily_meal.kitchen'
         ])->get();
-        dd($list_food);
+
+        //Group food by id
+        $all_food_id = array();
+        foreach ($list_food as $food){
+            $all_food_id[$food->id_food][] = $food;
+        }
+
+        //Get all data food
+        $group_food = array();
+        foreach ($all_food_id as $id_food => $foods){
+            $item = array();
+            foreach ($foods as $key_food => $food){
+                $item['name'] = $food->food->name;
+                $item['description'] = $food->food->description;
+                $item['image'] = CommonHelper::getPublicImagePath($food->food->image);
+                $item['unit'] = $food->unit;
+                $item['number'][] = $food->number;
+            }
+            $item['total_number'] = array_sum($item['number']);
+            $item['info'] = $foods;
+            $group_food[$id_food] = $item;
+        }
+        dd($group_food);
+        return view('chef.dashboard', compact('data'));
     }
 }

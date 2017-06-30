@@ -37,9 +37,6 @@
             <div class="col-md-12">
                 <div class="panel panel-bordered">
                     <div class="panel-body">
-                        {{--<div class="box-header with-border">--}}
-                        {{--<h3 class="box-title">Hôm nay có 3 hóa đơn</h3>--}}
-                        {{--</div>--}}
                                 <!-- /.box-header -->
                         <table class="table table-bordered" id="sample_1">
                             <thead>

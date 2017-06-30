@@ -64,6 +64,7 @@
                                                     <td>{{ $number_of_meals }}</td>
                                                     <td class="text-center">
                                                         <a href="{{ route('admin.user.view',$item_daily_meal->id) }}" class="btn btn-success btn-sm">Xem chi tiết</a>
+                                                        <a href="#" class="btn btn-primary btn-sm" onclick="comment({{$item_daily_meal->id}})">Comment</a>
                                                         @if(\Carbon\Carbon::now()->timestamp < Carbon\Carbon::createFromFormat('Y-m-d H:i:s',\Carbon\Carbon::parse($item_daily_meal->day)->format('Y-m-d')."09:00:00")->timestamp )
                                                             <a href="{{ route('admin.user.edit',$item_daily_meal->id) }}" class="btn btn-primary btn-sm">Sửa đơn hàng</a>
                                                             <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" title="Xóa"
@@ -98,7 +99,6 @@
                                                     </td>
                                                 </tr>
                                                 <?php
-                                            //                                            continue;
                                             }
                                         }
                                     }
@@ -106,6 +106,26 @@
                             @endforeach
                         @endif
                     </table>
+                    <div class="modal fade" tabindex="-1" id="commment" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title"><img src="/social/comment-icon.png"> Danh sách comment <label class="date_meal"></label> </h4>
+                                </div>
+
+                                <div class="modal-content" id="data_result">
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-right"
+                                            data-dismiss="modal">Đóng
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
                 </div>
             </div>
         </div>
@@ -130,5 +150,19 @@
 
             })
         });
+        function comment(id_meal) {
+            $("#commment").modal();
+            $.ajax({
+                method: "get",
+                async: false,
+                url: '{{route('admin.account.feedback')}}',
+                data: {
+                    'daily_meal_id': id_meal
+                },
+                success: function (data) {
+                    $("#data_result").html(data);
+                }
+            });
+        }
     </script>
 @stop

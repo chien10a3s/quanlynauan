@@ -21,4 +21,12 @@ class Food extends Model
     public function supplier(){
         return $this->hasOne(Supplier::class,'id','id_supplier');
     }
+
+    /**
+     * Get info category of food
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function category(){
+        return $this->hasOne(FoodCategory::class, 'id', 'id_category');
+    }
 }

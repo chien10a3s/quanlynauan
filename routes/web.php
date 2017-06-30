@@ -16,7 +16,7 @@ Route::get('foo', function () {
     return view('customer.test_search');
 });
 Route::group(['middleware' => 'admin.user'], function () {
-    Route::get('account', 'CustomerController@index');
+    Route::get('account', 'CustomerController@index')->name('dashboard.customer');
     Route::get('account/food', 'CustomerController@food');
     Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
     Route::get('account/transaction', 'CustomerController@transaction');

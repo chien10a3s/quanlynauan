@@ -82,14 +82,14 @@
                                                data-target="#detail_meal{{$item->id}}">
                                                 <i class="voyager-eye"></i>
                                             </a> &nbsp;
-                                            @if($item->is_permission == 0)
-                                                <a class="btn-sm btn-success" style="cursor: pointer;"
-                                                   title="Nhập số tiền thực tế"
-                                                   data-toggle="modal"
-                                                   data-target="#total_meal_chef{{$item->id}}">
-                                                    <i class="voyager-edit"></i>
-                                                </a>
-                                            @endif
+
+                                            <a class="btn-sm btn-success" style="cursor: pointer;"
+                                               title="Nhập số tiền thực tế"
+                                               data-toggle="modal"
+                                               data-target="#total_meal_chef{{$item->id}}">
+                                                <i class="voyager-edit"></i>
+                                            </a>
+
                                             <div class="modal fade" id="detail_meal{{$item->id}}" role="dialog">
                                                 <div class="modal-dialog modal-lg">
                                                     <!-- Modal content-->
@@ -132,42 +132,101 @@
 
                                                 </div>
                                             </div>
-                                            <div class="modal fade" id="total_meal_chef{{$item->id}}" role="dialog">
-                                                <div class="modal-dialog">
+                                            @if($item->is_permission == 0)
+                                                <div class="modal fade" id="total_meal_chef{{$item->id}}" role="dialog">
+                                                    <div class="modal-dialog">
                                                     {!! Form::model($item, ['route' => ['admin.chef.meal.update', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PUT']) !!}
-                                                            <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header"
-                                                             style="background: #337ab7; color: #fff;">
-                                                            <button type="button" class="close" data-dismiss="modal">
-                                                                &times;
-                                                            </button>
-                                                            <h4 class="modal-title"><i class="voyager-edit"></i> Nhập số
-                                                                tiền thực tế
-                                                            </h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="form-group col-md-12">
-                                                                <label class="control-label col-md-4">Nhập số tiền thực
-                                                                    tế</label>
-                                                                <div class="col-md-7">
-                                                                    {!! Form::text('total_meal_chef', @$item->total_meal_chef, ['class' => 'form-control number-format-edit', 'required'=>true, 'placeholder' => 'VND', 'maxlength' => "8"]) !!}
-                                                                </div>
+                                                    <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header"
+                                                                 style="background: #337ab7; color: #fff;">
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal">
+                                                                    &times;
+                                                                </button>
+                                                                <h4 class="modal-title"><i class="voyager-edit"></i>
+                                                                    Nhập số
+                                                                    tiền thực tế
+                                                                </h4>
                                                             </div>
-                                                            <div style="clear: both;"></div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-success">Lưu
-                                                            </button>
-                                                            <button type="button" class="btn btn-default"
-                                                                    data-dismiss="modal">Close
-                                                            </button>
-                                                        </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group col-md-12">
+                                                                    <label class="control-label col-md-4">Nhập số tiền
+                                                                        thực
+                                                                        tế</label>
+                                                                    <div class="col-md-7">
+                                                                        {!! Form::text('total_meal_chef', @$item->total_meal_chef, ['class' => 'form-control number-format-edit', 'required'=>true, 'placeholder' => 'VND', 'maxlength' => "8"]) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div style="clear: both;"></div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-success">Lưu
+                                                                </button>
+                                                                <button type="button" class="btn btn-default"
+                                                                        data-dismiss="modal">Close
+                                                                </button>
+                                                            </div>
 
+                                                        </div>
+                                                        {!! Form::close() !!}
                                                     </div>
-                                                    {!! Form::close() !!}
                                                 </div>
-                                            </div>
+                                            @else
+                                                <div class="modal fade" id="total_meal_chef{{$item->id}}" role="dialog">
+                                                    <div class="modal-dialog">
+                                                    {!! Form::model($item, ['route' => ['admin.chef.meal.update', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PUT']) !!}
+                                                    <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header"
+                                                                 style="background: #337ab7; color: #fff;">
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal">
+                                                                    &times;
+                                                                </button>
+                                                                <h4 class="modal-title"><i class="voyager-edit"></i>
+                                                                    Nhập số
+                                                                    tiền thực tế
+                                                                </h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                @if(count($item->daily_dish) > 0)
+                                                                    @foreach($item->daily_dish as $dish)
+                                                                        <div class="item-meal">
+                                                                            @if(count($dish->detail_dish) > 0)
+                                                                                @foreach($dish->detail_dish as $detail)
+                                                                                    + {{$detail->number}} {{$detail->unit}} {{$detail->food->name}}
+                                                                                    (Đơn giá: <span
+                                                                                            class="number-format">{{$detail->money}}</span>
+                                                                                    VND) <br>
+                                                                                @endforeach
+                                                                            @endif
+                                                                        </div>
+                                                                    @endforeach
+                                                                @endif
+                                                                <div class="form-group col-md-12">
+                                                                    <label class="control-label col-md-4">Nhập số tiền
+                                                                        thực
+                                                                        tế</label>
+                                                                    <div class="col-md-7">
+                                                                        {!! Form::text('total_meal_chef', @$item->total_meal_chef, ['class' => 'form-control number-format-edit', 'required'=>true, 'placeholder' => 'VND', 'maxlength' => "8"]) !!}
+                                                                    </div>
+                                                                </div>
+                                                                <div style="clear: both;"></div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-success">Lưu
+                                                                </button>
+                                                                <button type="button" class="btn btn-default"
+                                                                        data-dismiss="modal">Close
+                                                                </button>
+                                                            </div>
+
+                                                        </div>
+                                                        {!! Form::close() !!}
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

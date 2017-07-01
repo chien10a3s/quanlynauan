@@ -139,7 +139,7 @@
             $('#sample_1').DataTable({
                 "order": [],
                 "language": {
-                    "emptyTable": "Không có bếp"
+                    "emptyTable": "Không có thực phẩm"
                 },
             });
             $('.number-format').number(true);

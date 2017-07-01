@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\CommonHelper;
 use App\Models\DailyMeal\DailyMeal;
+use App\Models\DishDetail\DishDetail;
 use App\Models\Feedback\Feeback;
 use App\Models\Kitchen\Kitchen;
 use App\Models\UserKitchen\UserKitchen;
@@ -11,7 +12,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use DB;
 
 class ChefController extends Controller
 {
@@ -77,13 +78,45 @@ class ChefController extends Controller
             'daily_dish' => function ($query) {
                 $query->where('status', 1);
                 $query->with(['detail_dish.food']);
+            },
+            'feedback' => function ($query) use ($kitchen_id) {
+                $query->where('id_kitchen', $kitchen_id)->with(['create_user', 'child']);
             }
-        ])
+        ])->withCount(['feedback' => function ($query) use ($kitchen_id) {
+            $query->where('id_kitchen', $kitchen_id);
+        }])
             ->where('id_kitchen', $kitchen_id)
             ->where('day', '=', $day)
             ->where('status', 1)->get();
         $data['date'] = $day;
         $data['kitchen_id'] = $kitchen_id;
+        //Get feedback of daily meal
+
+        foreach ($data['meals'] as $key_meal => $feedback) {
+            $data['feedback'] = array();
+            foreach ($feedback->feedback as $key => $fee) {
+                $item = array();
+                $item['user'] = $fee->create_user->name;
+                $item['id'] = $fee->id;
+                $item['avatar'] = CommonHelper::getPublicImagePath($fee->create_user->avatar);
+                $item['date'] = (isset($fee->date)) ? \Carbon\Carbon::parse($fee->date)->format('H:i d/m/Y') : null;
+                $item['content'] = $fee->content;
+                $item['parent_id'] = $fee->parent_id;
+                $item['child'] = array();
+                foreach ($fee->child as $key2 => $chil) {
+                    $item_child = array();
+                    $item_child['user'] = $chil->create_user->name;
+                    $item_child['id'] = $chil->id;
+                    $item_child['avatar'] = CommonHelper::getPublicImagePath($chil->create_user->avatar);
+                    $item_child['date'] = (isset($chil->date)) ? \Carbon\Carbon::parse($chil->date)->format('H:i d/m/Y') : null;
+                    $item_child['content'] = $chil->content;
+                    $item_child['parent_id'] = null;
+                    $item['child'][$key2] = $item_child;
+                }
+                $data['feedback'][$key] = $item;
+            }
+            $data['meals'][$key_meal]->feedback = $data['feedback'];
+        }
         return view('chef.meal', compact('data'));
     }
 
@@ -126,6 +159,40 @@ class ChefController extends Controller
     }
 
     /**
+     * Update food when is_permission in table daily_meals = 1
+     * @param Request $request
+     */
+    public function updateMoneyDetail(Request $request, $daily_meal_id)
+    {
+        $data = $request->all();
+        unset($data['_method']);
+        unset($data['_token']);
+
+        $is_commit = true;
+        DB::beginTransaction();
+        try {
+            foreach ($data as $id_detail_dish => $money) {
+                $money = str_replace(',', '', $money);
+                DishDetail::where('id', $id_detail_dish)->update(['money_real' => $money]);
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $is_commit = false;
+            return redirect()->back()->with([
+                'message' => 'Có lỗi xảy ra, vui lòng kiểm tra lại',
+                'alert-type' => 'error',
+            ]);
+        }
+        if ($is_commit) {
+            DB::commit();
+            return redirect()->back()->with([
+                'message' => 'Cập nhật thành công',
+                'alert-type' => 'success',
+            ]);
+        }
+    }
+
+    /**
      * Get all feedback of chef
      * @param Request $request
      * @param $kitchen_id
@@ -165,7 +232,7 @@ class ChefController extends Controller
 //            ->where('parent_id', 0)
             ->where('daily_meal_id', $daily_meal_id)->get();
         $data['feedback'] = array();
-        foreach ($feedback as $key => $fee){
+        foreach ($feedback as $key => $fee) {
             $item = array();
             $item['user'] = $fee->create_user->name;
             $item['id'] = $fee->id;
@@ -174,7 +241,7 @@ class ChefController extends Controller
             $item['content'] = $fee->content;
             $item['parent_id'] = $fee->parent_id;
             $item['child'] = array();
-            foreach ($fee->child as $key2 => $chil){
+            foreach ($fee->child as $key2 => $chil) {
                 $item_child = array();
                 $item_child['user'] = $chil->create_user->name;
                 $item_child['id'] = $chil->id;

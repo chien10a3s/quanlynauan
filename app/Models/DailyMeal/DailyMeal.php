@@ -2,6 +2,7 @@
 
 namespace App\Models\DailyMeal;
 
+use App\Models\Feedback\Feeback;
 use App\Models\Kitchen\Kitchen;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DailyDish\DailyDish;
@@ -50,5 +51,13 @@ class DailyMeal extends Model
      */
     public function kitchen(){
         return $this->hasOne(Kitchen::class, 'id', 'id_kitchen');
+    }
+
+    /**
+     * Get all feedback
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function feedback(){
+        return $this->hasMany(Feeback::class, 'daily_meal_id', 'id');
     }
 }

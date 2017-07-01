@@ -78,60 +78,61 @@
                                 <div class="list-comments">
                                     <div class="content-parent">
                                         @foreach($data['feedback'] as $key => $feedback)
-                                            <div class="comments-item">
-                                                <div class="comment-header">
-                                                    <div class="comments-avatar">
-                                                        <img class="img-responsive img-circle"
-                                                             src="{{ asset( $feedback['avatar'] ) }}">
-                                                    </div>
-                                                    <div class="comments-date">
-                                                        <a>{{@$feedback['user']}}</a>
-                                                        <div style="color: rgb(140, 140, 140); font-size: 1rem; padding-top: 4px;">
-                                                            {{ @$feedback['date'] }}
+                                            @if(empty($feedback['parent_id']))
+                                                <div class="comments-item">
+                                                    <div class="comment-header">
+                                                        <div class="comments-avatar">
+                                                            <img class="img-responsive img-circle"
+                                                                 src="{{ asset( $feedback['avatar'] ) }}">
                                                         </div>
+                                                        <div class="comments-date">
+                                                            <a>{{@$feedback['user']}}</a>
+                                                            <div style="color: rgb(140, 140, 140); font-size: 1rem; padding-top: 4px;">
+                                                                {{ @$feedback['date'] }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
                                                     </div>
-                                                    <div class="clearfix"></div>
-                                                </div>
-                                                <div class="comments-content">
-                                                    {{@$feedback['content']}}
-                                                </div>
-
-                                                <div class="content-child">
-                                                    @foreach($feedback['child'] as $key_child => $child)
-                                                        <div class="comments-item-child">
-                                                            <div class="comment-header">
-                                                                <div class="comments-avatar">
-                                                                    <img class="img-responsive img-circle"
-                                                                         src="{{ asset( $child['avatar'] ) }}">
-                                                                </div>
-                                                                <div class="comments-date">
-                                                                    <a>{{@$child['user']}}</a>
-                                                                    <div style="color: rgb(140, 140, 140); font-size: 1rem; padding-top: 4px;">
-                                                                        {{@$child['date']}}
+                                                    <div class="comments-content">
+                                                        {{@$feedback['content']}}
+                                                    </div>
+                                                    <div class="content-child">
+                                                        @foreach($feedback['child'] as $key_child => $child)
+                                                            <div class="comments-item-child">
+                                                                <div class="comment-header">
+                                                                    <div class="comments-avatar">
+                                                                        <img class="img-responsive img-circle"
+                                                                             src="{{ asset( $child['avatar'] ) }}">
                                                                     </div>
+                                                                    <div class="comments-date">
+                                                                        <a>{{@$child['user']}}</a>
+                                                                        <div style="color: rgb(140, 140, 140); font-size: 1rem; padding-top: 4px;">
+                                                                            {{@$child['date']}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
                                                                 </div>
+                                                                <div class="comments-content">
+                                                                    {{@$child['content']}}
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <div class="comments-item-child-new">
+                                                        <div class="new-comment">
+                                                            <div style="padding: 0 0 12px; display: inline-flex;">
+                                                                <img class="img-responsive img-circle"
+                                                                     src="{{ asset( Auth()->user()->avatar ) }}">
+                                                        <textarea id="0" class="enter-comment"
+                                                                  data-parent_id="{{@$feedback['id']}}"
+                                                                  placeholder="Nhập phản hồi..." rows="1"
+                                                                  cols="60"></textarea>
                                                                 <div class="clearfix"></div>
                                                             </div>
-                                                            <div class="comments-content">
-                                                                {{@$child['content']}}
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                                <div class="comments-item-child-new">
-                                                    <div class="new-comment">
-                                                        <div style="padding: 0 0 12px; display: inline-flex;">
-                                                            <img class="img-responsive img-circle"
-                                                                 src="{{ asset( Auth()->user()->avatar ) }}">
-                                                            <textarea id="0" class="enter-comment"
-                                                                      data-parent_id="{{@$feedback['id']}}"
-                                                                      placeholder="Nhập phản hồi..." rows="1"
-                                                                      cols="60"></textarea>
-                                                            <div class="clearfix"></div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         @endforeach
                                     </div>
                                     <div class="comments-item-new"

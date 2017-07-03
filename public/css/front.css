@@ -1082,6 +1082,8 @@ span.rte.post-image {
 
 .template-customer-index #content, 
 .template-meal-add #content,
+.template-meal-edit #content,
+.template-meal-view #content,
 .template-customer-orderhistory #content,
 .template-customer-transaction #content{
     background: url(../images/account.jpg) no-repeat center;
@@ -1089,7 +1091,9 @@ span.rte.post-image {
     position: relative;
 }
 .template-customer-index #content:before, 
+.template-meal-view #content:before,
 .template-meal-add #content:before,
+.template-meal-edit #content:before,
 .template-customer-orderhistory #content:before,
 .template-customer-transaction #content:before
 {
@@ -1104,12 +1108,22 @@ span.rte.post-image {
 }
 
 .template-meal-add .page-content.container, 
+.template-meal-view .page-content.container,
+.template-meal-edit .page-content.container,
 .template-customer-index .page-content.container,
 .template-customer-orderhistory .page-content.container,
 .template-customer-transaction .page-content.container
 {
     position: relative;
     z-index: 99;   
+}
+
+.template-meal-add #content .page-content.container,
+.template-meal-view #content .page-content.container,
+.template-meal-edit #content .page-content.container
+{
+    padding: 0 20px 20px;
+    background: #fff;
 }
 
 .nav-tabs-custom {
@@ -1171,10 +1185,7 @@ tr.tr_mon td:last-child a+a{
     overflow: hidden;
     resize: none;
 }
-.template-meal-add #content .page-content.container {
-    padding: 0 20px 20px;
-    background: #fff;
-}
+
 #masthead {
     position: relative;
     z-index: 999;

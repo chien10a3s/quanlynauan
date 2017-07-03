@@ -21,42 +21,42 @@
     {{--</a>--}}
 @stop
 @section('main-content')
-    <div class="page-content container-fluid panel">
-        <div class="row">
-            <h1 class="page-title" style="border-bottom: 1px solid #eee;padding-bottom: 15px">
-                <i class="voyager-plus"></i> Đăng ký món ăn trong ngày {{ \Carbon\Carbon::createFromFormat('Y-m-d',$info_meal->day)->format('d/m/Y') }}
-            </h1>
-            <div class="panel panel-bordered col-md-12">
-                <div class="panel-heading col-md-6">
-                    <h3 class="panel-title">Ngày đăng ký <b style="color: red">*</b></h3>
-                    <div class="panel-body">
+    
+    
+
+
+    <div class="page-content container">
+            <h3 class="page-title" style="border-bottom: 1px solid #eee;padding-bottom: 15px">
+                Thực đơn ngày {{ \Carbon\Carbon::createFromFormat('Y-m-d',$info_meal->day)->format('d/m/Y') }}
+            </h3>
+            <br />
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Ngày đăng ký <b style="color: red">*</b></label>
+
                         <input readonly type="text" class="form-control datetimepicker1" required name="date"
                                value="{{ \Carbon\Carbon::createFromFormat('Y-m-d',$info_meal->day)->format('d/m/Y') }}">
-                    </div>
+
                 </div>
-                <div class="panel-heading col-md-6">
-                    <h3 class="panel-title">Số xuất ăn <b style="color: red">*</b></h3>
-                    <div class="panel-body">
+                <div class="col-md-3">
+                    <label>Số xuất ăn <b style="color: red">*</b></label>
+
                         <input readonly type="number" class="form-control" required name="number_of_meals"
                                value="{{$info_meal->number_of_meals}}">
-                    </div>
+
                 </div>
-                <div class="panel-heading col-md-6">
-                    <h3 class="panel-title">Số tiền 1 suất <b style="color: red">*</b></h3>
-                    <div class="panel-body">
+                <div class="col-md-3">
+                    <label>Số tiền 1 suất <b style="color: red">*</b></label>
+                    
                         <input readonly type="number" class="form-control" required name="money"
                                value="{{$info_meal->money_meals}}">
-                    </div>
+            
                 </div>
-                <div class="panel-heading col-md-6" style="padding-bottom: 10px;">
-                    <h3 class="panel-title">Ủy quyền đi chợ</h3>
-                    <div class="panel-body">
-                        <input disabled type="checkbox" @if($info_meal->is_permission == 1) checked @endif class="uyquyen" name="uyquyen" value="1"> Ủy quyền đi chợ,chọn món
-                    </div>
+                <div class="radio col-md-3" style="padding-bottom: 10px;">
+                    <label class="checkbox-inline"><input @if($info_meal->is_permission == 1) checked @endif type="checkbox" class="uyquyen" name="uyquyen" value="1">Ủy quyền đi chợ,chọn món</label> 
                 </div>
-                <div class="panel-heading col-md-12">
-                    <h3 class="panel-title">Món chính</h3>
-                </div>
+            </div>
                 <table class="table table-hover table-bordered" id="main">
                     <thead>
                     <tr>

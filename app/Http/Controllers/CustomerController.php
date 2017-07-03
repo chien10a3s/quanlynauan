@@ -10,6 +10,7 @@ use TCG\Voyager\Models\Category;
 use Illuminate\Support\Str;
 use App\Food;
 use App\Models\DailyMeal\DailyMeal;
+use App\Models\UserKitchen\UserKitchen;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use App\User;
@@ -27,6 +28,14 @@ class CustomerController extends Controller
                 'email' => "example$random_id@gmail.com", 
                 'avatar' => 'users/default-avatar.png', 
                 'password' => '$2y$10$RKANhAtnpDKKoFL7Y1JBh.8MZORXHfIiNhoB4qVdMlJzJ4QWMhd8O'
+            ]);
+            
+            UserKitchen::create([
+                'id_kitchen' => 2,
+                'id_user'    => $khach->id,
+                'role'       => 2,
+                'created_by' => $khach->id,
+                'updated_by' => $khach->id,
             ]);
             
             $userdata = array(
@@ -152,5 +161,10 @@ class CustomerController extends Controller
     {
         return view('customer.transaction');
     }
-
+    
+    public function feedback()
+    {
+        return view('customer.feedback');
+    }
+    
 }

@@ -5,6 +5,7 @@
     <h1 class="page-title">
         <i class="voyager-calendar"></i> Ngày hôm nay có {{$data['count_meal']}} hóa đơn
     </h1>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/components.min.css')}}">
     @include('chef.navbar')
     <style>
         a, a:hover {
@@ -30,6 +31,16 @@
         }
         #sample_1 thead tr th{
             text-align: center;
+        }
+        .flat-blue .nav-tabs{
+            background-color: #f9f9f9 !important;
+        }
+        .page-title{
+            padding-top: 4px;
+            height: 50px;
+        }
+        .page-title > i{
+            top: 5px !important;
         }
     </style>
 @stop

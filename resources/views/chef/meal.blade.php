@@ -98,7 +98,7 @@
                                         <td><span class="number-format">{{ @$item->money_meals }}</span> VND</td>
                                         <td><span class="number-format">{{ @$item->total_meal_chef }}</span> VND</td>
                                         <td>
-                                            @if($item->is_permission == 0)
+                                            @if($item->is_permission == 1)
                                                 <span class="label label-success">Khách hàng tự đi chợ</span>
                                             @else
                                                 <span class="label label-warning">Khách hàng ủy quyền đi chợ</span>

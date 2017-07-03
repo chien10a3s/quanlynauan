@@ -142,7 +142,7 @@
                                                             <div class="form-group col-md-12">
                                                                 <label class="control-label col-md-4">Ghi chú</label>
                                                                 <div class="col-md-8">
-                                                                    {!! Form::textarea('description', $item->unit, ['class' => 'form-control', 'required'=>true, 'rows' => 3]) !!}
+                                                                    {!! Form::textarea('description', $item->description, ['class' => 'form-control', 'required'=>true, 'rows' => 3]) !!}
                                                                 </div>
                                                             </div>
                                                             <div class="form-group col-md-12">

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Food;
 use App\Helpers\CommonHelper;
 use App\Models\DailyMeal\DailyMeal;
 use App\Models\DishDetail\DishDetail;
 use App\Models\Feedback\Feeback;
 use App\Models\Kitchen\Kitchen;
+use App\Models\SpecisUser\SpicesUser;
 use App\Models\UserKitchen\UserKitchen;
 use App\User;
 use Carbon\Carbon;
@@ -334,11 +336,14 @@ class ChefController extends Controller
                     'alert-type' => 'error',
                 ]);
         }
-        $all_spices = User::with(['kitchen' => function ($query) use ($kitchen_id) {
-            return $query->where('id_kitchen', $kitchen_id);
-        }, 'kitchen.food'])
-            ->where('id', Auth::user()->id)
-            ->get();
-        return view('chef.spice', compact('all_spices'));
+//        $all_spices = User::with(['kitchen' => function ($query) use ($kitchen_id) {
+//            return $query->where('id_kitchen', $kitchen_id);
+//        }, 'kitchen.food'])
+//            ->where('id', Auth::user()->id)
+//            ->get();
+        $all_spices = SpicesUser::with(['food_spice'])->where('id_kitchen', $kitchen_id)->get();
+        $data = array();
+        $data['spice'] = $all_spices;
+        return view('chef.spice', compact('data'));
     }
 }

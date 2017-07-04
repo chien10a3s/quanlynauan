@@ -1,11 +1,16 @@
 @extends('layouts.1column')
 
 @section('main-content')
+    <style>
+        .modal-backdrop {
+            position: initial !important;
+        }
+    </style>
     <div class="page-content container">
         <div class="nav-tabs-custom">
             @include('customer.nav')
             <div class="tab-content">
-                <div class="tab-pane active">
+                <div class="active">
                     <div class="row">
                         <form role="form" id="all_order_form">
                             <div class="form-group col-md-3">
@@ -106,30 +111,30 @@
                             @endforeach
                         @endif
                     </table>
-                    <div class="modal fade" tabindex="-1" id="commment" role="dialog">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title"><img src="/social/comment-icon.png"> Danh sách comment <label class="date_meal"></label> </h4>
-                                </div>
-
-                                <div class="modal-content" id="data_result">
-
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default pull-right"
-                                            data-dismiss="modal">Đóng
-                                    </button>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div><!-- /.modal -->
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" id="commment" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><img src="/social/comment-icon.png"> Danh sách comment <label class="date_meal"></label> </h4>
+                </div>
+
+                <div class="modal-content" id="data_result">
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-right"
+                            data-dismiss="modal">Đóng
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @stop
 
 @section('page-script')
@@ -152,6 +157,7 @@
         });
         function comment(id_meal) {
             $("#commment").modal();
+            alert(id_meal);
             $.ajax({
                 method: "get",
                 async: false,

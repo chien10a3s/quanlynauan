@@ -21,7 +21,7 @@ Route::get('blog/{slug}',['as' => 'blog', 'uses' => 'BlogController@show'])->whe
 Route::get('blog/category/{slug}',['as' => 'post', 'uses' => 'BlogController@showCategory'])->where('slug', '[A-Za-z0-9-_]+');
 Route::get('blog/{cate}/{post}',['as' => 'post', 'uses' => 'BlogController@showWithCategory'])->where('cate', '[A-Za-z0-9-_]+')->where('post', '[A-Za-z0-9-_]+');
 Route::get('pages/{url}',['as' => 'pages', 'uses' => 'PageController@show'])->where('url', '[A-Za-z0-9-_]+');
-
+Route::get('di-cho-thu', 'CustomerController@dichothu');
 
 Route::group(['middleware' => 'admin.user'], function () {
 
@@ -30,13 +30,18 @@ Route::group(['middleware' => 'admin.user'], function () {
     Route::delete('account/spices/delete/{id_food?}', 'SpicesController@delete')->name('admin.spices.delete');
     
     Route::get('account', 'CustomerController@index');
-    Route::get('di-cho-thu', 'CustomerController@dichothu');
+    
 
     Route::get('account', 'CustomerController@index')->name('dashboard.customer');
 
     Route::get('account/food', 'CustomerController@food');
     Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
     Route::get('account/transaction', 'CustomerController@transaction');
+    Route::get('account/feedback', 'CustomerController@feedback')->name('admin.account.feedback');
+    // Route::get('account/feedback', 'CustomerController@getFeedback')->name('admin.account.feedback');
+    Route::post('account/feedback-create', 'CustomerController@storeFeedback')->name('admin.account.feedback.store');
+    
+    
 
     Route::group(['prefix' => 'meal-daily'], function () {
         Route::get('/', 'UserController@index')->name('admin.user.index');

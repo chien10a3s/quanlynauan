@@ -10,6 +10,11 @@
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
     <style>
+        .modal-backdrop {
+            position: initial !important;
+        }
+    </style>
+    <style>
         /*
         .select2-container {
             margin-bottom: 10px;

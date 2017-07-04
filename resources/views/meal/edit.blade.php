@@ -58,6 +58,107 @@
     </style>
 @stop
 @section('main-content')
+
+    <div class="page-content container">
+        <h3 class="page-title">
+            Sửa thực đơn ngày {{ $info_meal->day }}
+        </h3>
+        @if(Session::has('message'))
+            <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+        @endif
+        <form id="my_form" action="{{ route('admin.user.update',$info_meal->id) }}" method="post">
+            {{ csrf_field() }}
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Ngày đăng ký <b style="color: red">*</b></label>
+                    <input type="text" class="form-control datetimepicker1" required name="date" value="{{ \Carbon\Carbon::createFromFormat('Y-m-d',$info_meal->day)->format('d/m/Y') }}">
+                </div>
+                <div class="col-md-3">
+                    <label>Số suất ăn <b style="color: red">*</b></label>
+                    <input value="{{$info_meal->number_of_meals}}" type="number" class="form-control" required name="number_of_meals">
+                </div>
+                <div class="col-md-3">
+                    <label>Số tiền 1 suất <b style="color: red">*</b></label>
+                    <input value="{{$info_meal->money_meals}}" type="number" class="form-control" required name="money">
+                </div>
+                <div class="radio col-md-3" style="padding-bottom: 10px;">
+                    <label class="checkbox-inline"><input @if($info_meal->is_permission == 1) checked @endif type="checkbox" class="uyquyen" name="uyquyen" value="1">Ủy quyền đi chợ,chọn món</label> 
+                </div>
+
+                <div class="col-md-12">
+                    <hr/>
+                    <table class="table table-bordered" id="main" style="margin-bottom: 15px;border: 1px solid #eee">
+                        <thead>
+                        <tr>
+                            <th>Tên món</th>
+                            <th>Nguyên liệu</th>
+                            <th>Số lượng</th>
+                            {{--<th>Đơn vị</th>--}}
+                            <th>Công thức</th>
+                            <th>Ghi chú</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody class="mon_an">
+                        <?php $i=0 ?>
+                        <?php $k=0 ?>
+                        @foreach($info_meal->daily_dish as $data_dish)
+                            <?php $i+=1 ?>
+                            <tr class="tr_mon" id="tr_mon">
+                                <td><input type="text" name="tenmon[{{ $i }}]" required class="tenmon form-control" value="{{ $data_dish->name }}"></td>
+
+
+                                    <td class="td_nguyen_lieu">
+                                        @foreach($data_dish->detail_dish as $item_detail_dish_food)
+                                            {!! Form::select('nguyen_lieu['.$i.'][]', $option, $item_detail_dish_food->id_food, ['class' => 'nguyen_lieu']) !!}
+                                        @endforeach
+                                    </td>
+                                    <td class="td_so_luong">
+                                        @foreach($data_dish->detail_dish as $item_detail_dish_number)
+                                            <input style="margin-bottom: 10px" type="number" required name="so_luong[{{ $i }}][]" class="so_luong form-control" value="{{ $item_detail_dish_number->number }}">
+                                        @endforeach
+                                    </td>
+                                    {{--<td class="td_don_vi">--}}
+                                        {{--@foreach($data_dish->detail_dish as $item_detail_dish_unit)--}}
+                                            {{--<input style="margin-bottom: 10px" type="text" required name="don_vi[{{ $i }}][]" class="don_vi form-control"  value="{{ $item_detail_dish_unit->unit }}">--}}
+                                        {{--@endforeach--}}
+                                    {{--</td>--}}
+
+                                <td class="td_cong_thuc"><textarea name="cong_thuc[{{ $i }}]"
+                                                                   class="cong_thuc form-control">{{ $data_dish->cooking_note }}</textarea>
+                                </td>
+                                <td class="td_ghi_chu"><textarea name="ghi_chu[{{ $i }}]" class="ghi_chu form-control">{{ $data_dish->note }}</textarea>
+                                </td>
+                                <td>
+                                    <input type="hidden" class="hidden_meal" value='{{ $i }}'>
+                                    <a href="#" class="btn btn-success" title="Thêm nguyên liệu" id="add_nl">
+                                        <i class="voyager-plus"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger remove_field" title="Xóa">
+                                        <i class="voyager-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <button class="btn btn-info add_button pull-right">Thêm món</button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary ">Cập nhật</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <?php /*
     <div class="page-content container-fluid panel" style="padding: 50px">
         <div class="row">
             @if(Session::has('message'))
@@ -158,6 +259,7 @@
             </form>
         </div>
     </div>
+    */ ?>
 @stop
 
 @section('page-script')

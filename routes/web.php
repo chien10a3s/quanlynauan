@@ -38,8 +38,11 @@ Route::group(['middleware' => 'admin.user'], function () {
     Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
     Route::get('account/transaction', 'CustomerController@transaction');
     Route::get('account/feedback', 'CustomerController@feedback')->name('admin.account.feedback');
-    // Route::get('account/feedback', 'CustomerController@getFeedback')->name('admin.account.feedback');
+//<<<<<<< HEAD
+//    Route::get('account/feedback', 'CustomerController@getFeedback')->name('admin.account.feedback');
     Route::post('account/feedback-create', 'CustomerController@storeFeedback')->name('admin.account.feedback.store');
+//=======
+//>>>>>>> a754064628f92d12d1fb28913f962bec4e689dd7
     
     
 
@@ -93,6 +96,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/duplicate/{food_id}', 'FoodController@duplicate')->name('admin.food.duplicate');
             Route::get('/delete/{food_id}', 'FoodController@delete')->name('admin.food.delete');
         });
+        require(__DIR__ . '/chef/chef.php');
     });
     
     Route::resource('foodcategory', 'FoodCategoryController', ['only' => [

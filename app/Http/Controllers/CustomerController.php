@@ -166,6 +166,7 @@ class CustomerController extends Controller
     
     public function feedback()
     {
+//<<<<<<< HEAD
 //        if (isset($request->day)) {
 //            $request_day = Carbon::createFromFormat('d/m/Y', $request->day);
 //            $day = Carbon::parse($request_day)->format('Y-m-d');
@@ -281,6 +282,9 @@ class CustomerController extends Controller
         //Count all feedback
         $data['count_feedback'] = count(Feeback::where('daily_meal_id', $daily_meal_id)->get());
         return $data;
+//=======
+        return view('customer.feedback');
+//>>>>>>> a754064628f92d12d1fb28913f962bec4e689dd7
     }
     
 }

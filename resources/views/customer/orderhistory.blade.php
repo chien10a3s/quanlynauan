@@ -157,7 +157,6 @@
         });
         function comment(id_meal) {
             $("#commment").modal();
-            alert(id_meal);
             $.ajax({
                 method: "get",
                 async: false,

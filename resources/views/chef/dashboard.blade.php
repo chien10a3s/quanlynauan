@@ -5,6 +5,7 @@
     <h1 class="page-title">
         <i class="voyager-calendar"></i> Ngày hôm nay có {{$data['count_meal']}} hóa đơn
     </h1>
+    <link rel="stylesheet" type="text/css" href="{{asset('css/components.min.css')}}">
     @include('chef.navbar')
     <style>
         a, a:hover {
@@ -27,6 +28,19 @@
         }
         .list-meal:not(:last-child){
             border-bottom: 1px solid #ddd !important;
+        }
+        #sample_1 thead tr th{
+            text-align: center;
+        }
+        .flat-blue .nav-tabs{
+            background-color: #f9f9f9 !important;
+        }
+        .page-title{
+            padding-top: 4px;
+            height: 50px;
+        }
+        .page-title > i{
+            top: 5px !important;
         }
     </style>
 @stop
@@ -89,7 +103,7 @@
                                                             @foreach($kitchen->daily_meal as $key_meal => $item)
                                                                 @if(count($item->daily_dish) > 0)
                                                                     <div class="list-meal">
-                                                                        <h4>Thực đơn thứ {{$key_meal+1}}</h4>
+                                                                        <h3>Thực đơn thứ {{$key_meal+1}}</h3>
                                                                         @foreach($item->daily_dish as $dish)
                                                                             <div class="item-meal"
                                                                                  style="padding-left: 10px;">
@@ -100,7 +114,7 @@
 
                                                                                 @if(count($dish->detail_dish) > 0)
                                                                                     @foreach($dish->detail_dish as $detail)
-                                                                                        + {{$detail->number}} {{$detail->unit}} {{$detail->food->name}}
+                                                                                        + {{$detail->number}} {{$detail->unit}} {{@$detail->food->name}}
                                                                                         (Đơn giá: <span
                                                                                                 class="number-format">{{$detail->money}}</span>
                                                                                         VND) <br>
@@ -142,7 +156,7 @@
             $('#sample_1').DataTable({
                 "order": [],
                 "language": {
-                    "emptyTable": "Không có bếp"
+                    "emptyTable": "Hôm nay không có thực đơn"
                 },
             });
             $('.number-format').number(true);

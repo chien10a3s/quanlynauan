@@ -15,12 +15,14 @@ class SpicesController extends Controller
     {
 
     }
+
     /*
      *  Get all spices of kitchen
      */
-    public function index(){
+    public function index()
+    {
         $user_kitchen = Auth::user()->kitchen;
-        if (count($user_kitchen) <= 0){
+        if (count($user_kitchen) <= 0) {
             return redirect()
                 ->back()
                 ->with([
@@ -28,7 +30,7 @@ class SpicesController extends Controller
                     'alert-type' => 'error',
                 ]);
         }
-        foreach ($user_kitchen as $item_kitchen){
+        foreach ($user_kitchen as $item_kitchen) {
             $id_kitchen = $item_kitchen->id;
         }
         $all_spices = User::with(['kitchen' => function ($query) use ($id_kitchen) {
@@ -36,13 +38,15 @@ class SpicesController extends Controller
         }, 'kitchen.food'])
             ->where('id', Auth::user()->id)
             ->get();
-        return view('spices.index',compact('all_spices'));
+        return view('spices.index', compact('all_spices'));
     }
+
     /*
      *  Get all spices of kitchen
      */
-    public function delete($id){
-        SpicesUser::where('id',$id)->update(['status'=>3]);
+    public function delete($id)
+    {
+        SpicesUser::where('id', $id)->update(['status' => 3]);
         return redirect()
             ->back()
             ->with([

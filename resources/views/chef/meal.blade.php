@@ -313,11 +313,7 @@
                                                                                 (Đơn giá: <span
                                                                                         class="number-format">{{$detail->money}}</span>
                                                                                 VND) <br>
-                                                                                @if(isset($detail->money_real))
-                                                                                    {!! Form::text("$detail->id", @$detail->money_real, ['class' => 'form-control number-format-edit', 'required'=>true, 'placeholder' => 'Đơn giá thực tế (VND)', 'maxlength' => "8"]) !!}
-                                                                                @else
-                                                                                    {!! Form::text("$detail->id", @$detail->money, ['class' => 'form-control number-format-edit', 'required'=>true, 'placeholder' => 'Đơn giá thực tế (VND)', 'maxlength' => "8"]) !!}
-                                                                                @endif
+                                                                                {!! Form::text("$detail->id", @$detail->money_real, ['class' => 'form-control number-format-edit', 'required'=>true, 'placeholder' => 'Đơn giá thực tế (VND)', 'maxlength' => "8"]) !!}
                                                                                 VND<br><br>
                                                                             @endforeach
                                                                         @endif

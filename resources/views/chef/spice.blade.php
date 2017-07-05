@@ -11,6 +11,8 @@
 @stop
 
 @section('css')
+    <link rel="stylesheet" type="text/css" href="{{ voyager_asset('lib/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ voyager_asset('lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
     <style>
         form.delete-form {
             display: inline-block;
@@ -81,7 +83,7 @@
                                                             món {{@$item->food->name}}
                                                         </h4>
                                                     </div>
-                                                    {!! Form::model($item, ['route' => ['admin.chef.food-over.update', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PUT']) !!}
+                                                    {!! Form::model($item, ['route' => ['admin.chef.spice.update', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PUT']) !!}
                                                     <div class="modal-body">
                                                         <div class="form-group col-md-12">
                                                             <label class="control-label col-md-4">Tên gia vị</label>
@@ -108,15 +110,15 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-12">
-                                                            <label class="control-label col-md-4">Ngày</label>
-                                                            <div class="col-md-8">
-                                                                {!! Form::text('date', isset($item->date) ? \Carbon\Carbon::parse($item->date)->format('d/m/y H:i:s') : null, ['class' => 'form-control date_time', 'required'=>true]) !!}
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-md-12">
                                                             <label class="control-label col-md-4">Ghi chú</label>
                                                             <div class="col-md-8">
                                                                 {!! Form::textarea('description', $item->food_spice->description, ['class' => 'form-control', 'required'=>true, 'rows' => 3]) !!}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label class="control-label col-md-4">Nhà cung cấp</label>
+                                                            <div class="col-md-8">
+                                                                {!! Form::select('id_supplier', $data['supplier'], $item->id_supplier, ['class' => 'form-control', 'required'=>true]) !!}
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-12">
@@ -152,6 +154,8 @@
 
 @section('javascript')
     <script type="text/javascript" src="/js/jquery-number-master/jquery.number.min.js"></script>
+    <script type="text/javascript" src="{{ voyager_asset('lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ voyager_asset('lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script>
         $(document).ready(function () {
             var table = $('#sample_1').DataTable({
@@ -160,6 +164,13 @@
             $(table.table().container()).removeClass('form-inline');
             $('.number-format').number(true);
             $('.number-format-edit').number(true);
+            $('.date_time').datetimepicker({
+                todayBtn: false,
+                language: "en",
+                autoclose: true,
+                todayHighlight: true,
+                format: 'dd/mm/yyyy H::i:s'
+            });
         });
     </script>
 @stop

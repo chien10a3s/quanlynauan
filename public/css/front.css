@@ -408,7 +408,7 @@ form#searchform button{
     background: #e52402;
 }
 
-form#searchform button span{ 
+form#searchform button span{
     font-size: 14px;
     color: #fff;
     font-weight: 400;
@@ -1080,20 +1080,22 @@ span.rte.post-image {
     text-align: justify;
 }
 
-.template-customer-index #content, 
+.template-customer-index #content,
 .template-meal-add #content,
 .template-meal-edit #content,
 .template-meal-view #content,
+.template-meal-double #content,
 .template-customer-orderhistory #content,
 .template-customer-transaction #content{
     background: url(../images/account.jpg) no-repeat center;
     background-size: cover;
     position: relative;
 }
-.template-customer-index #content:before, 
+.template-customer-index #content:before,
 .template-meal-view #content:before,
 .template-meal-add #content:before,
 .template-meal-edit #content:before,
+.template-meal-double #content:before,
 .template-customer-orderhistory #content:before,
 .template-customer-transaction #content:before
 {
@@ -1107,20 +1109,22 @@ span.rte.post-image {
     bottom: 0;
 }
 
-.template-meal-add .page-content.container, 
+.template-meal-add .page-content.container,
 .template-meal-view .page-content.container,
 .template-meal-edit .page-content.container,
+.template-meal-double .page-content.container,
 .template-customer-index .page-content.container,
 .template-customer-orderhistory .page-content.container,
 .template-customer-transaction .page-content.container
 {
     position: relative;
-    z-index: 99;   
+    z-index: 99;
 }
 
 .template-meal-add #content .page-content.container,
 .template-meal-view #content .page-content.container,
 .template-meal-edit #content .page-content.container
+.template-meal-double #content .page-content.container
 {
     padding: 0 20px 20px;
     background: #fff;
@@ -1159,7 +1163,7 @@ label.checkbox-inline {
 }
 .select2-container .select2-choice .select2-arrow{
     border-left: 1px solid #ccc !important;
-    border-radius: 0 !important; 
+    border-radius: 0 !important;
 }
 .td_nguyen_lieu .select2-container {
     clear: both;
@@ -1195,8 +1199,18 @@ tr.tr_mon td:last-child a+a{
     border-bottom: 1px solid #eee;
     padding-bottom: 15px;
 }
+.template-meal-double h3.page-title {
+    line-height: 34px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
 
 .template-meal-add .btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    line-height: 20px;
+}
+.template-meal-double .btn {
     padding: 5px 10px;
     font-size: 14px;
     line-height: 20px;
@@ -1261,7 +1275,7 @@ tr.tr_mon td:last-child a+a{
         font-size: 30px;
         letter-spacing: 0;
     }
-    
+
 }
 @media only screen and (max-width: 991px) and (min-width: 768px){
     ul#slide-column-2 li {
@@ -1271,7 +1285,7 @@ tr.tr_mon td:last-child a+a{
         padding-left: 5px;
         padding-right: 5px;
     }
-    
+
     ul#slide-column-2 {
         margin-left: -5px;
         margin-right: -5px;
@@ -1289,7 +1303,7 @@ tr.tr_mon td:last-child a+a{
         font-size: 30px;
         margin-bottom: 0;
     }
-    
+
     .main-menu {
         clear: both;
         text-align: left;
@@ -1306,7 +1320,7 @@ tr.tr_mon td:last-child a+a{
     #mobile-menu {
         float: left;
     }
-    
+
     #mobile-menu a {
         font-size: 14px;
         line-height: 28px;
@@ -1324,7 +1338,7 @@ tr.tr_mon td:last-child a+a{
         padding-top: 10px;
         padding-bottom: 10px;
     }
-    
+
     .dgt-counter-box-inner h4{
         margin: 0;
     }

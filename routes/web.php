@@ -63,6 +63,7 @@ Route::group(['middleware' => 'admin.user'], function () {
         Route::post('/delete/{id}', 'UserController@delete')->name('admin.user.delete');
 
         Route::get('/ajax_get_list_meal', 'UserController@getLisstMeal')->name('admin.user.ajax_get_list_meal');
+        Route::get('/ajax_view_detail', 'UserController@viewDetail')->name('admin.user.ajax_view_detail');
 
     });
 });

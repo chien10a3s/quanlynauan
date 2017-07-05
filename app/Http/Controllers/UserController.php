@@ -68,9 +68,39 @@ class UserController extends Controller
         }
         return view('meal.view', compact('option', 'info_meal'));
     }
-
-    public function add()
+    public function viewDetail(Request $request)
     {
+        $id = Input::get('daily_meal_id');
+        $all_food = Food::with('supplier')->where('status', 1)->get();
+        $info_meal = DailyMeal::with(['daily_dish', 'daily_dish.detail_dish'])->where('id', $id)->first();
+        if (is_null($info_meal)) {
+            return redirect()
+                ->back()
+                ->with([
+                    'message' => 'Không có bữa ăn được chỉnh sửa.',
+                    'alert-type' => 'error',
+                ]);
+        }
+        $option = [];
+        if (count($all_food) > 0) {
+            foreach ($all_food as $item_food) {
+                $name = "";
+                if (count($item_food->supplier) > 0) {
+                    $name = $item_food->supplier->name;
+                }
+                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
+            }
+        }
+        return view('meal.view_detail_ajax', compact('option', 'info_meal'));
+    }
+
+    public function add(Request $request)
+    {
+        $input = $request->all();
+        $status = @$input['sl'];
+        if (is_null($status)){
+            $status = 1;
+        }
         $all_food = Food::with('supplier')->where('status', 1)->get();
         $option = [];
         if (count($all_food) > 0) {
@@ -82,7 +112,7 @@ class UserController extends Controller
                 $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
             }
         }
-        return view('meal.add', compact('get_all_thuc_pham', 'option'));
+        return view('meal.add', compact('get_all_thuc_pham', 'option','status'));
     }
 
     public function store(Request $request)
@@ -270,7 +300,7 @@ class UserController extends Controller
             return redirect()
                 ->back()
                 ->with([
-                    'message' => 'Không có bữa ăn được chỉnh sửa.',
+                    'message' => 'Không có bữa ăn được chọn.',
                     'alert-type' => 'error',
                 ]);
         }

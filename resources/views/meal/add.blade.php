@@ -10,60 +10,9 @@
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
     <style>
-        /*
-        .select2-container {
-            margin-bottom: 10px;
-            width: 100% !important;
+        .modal-backdrop {
+            position: initial !important;
         }
-        .panel-title{
-            font-weight: 600;
-        }
-        .td_nguyen_lieu {
-            width: 30%;
-        }
-        .container-fluid {
-            padding-top: 30px;
-        }
-
-        .select2-results-dept-0 {
-            float: left;
-            width: 50%;
-        }
-
-        img.flag {
-            height: 10px;
-            padding-right: 5px;
-            width: 15px;
-        }
-
-        #s2id_e2_2.select2-container-multi .select2-choices .select2-search-choice {
-            padding: 3px 18px 3px 5px;
-        }
-        #s2id_e2_2.select2-container-multi .select2-search-choice-close {
-            left: auto;
-            right: 3px;
-        }
-        .select2-container .select2-choice {
-            height: 30px !important;
-            line-height: 30px !important;
-        }
-        
-        .select2-drop.select2-drop-above.select2-drop-active.select2-display-none {
-            width: 900px !important;
-            left: 10% !important;
-            height: 300px;
-            border: 1px solid #eee !important;
-        }
-        .select2-drop-active {
-            width: 900px !important;
-            left: 10% !important;
-            height: 300px;
-            border: 1px solid #eee !important;
-        }
-        .select2-results {
-            background: aliceblue;
-        }
-        */
     </style>
 @stop
 @section('main-content')
@@ -71,7 +20,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title"><i class="voyager-plus"></i> Chọn thực đơn đã dùng</h4>
                 </div>
                 <div class="modal-body" id="data_result" style="height: 300px;overflow: auto;">
@@ -85,12 +35,24 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+
+    <div class="modal fade" tabindex="-1" id="detail_meal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="data_result_detail">
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <div class="page-content container">
         <h3 class="page-title">
-            Đặt món ăn
-            <a href="#" class="btn btn-success pull-right" data-toggle="modal" title="Chọn thực đơn" onclick="select_meal_list()">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i> Chọn từ danh sách
-            </a>
+            Đặt món ăn @if($status == 2 ) <b style="color: #00a7d0">Bạn đã ủy quyền cho đầu bếp đi chợ</b> @endif
+            @if($status != 2 )
+                <a href="#" class="btn btn-success pull-right" data-toggle="modal" title="Chọn thực đơn"
+                   onclick="select_meal_list()">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Chọn từ danh sách
+                </a>
+            @endif
         </h3>
         @if(Session::has('message'))
             <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
@@ -100,7 +62,8 @@
             <div class="row">
                 <div class="col-md-3">
                     <label>Ngày đăng ký <b style="color: red">*</b></label>
-                    <input type="text" class="form-control datetimepicker1" required name="date" value="{{ \Carbon\Carbon::now()->format('d/m/Y') }}">
+                    <input type="text" class="form-control datetimepicker1" required name="date"
+                           value="{{ \Carbon\Carbon::now()->format('d/m/Y') }}">
                 </div>
                 <div class="col-md-3">
                     <label>Số suất ăn <b style="color: red">*</b></label>
@@ -108,63 +71,84 @@
                 </div>
                 <div class="col-md-3">
                     <label>Số tiền 1 suất <b style="color: red">*</b></label>
-                    <input type="number" class="form-control" required name="money">
+                    <select class="form-control" name="money">
+                        <option value="25000">25.000 VDN</option>
+                        <option value="30000">30.000 VDN</option>
+                        <option value="35000">35.000 VDN</option>
+                        <option value="40000">40.000 VDN</option>
+                        <option value="45000">45.000 VDN</option>
+                        <option value="50000">50.000 VDN</option>
+                        <option value="55000">55.000 VDN</option>
+                        <option value="60000">60.000 VDN</option>
+                        <option value="65000">65.000 VDN</option>
+                        <option value="70000">70.000 VDN</option>
+                        <option value="75000">75.000 VDN</option>
+                        <option value="80000">80.000 VDN</option>
+                        <option value="85000">85.000 VDN</option>
+                        <option value="90000">90.000 VDN</option>
+                        <option value="95000">95.000 VDN</option>
+                        <option value="100000">100.000 VDN</option>
+                    </select>
+                    {{--<input type="number" class="form-control" required name="money">--}}
                 </div>
                 <div class="radio col-md-3" style="padding-bottom: 10px;">
-                    <label class="checkbox-inline"><input type="checkbox" class="uyquyen" name="uyquyen" value="1">Ủy quyền đi chợ,chọn món</label> 
+                    <label class="checkbox-inline">
+                        <input @if($status == 2 ) type="hidden" checked @else type="checkbox" @endif class="uyquyen"
+                               name="uyquyen" value="1">@if($status != 2 )Ủy quyền đi chợ,chọn món @endif</label>
                 </div>
-                
-                <div class="col-md-12">
-                    <hr/>
-                    <table class="table table-bordered" id="main" style="margin-bottom: 15px;border: 1px solid #eee">
-                        <thead>
-                        <tr>
-                            <th>Tên món</th>
-                            <th>Nguyên liệu</th>
-                            <th>Số lượng</th>
-                            {{--<th>Đơn vị</th>--}}
-                            <th>Công thức</th>
-                            <th>Ghi chú</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody class="mon_an">
-                        <tr class="tr_mon" id="tr_mon">
-                            <td><input type="text" name="tenmon[1]" required class="tenmon form-control"></td>
-                            <td class="td_nguyen_lieu">
-                                {!! Form::select('nguyen_lieu[1][]', $option, 0, ['class' => 'nguyen_lieu select2-multi-col','id'=>'e2_2']) !!}
-                            </td>
-                            <td class="td_so_luong"><input type="number" required name="so_luong[1][]"
-                                                           class="so_luong form-control"></td>
-                            {{--<td class="td_don_vi"><input type="text" required name="don_vi[1][]"--}}
-                                                         {{--class="don_vi form-control">--}}
-                            </td>
-                            <td class="td_cong_thuc"><textarea name="cong_thuc[1]"
-                                                               class="cong_thuc form-control"></textarea>
-                            </td>
-                            <td class="td_ghi_chu"><textarea name="ghi_chu[1]" class="ghi_chu form-control"></textarea>
-                            </td>
-                            <td>
-                                <input type="hidden" class="hidden_meal" value='1'>
-                                <a href="#" class="btn btn-success" title="Thêm nguyên liệu" id="add_nl">
-                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        
-                        </tbody>
-                        <tfoot>
+                @if($status != 2 )
+                    <div class="col-md-12">
+                        <hr/>
+                        <table class="table table-bordered" id="main"
+                               style="margin-bottom: 15px;border: 1px solid #eee">
+                            <thead>
+                            <tr>
+                                <th>Tên món</th>
+                                <th>Nguyên liệu</th>
+                                <th>Số lượng</th>
+                                {{--<th>Đơn vị</th>--}}
+                                <th>Công thức</th>
+                                <th>Ghi chú</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody class="mon_an">
+                            <tr class="tr_mon" id="tr_mon">
+                                <td><input type="text" name="tenmon[1]" required class="tenmon form-control"></td>
+                                <td class="td_nguyen_lieu">
+                                    {!! Form::select('nguyen_lieu[1][]', $option, 0, ['class' => 'nguyen_lieu select2-multi-col','id'=>'e2_2']) !!}
+                                </td>
+                                <td class="td_so_luong"><input type="number" required name="so_luong[1][]"
+                                                               class="so_luong form-control"></td>
+                                </td>
+                                <td class="td_cong_thuc"><textarea name="cong_thuc[1]"
+                                                                   class="cong_thuc form-control"></textarea>
+                                </td>
+                                <td class="td_ghi_chu"><textarea name="ghi_chu[1]"
+                                                                 class="ghi_chu form-control"></textarea>
+                                </td>
+                                <td>
+                                    <input type="hidden" class="hidden_meal" value='1'>
+                                    <a href="#" class="btn btn-success" title="Thêm nguyên liệu" id="add_nl">
+                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                            <tfoot>
                             <tr>
                                 <td colspan="6">
                                     <button class="btn btn-info add_button pull-right">Thêm món</button>
                                 </td>
                             </tr>
-                        </tfoot>
-                    </table>
-                </div>
+                            </tfoot>
+                        </table>
+                    </div>
+                @endif
                 <div class="col-md-12">
-                
-                <button type="submit" class="btn btn-lg btn-primary ">Đặt món</button>
+
+                    <button type="submit" class="btn btn-lg btn-primary ">Đặt món</button>
                 </div>
             </div>
         </form>
@@ -175,6 +159,7 @@
     <script src="/plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script>
         $(document).ready(function () {
+
             var max_fields = 200;
             var x = 1; //initlal text box count
             var n = 1; //initlal text box count
@@ -213,9 +198,11 @@
                         placeholder: "Select a state or many…",
                         formatResult: format,
                         width: 'auto',
-                        dropdownAutoWidth : true,
+                        dropdownAutoWidth: true,
                         formatSelection: format,
-                        escapeMarkup: function(m) { return m; }
+                        escapeMarkup: function (m) {
+                            return m;
+                        }
                     });
                 }
             });
@@ -245,8 +232,10 @@
                     formatResult: format,
                     formatSelection: format,
                     width: 'auto',
-                    dropdownAutoWidth : true,
-                    escapeMarkup: function(m) { return m; }
+                    dropdownAutoWidth: true,
+                    escapeMarkup: function (m) {
+                        return m;
+                    }
                 });
                 return false;
                 //$("html, body").animate({scrollTop: $(this).closest("tr").find('.td_nguyen_lieu').offset().top}, 1);
@@ -289,11 +278,13 @@
                 formatResult: format,
                 formatSelection: format,
                 width: 'auto',
-                    dropdownAutoWidth : true,
-                escapeMarkup: function(m) { return m; }
+                dropdownAutoWidth: true,
+                escapeMarkup: function (m) {
+                    return m;
+                }
             });
         });
-        function select_meal_list(){
+        function select_meal_list() {
             $('#select_meal').modal('show');
             $.ajax({
                 url: '{{ route('admin.user.ajax_get_list_meal') }}',
@@ -305,13 +296,13 @@
                 }
             });
         }
-        $('.uyquyen').change(function(){
+        $('.uyquyen').change(function () {
             var c = this.checked;
-            if (c){
-                $("#main input").attr('disabled','true');
-                $("#main select").attr('disabled','true');
-                $("#main textarea").attr('disabled','true');
-            }else {
+            if (c) {
+                $("#main input").attr('disabled', 'true');
+                $("#main select").attr('disabled', 'true');
+                $("#main textarea").attr('disabled', 'true');
+            } else {
                 $("#main input").removeAttr('disabled');
                 $("#main select").removeAttr('disabled');
                 $("#main textarea").removeAttr('disabled');

@@ -336,7 +336,7 @@
                             <div class="like-comments">
                                 <div class="like">
                                     <img src="/social/comment-icon.png">
-                                    <span style="font-size: 1.3rem" id="count-feedback">{{$data['count_feedback']}}
+                                    <span style="font-size: 1.3rem" id="count-feedback">{{@$data['count_feedback']}}
                                         phản hồi</span>
                                 </div>
                                 <div class="clearfix"></div>

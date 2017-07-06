@@ -4,18 +4,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('htmlheader_title', Voyager::setting('title'))</title>
     <meta name="description" content="{{ Voyager::setting('description') }}">
-    
+
     <link href="{{ asset('/css/all.css') }}" rel="stylesheet" type="text/css" />
 
     <link href="{{ asset('/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/jquery.mmenu.all.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ voyager_asset('lib/css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ voyager_asset('fonts/voyager/styles.css') }}">
-    
+
     <link href="{{ asset('/css/icofont.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/front.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/animate.css') }}" rel="stylesheet" type="text/css" />
-    
+
     <link href="{{ asset('/css/owl.carousel.min.css') }}" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="{{ asset('/js/jquery-1.12.4.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>

@@ -14,6 +14,8 @@ use App\Models\UserKitchen\UserKitchen;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use App\User;
+use App\Models\Feedback\Feeback;
+use App\Helpers\CommonHelper;
 
 class CustomerController extends Controller
 {
@@ -164,7 +166,125 @@ class CustomerController extends Controller
     
     public function feedback()
     {
+//<<<<<<< HEAD
+//        if (isset($request->day)) {
+//            $request_day = Carbon::createFromFormat('d/m/Y', $request->day);
+//            $day = Carbon::parse($request_day)->format('Y-m-d');
+//        } else {
+//            $day = Carbon::now()->format('Y-m-d');
+//        }
+        $user_kitchen = Auth::user()->kitchen;
+        if (count($user_kitchen) < 0) {
+            return back()->withErrors('Không có bếp quản lý');
+        }
+        $kitchen_id = 0;
+        foreach ($user_kitchen as $item_kitchen) {
+            $kitchen_id = $item_kitchen->id;
+        }
+        $daily_meal_id = Input::get('daily_meal_id');
+
+        $data = array();
+//        $data['kitchen'] = Kitchen::find($kitchen_id);
+
+//        $data['date'] = $day;
+//        $data['kitchen_id'] = $kitchen_id;
+
+        $data['meals'] = DailyMeal::with([
+            'daily_dish' => function ($query) {
+                $query->where('status', 1);
+                $query->with(['detail_dish']);
+            }
+        ])
+            ->where('id', $daily_meal_id)
+            ->get();
+        $data['daily_meal_id'] = $daily_meal_id;
+        $feedback = Feeback::with([
+            'create_user',
+            'child' => function ($query) use ($daily_meal_id) {
+                $query->where('daily_meal_id', $daily_meal_id);
+                $query->with('create_user');
+            }])
+//            ->where('parent_id', 0)
+            ->where('daily_meal_id', $daily_meal_id)->get();
+        $data['feedback'] = array();
+        foreach ($feedback as $key => $fee){
+            $item = array();
+            $item['user'] = $fee->create_user->name;
+            $item['id'] = $fee->id;
+            $item['avatar'] = CommonHelper::getPublicImagePath($fee->create_user->avatar);
+            $item['date'] = (isset($fee->date)) ? \Carbon\Carbon::parse($fee->date)->format('H:i d/m/Y') : null;
+            $item['content'] = $fee->content;
+            $item['parent_id'] = $fee->parent_id;
+            $item['child'] = array();
+            foreach ($fee->child as $key2 => $chil){
+                $item_child = array();
+                $item_child['user'] = $chil->create_user->name;
+                $item_child['id'] = $chil->id;
+                $item_child['avatar'] = CommonHelper::getPublicImagePath($chil->create_user->avatar);
+                $item_child['date'] = (isset($chil->date)) ? \Carbon\Carbon::parse($chil->date)->format('H:i d/m/Y') : null;
+                $item_child['content'] = $chil->content;
+                $item_child['parent_id'] = null;
+                $item['child'][$key2] = $item_child;
+            }
+            $data['feedback'][$key] = $item;
+        }
+        $data['count_feedback'] = count(Feeback::where('daily_meal_id', $daily_meal_id)->get());
+//        dd($data);
+        return view('customer.feedback',compact('data'));
+    }
+
+    public function storeFeedback(Request $request)
+    {
+        $user_kitchen = Auth::user()->kitchen;
+        if (count($user_kitchen) < 0) {
+            return back()->withErrors('Không có bếp quản lý');
+        }
+        $id_kitchen = 0;
+        foreach ($user_kitchen as $item_kitchen) {
+            $id_kitchen = $item_kitchen->id;
+        }
+        $daily_meal_id = $request->daily_meal_id;
+        $parent_id = $request->parent_id;
+
+        //Save to db
+        $data_insert = array();
+        $data_insert['content'] = $request['content'];
+        $data_insert['title'] = '';
+        $data_insert['id_kitchen'] = $id_kitchen;
+        $data_insert['daily_meal_id'] = $daily_meal_id;
+        $data_insert['date'] = Carbon::now();
+        $data_insert['parent_id'] = $parent_id;
+        $data_insert['status'] = 1;
+        $data_insert['created_by'] = Auth::user()->id;
+        $data_insert['updated_by'] = Auth::user()->id;
+        $data_insert['created_at'] = Carbon::now();
+        $data_insert['updated_at'] = Carbon::now();
+        $data_new = Feeback::create($data_insert);
+
+        //Get data new insert to append in view
+        $data = array();
+        $feedback = Feeback::with([
+            'create_user',
+            'child' => function ($query) use ($daily_meal_id) {
+                $query->where('daily_meal_id', $daily_meal_id);
+                $query->with('create_user');
+            }])->find($data_new->id);
+
+        $item = array();
+        $item['user'] = $feedback->create_user->name;
+        $item['id'] = $feedback->id;
+        $item['avatar'] = CommonHelper::getPublicImagePath($feedback->create_user->avatar);
+        $item['date'] = (isset($feedback->date)) ? \Carbon\Carbon::parse($feedback->date)->format('H:i d/m/Y') : null;
+        $item['content'] = $feedback->content;
+        $item['parent_id'] = $parent_id;
+        $data['feedback'] = $item;
+
+        //Count all feedback
+        $data['count_feedback'] = count(Feeback::where('daily_meal_id', $daily_meal_id)->get());
+        return $data;
+//=======
         return view('customer.feedback');
+//>>>>>>> a754064628f92d12d1fb28913f962bec4e689dd7
     }
     
 }

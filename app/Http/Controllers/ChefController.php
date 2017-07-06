@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Log\Log;
 use App\Food;
 use App\Helpers\CommonHelper;
 use App\Models\DailyMeal\DailyMeal;
@@ -10,6 +11,7 @@ use App\Models\Feedback\Feeback;
 use App\Models\Kitchen\Kitchen;
 use App\Models\SpecisUser\SpicesUser;
 use App\Models\UserKitchen\UserKitchen;
+use App\Supplier;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -151,13 +153,48 @@ class ChefController extends Controller
             return redirect()->back()->withErrors('Không tìm thấy dữ liệu');
         }
         $total_meal_chef = str_replace(',', '', $request->total_meal_chef);
-        if (DailyMeal::where('id', $daily_meal_id)->update(['total_meal_chef' => $total_meal_chef])) {
-            return redirect()->back()->withErrors('Cập nhật dữ liệu thành công');
+        $is_commit = true;
+        DB::beginTransaction();
+        try {
+            if (DailyMeal::where('id', $daily_meal_id)->update(['total_meal_chef' => $total_meal_chef])) {
+
+                $data_meal = DailyMeal::find($daily_meal_id);
+                $kitchen_id = $data_meal->id_kitchen;
+                $money_kitchent = Kitchen::where('id', $kitchen_id)->first()->money;
+                //Check log
+                $log = \App\Models\Log\Log::where('table', 'daily_meals')->where('action_type', 4)->where('item_id', $daily_meal_id)->orderBy('id', 'desc')->first();
+                if (isset($log)) {
+                    $data_decode = json_decode($log->data);
+                    $minus_money = ($total_meal_chef * ($data_meal->number_of_meals)) - ($data_decode->total_meal_chef * $data_decode->number_of_meals);
+                    //Update money of kitchen
+                    Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - $minus_money]);
+                } else {
+                    Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - ($total_meal_chef * ($data_meal->number_of_meals))]);
+                }
+
+                //Save table logs
+                $data_log = array();
+                $data_log['table'] = 'daily_meals';
+                $data_log['item_id'] = $daily_meal_id;
+                $data_log['data'] = $data_meal;
+                $data_log['action_type'] = 4;
+                event(new Log($data_log));
+            }
+        }catch (\Exception $e){
+            DB::rollBack();
+            $is_commit = false;
+            return redirect()->back()->with([
+                'message' => 'Có lỗi xảy ra, vui lòng kiểm tra lại',
+                'alert-type' => 'error',
+            ]);
         }
-        return redirect()->back()->with([
-            'message' => 'Cập nhật thành công',
-            'alert-type' => 'success',
-        ]);
+        if ($is_commit) {
+            DB::commit();
+            return redirect()->back()->with([
+                'message' => 'Cập nhật thành công',
+                'alert-type' => 'success',
+            ]);
+        }
     }
 
     /**
@@ -175,7 +212,31 @@ class ChefController extends Controller
         try {
             foreach ($data as $id_detail_dish => $money) {
                 $money = str_replace(',', '', $money);
-                DishDetail::where('id', $id_detail_dish)->update(['money_real' => $money]);
+                $data_detail_dish = DishDetail::find($id_detail_dish);
+                if($data_detail_dish->update(['money_real' => $money])){
+                    $data_meal = DailyMeal::find($daily_meal_id);
+                    $kitchen_id = $data_meal->id_kitchen;
+                    $money_kitchent = Kitchen::where('id', $kitchen_id)->first()->money;
+                    //Check log
+                    $log = \App\Models\Log\Log::where('table', 'detail_dishs')->where('action_type', 4)->where('item_id', $id_detail_dish)->orderBy('id', 'desc')->first();
+                    if(isset($log)){
+                        $data_decode = json_decode($log->data);
+                        $minus_money = ($money * ($data_detail_dish->number)) - (($data_decode->money_real) * ($data_decode->number));
+                        //Update money of kitchen
+                        Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - $minus_money]);
+                    }else{
+                        Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - ($money * ($data_detail_dish->number))]);
+                    }
+
+
+                    //Save table logs
+                    $data_log = array();
+                    $data_log['table'] = 'detail_dishs';
+                    $data_log['item_id'] = $id_detail_dish;
+                    $data_log['data'] = $data_detail_dish;
+                    $data_log['action_type'] = 4;
+                    event(new Log($data_log));
+                }
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -344,6 +405,44 @@ class ChefController extends Controller
         $all_spices = SpicesUser::with(['food_spice'])->where('id_kitchen', $kitchen_id)->get();
         $data = array();
         $data['spice'] = $all_spices;
+        $data['supplier'] = Supplier::pluck('name', 'id');
         return view('chef.spice', compact('data'));
+    }
+
+    public function updateSpice(Request $request, $id)
+    {
+        // Update table user_spices
+        $data_spice = array();
+        $data_spice['status'] = $request->status;
+        $data_spice['created_by'] = Auth::user()->id;
+        $data_spice['updated_by'] = Auth::user()->id;
+        if(SpicesUser::where('id', $id)->update($data_spice) == 0){
+            return redirect()->back()->with([
+                'message' => 'Có lỗi xảy ra, vui lòng kiểm tra lại',
+                'alert-type' => 'error',
+            ]);
+        }
+
+        //Update table food
+        $id_food = SpicesUser::where('id', $id)->first()->id_food;
+        $data_food = array();
+        $data_food['name'] = $request->name;
+        $data_food['description'] = $request->description;
+        $data_food['image'] = isset($request->image) ? $request->image : '';
+        $data_food['unit'] = $request->unit;
+        $data_food['quantity'] = $request->quantity;
+        $data_food['id_category'] = 1;
+        $data_food['id_supplier'] = $request->id_supplier;
+
+        if(Food::where('id', $id_food)->update($data_food) == 1){
+            return redirect()->back()->with([
+                'message' => 'Cập nhật thành công',
+                'alert-type' => 'success',
+            ]);
+        }
+        return redirect()->back()->with([
+            'message' => 'Có lỗi xảy ra, vui lòng kiểm tra lại',
+            'alert-type' => 'error',
+        ]);
     }
 }

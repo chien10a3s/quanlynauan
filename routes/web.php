@@ -38,6 +38,11 @@ Route::group(['middleware' => 'admin.user'], function () {
     Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
     Route::get('account/transaction', 'CustomerController@transaction');
     Route::get('account/feedback', 'CustomerController@feedback')->name('admin.account.feedback');
+//<<<<<<< HEAD
+//    Route::get('account/feedback', 'CustomerController@getFeedback')->name('admin.account.feedback');
+    Route::post('account/feedback-create', 'CustomerController@storeFeedback')->name('admin.account.feedback.store');
+//=======
+//>>>>>>> a754064628f92d12d1fb28913f962bec4e689dd7
     
     
 
@@ -58,6 +63,7 @@ Route::group(['middleware' => 'admin.user'], function () {
         Route::post('/delete/{id}', 'UserController@delete')->name('admin.user.delete');
 
         Route::get('/ajax_get_list_meal', 'UserController@getLisstMeal')->name('admin.user.ajax_get_list_meal');
+        Route::get('/ajax_view_detail', 'UserController@viewDetail')->name('admin.user.ajax_view_detail');
 
     });
 });

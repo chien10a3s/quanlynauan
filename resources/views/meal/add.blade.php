@@ -13,6 +13,13 @@
         .modal-backdrop {
             position: initial !important;
         }
+        .td_nguyen_lieu .dropdown-menu {
+            min-width: 100% !important;
+            width: 400%;
+            box-shadow: 5px 3px #eee;
+            max-height: 300px;
+            overflow: auto;
+        }
     </style>
 @stop
 @section('main-content')
@@ -116,7 +123,14 @@
                             <tr class="tr_mon" id="tr_mon">
                                 <td><input type="text" name="tenmon[1]" required class="tenmon form-control"></td>
                                 <td class="td_nguyen_lieu">
-                                    {!! Form::select('nguyen_lieu[1][]', $option, 0, ['class' => 'nguyen_lieu select2-multi-col','id'=>'e2_2']) !!}
+{{--                                    {!! Form::select('nguyen_lieu[1][]', $option, 0, ['class' => 'nguyen_lieu select2-multi-col','id'=>'e2_2']) !!}--}}
+                                    <div class="dropdown">
+                                        <input type="hidden" required name="nguyen_lieu[1][]" class="luong_val1 form-control" id="id_ten_mon_1">
+                                        <input type="text" required name="" class="val_sl1 form-control" id="ten_mon_1" data-toggle="dropdown" onkeyup="search(this.value,this)">
+                                        <div class="dropdown-menu col-md-12" id="menu_ten_mon_1">
+
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="td_so_luong"><input type="number" required name="so_luong[1][]"
                                                                class="so_luong form-control"></td>
@@ -170,15 +184,14 @@
                     var html = '<tr class="tr_mon">';
                     html += '<td><input type="text" name="tenmon[' + x + ']" required class="tenmon form-control"></td>';
                     html += '<td class="td_nguyen_lieu">';
-                    html += '<select class="nguyen_lieu" name="nguyen_lieu[' + x + '][]">';
-                    @foreach ($option as $key=>$item_nl)
-                        html += '<optgroup label="{{$key}}">';
-                    @foreach($item_nl as $key_food=>$item_food)
-                        html += '<option value="{{ $key_food }}">{{ $item_food }}</option>';
-                    @endforeach
-                        html += '</optgroup>';
-                    @endforeach
-                        html += '</select></td>';
+                        html+=' <div class="dropdown">';
+                            html += '<input type="text" required name="nguyen_lieu[' + x + '][]" class="luong_val1 form-control" id="id_ten_mon_' + x + '">'
+                            html += '<input type="text" required name="" class="val_sl1 form-control" id="ten_mon_' + x + '" data-toggle="dropdown" onkeyup="search(this.value,this)">'
+                            html += '<div class="dropdown-menu col-md-12 " id="menu_ten_mon_' + x + '">';
+
+                            html += '</div>';
+                        html += '</div>';
+                    html += '</td>';
                     html += '<td class="td_so_luong"><input type="number" required name="so_luong[' + x + '][]" class="so_luong form-control"></td>';
 //                    html += '<td class="td_don_vi"><input type="text" required name="don_vi[' + x + '][]" class="don_vi form-control"></td>';
                     html += '<td class="td_cong_thuc"><textarea name="cong_thuc[' + x + ']" class="cong_thuc form-control"></textarea></td>';
@@ -194,16 +207,16 @@
                     html += '</td>';
                     html += '</tr>';
                     $('.mon_an').append(html);
-                    $('select').select2({
-                        placeholder: "Select a state or many…",
-                        formatResult: format,
-                        width: 'auto',
-                        dropdownAutoWidth: true,
-                        formatSelection: format,
-                        escapeMarkup: function (m) {
-                            return m;
-                        }
-                    });
+//                    $('select').select2({
+//                        placeholder: "Select a state or many…",
+//                        formatResult: format,
+//                        width: 'auto',
+//                        dropdownAutoWidth: true,
+//                        formatSelection: format,
+//                        escapeMarkup: function (m) {
+//                            return m;
+//                        }
+//                    });
                 }
             });
 
@@ -215,28 +228,27 @@
 
             $("#main").on("click", "#add_nl", function (event) {
                 var a = $(this).closest("tr").find('.hidden_meal').val();
-                var html = '<select class="nguyen_lieu a" required name="nguyen_lieu[' + a + '][]" style="margin-top: 10px">';
-                @foreach ($option as $key=>$item_nl)
-                    html += '<optgroup label="{{$key}}">';
-                @foreach($item_nl as $key_food=>$item_food)
-                    html += '<option value="{{ $key_food }}">{{ $item_food }}</option>';
-                @endforeach
-                    html += '</optgroup>';
-                @endforeach
-                    html += '</select></td>';
+
+                var html =' <div class="dropdown">';
+                html += '<input type="hidden" required name="nguyen_lieu[' + a + '][]" class="luong_val1 form-control">';
+                html += '<input type="text" required name="" class="val_sl1 form-control" data-toggle="dropdown" onkeyup="search(this.value,this)"  style="margin-top: 10px">';
+                html += '<div class="dropdown-menu col-md-12 ">';
+
+                html += '</div>';
+                html += '</div>';
                 $(this).closest("tr").find('.td_nguyen_lieu').append(html);
                 $(this).closest("tr").find('.td_so_luong').append('<input type="number" required name="so_luong[' + a + '][]" class="so_luong form-control" style="margin-top: 10px">');
 //                $(this).closest("tr").find('.td_don_vi').append('<input type="text" required name="don_vi[' + a + '][]" class="don_vi form-control" style="margin-top: 20px">');
-                $('select').select2({
-                    placeholder: "Select a state or many…",
-                    formatResult: format,
-                    formatSelection: format,
-                    width: 'auto',
-                    dropdownAutoWidth: true,
-                    escapeMarkup: function (m) {
-                        return m;
-                    }
-                });
+//                $('select').select2({
+//                    placeholder: "Select a state or many…",
+//                    formatResult: format,
+//                    formatSelection: format,
+//                    width: 'auto',
+//                    dropdownAutoWidth: true,
+//                    escapeMarkup: function (m) {
+//                        return m;
+//                    }
+//                });
                 return false;
                 //$("html, body").animate({scrollTop: $(this).closest("tr").find('.td_nguyen_lieu').offset().top}, 1);
             });
@@ -312,6 +324,25 @@
         function format(state) {
             if (!state.id) return state.text; // optgroup
             return "" + state.text;
+        }
+        function search(data,cl){
+            $.ajax({
+                url: '{{ route('admin.user.ajax_search_food') }}',
+                type: 'get',
+                async: false,
+                data: {
+                    'val_search':data,
+                    'name_click':cl.id
+                },
+                success: function (data) {
+                    var a = $(cl).closest(".dropdown").find('.dropdown-menu').html(data);
+                }
+            });
+        }
+        function select_food(id,id_click,name,cl){
+            $(cl).closest(".dropdown").find('.luong_val1').val(id);
+            $(cl).closest(".dropdown").find('.val_sl1').val(name);
+            return false;
         }
     </script>
 @stop

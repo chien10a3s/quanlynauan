@@ -282,11 +282,11 @@ class UserController extends Controller
         $option = [];
         if (count($all_food) > 0) {
             foreach ($all_food as $item_food) {
-                $name = "";
-                if (count($item_food->supplier) > 0) {
-                    $name = $item_food->supplier->name;
-                }
-                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
+//                $name = "";
+//                if (count($item_food->supplier) > 0) {
+//                    $name = $item_food->supplier->name;
+//                }
+                $option[$item_food->id] = $item_food->name ;
             }
         }
         return view('meal.edit', compact('option', 'info_meal'));
@@ -307,11 +307,11 @@ class UserController extends Controller
         $option = [];
         if (count($all_food) > 0) {
             foreach ($all_food as $item_food) {
-                $name = "";
-                if (count($item_food->supplier) > 0) {
-                    $name = $item_food->supplier->name;
-                }
-                $option[$name][$item_food->id] = $item_food->name . ' ( ' . number_format($item_food->price) . ' VND ) / '.$item_food->unit;
+//                $name = "";
+//                if (count($item_food->supplier) > 0) {
+//                    $name = $item_food->supplier->name;
+//                }
+                $option[$item_food->id] = $item_food->name;
             }
         }
         return view('meal.double', compact('option', 'info_meal'));

@@ -10,57 +10,14 @@
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
     <style>
-        /*.select2-container {*/
-        /*margin-bottom: 10px;*/
-        /*width: 100% !important;*/
-        /*}*/
-        /*.td_nguyen_lieu {*/
-        /*width: 30%;*/
-        /*}*/
-
-        /*.select2-results-dept-0 { !* do the columns *!*/
-        /*float: left;*/
-        /*width: 50%;*/
-        /*}*/
-
-        /*img.flag {*/
-        /*height: 10px;*/
-        /*padding-right: 5px;*/
-        /*width: 15px;*/
-        /*}*/
-
-        /*!* move close cross [x] from left to right on the selected value (tag) *!*/
-        /*#s2id_e2_2.select2-container-multi .select2-choices .select2-search-choice {*/
-        /*padding: 3px 18px 3px 5px;*/
-        /*}*/
-        /*#s2id_e2_2.select2-container-multi .select2-search-choice-close {*/
-        /*left: auto;*/
-        /*right: 3px;*/
-        /*}*/
-        /*.select2-container .select2-choice {*/
-        /*height: 34px !important;*/
-        /*line-height: 34px !important;*/
-        /*}*/
-        /*.select2-drop.select2-drop-above.select2-drop-active.select2-display-none {*/
-        /*width: 900px !important;*/
-        /*left: 10% !important;*/
-        /*height: 300px;*/
-        /*border: 1px solid #eee !important;*/
-        /*}*/
-        /*.select2-drop-active {*/
-        /*width: 900px !important;*/
-        /*left: 10% !important;*/
-        /*height: 300px;*/
-        /*border: 1px solid #eee !important;*/
-        /*}*/
-        /*.select2-results {*/
-        /*background: aliceblue;*/
-        /*}*/
+        .td_nguyen_lieu .dropdown-menu {
+            min-width: 100% !important;
+            width: 400%;
+            box-shadow: 5px 3px #eee;
+            max-height: 300px;
+            overflow: auto;
+        }
     </style>
-    &nbsp;
-    {{--<a href="{{ route('admin.kitchen.add') }}" class="btn btn-success">--}}
-    {{--<i class="voyager-plus"></i> Add New--}}
-    {{--</a>--}}
 @stop
 @section('main-content')
     <div class="page-content container" style="padding: 0 20px 20px;background: #fff;">
@@ -137,7 +94,13 @@
 
                                 <td class="td_nguyen_lieu">
                                     @foreach($data_dish->detail_dish as $item_detail_dish_food)
-                                        {!! Form::select('nguyen_lieu['.$i.'][]', $option, $item_detail_dish_food->id_food, ['class' => 'nguyen_lieu','style'=>'margin-bottom:10px']) !!}
+                                        <div class="dropdown">
+                                            <input type="hidden" required name="nguyen_lieu[{{$i}}][]" class="luong_val1 form-control" id="id_ten_mon_1" value="{{ $item_detail_dish_food->id_food }}">
+                                            <input type="text" required name="" class="val_sl1 form-control" id="ten_mon_1" data-toggle="dropdown" onkeyup="search(this.value,this)" value="{{ @$option[$item_detail_dish_food->id_food] }}" style="margin-bottom: 10px">
+                                            <div class="dropdown-menu col-md-12" id="menu_ten_mon_1">
+
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </td>
                                 <td class="td_so_luong">
@@ -190,15 +153,14 @@
                     var html = '<tr class="tr_mon">';
                     html += '<td><input type="text" name="tenmon[' + x + ']" required class="tenmon form-control"></td>';
                     html += '<td class="td_nguyen_lieu">';
-                    html += '<select class="nguyen_lieu" name="nguyen_lieu[' + x + '][]">';
-                    @foreach ($option as $key=>$item_nl)
-                        html += '<optgroup label="{{$key}}">';
-                    @foreach($item_nl as $key_food=>$item_food)
-                        html += '<option value="{{ $key_food }}">{{ $item_food }}</option>';
-                    @endforeach
-                        html += '</optgroup>';
-                    @endforeach
-                        html += '</select></td>';
+                        html+=' <div class="dropdown">';
+                        html += '<input type="text" required name="nguyen_lieu[' + x + '][]" class="luong_val1 form-control" id="id_ten_mon_' + x + '">'
+                        html += '<input type="text" required name="" class="val_sl1 form-control" id="ten_mon_' + x + '" data-toggle="dropdown" onkeyup="search(this.value,this)">'
+                        html += '<div class="dropdown-menu col-md-12 " id="menu_ten_mon_' + x + '">';
+
+                        html += '</div>';
+                        html += '</div>';
+                    html += '</td>';
                     html += '<td class="td_so_luong"><input type="number" required name="so_luong[' + x + '][]" class="so_luong form-control"></td>';
 //                    html += '<td class="td_don_vi"><input type="text" required name="don_vi[' + x + '][]" class="don_vi form-control"></td>';
                     html += '<td class="td_cong_thuc"><textarea name="cong_thuc[' + x + ']" class="cong_thuc form-control"></textarea></td>';
@@ -233,26 +195,24 @@
 
             $("#main").on("click", "#add_nl", function (event) {
                 var a = $(this).closest("tr").find('.hidden_meal').val();
-                var html = '<select class="nguyen_lieu a" required name="nguyen_lieu[' + a + '][]" style="margin-top: 10px">';
-                @foreach ($option as $key=>$item_nl)
-                    html += '<optgroup label="{{$key}}">';
-                @foreach($item_nl as $key_food=>$item_food)
-                    html += '<option value="{{ $key_food }}">{{ $item_food }}</option>';
-                @endforeach
-                    html += '</optgroup>';
-                @endforeach
-                    html += '</select></td>';
+                var html =' <div class="dropdown">';
+                html += '<input type="hidden" required name="nguyen_lieu[' + a + '][]" class="luong_val1 form-control">';
+                html += '<input type="text" required name="" class="val_sl1 form-control" data-toggle="dropdown" onkeyup="search(this.value,this)"  style="margin-top: 10px">';
+                html += '<div class="dropdown-menu col-md-12 ">';
+
+                html += '</div>';
+                html += '</div>';
                 $(this).closest("tr").find('.td_nguyen_lieu').append(html);
                 $(this).closest("tr").find('.td_so_luong').append('<input type="number" required name="so_luong[' + a + '][]" class="so_luong form-control" style="margin-top: 10px">');
 //                $(this).closest("tr").find('.td_don_vi').append('<input type="text" required name="don_vi[' + a + '][]" class="don_vi form-control" style="margin-top: 10px">');
-                $('select').select2({
-                    placeholder: "Select a state or many…",
-                    formatResult: format,
-                    formatSelection: format,
-                    escapeMarkup: function (m) {
-                        return m;
-                    }
-                });
+//                $('select').select2({
+//                    placeholder: "Select a state or many…",
+//                    formatResult: format,
+//                    formatSelection: format,
+//                    escapeMarkup: function (m) {
+//                        return m;
+//                    }
+//                });
                 return false;
 //                $("html, body").animate({ scrollTop: $(this).closest("tr").find('.td_nguyen_lieu').offset().top }, 1);
             });
@@ -314,6 +274,26 @@
         function format(state) {
             if (!state.id) return state.text; // optgroup
             return "" + state.text;
+        }
+
+        function search(data,cl){
+            $.ajax({
+                url: '{{ route('admin.user.ajax_search_food') }}',
+                type: 'get',
+                async: false,
+                data: {
+                    'val_search':data,
+                    'name_click':cl.id
+                },
+                success: function (data) {
+                    var a = $(cl).closest(".dropdown").find('.dropdown-menu').html(data);
+                }
+            });
+        }
+        function select_food(id,id_click,name,cl){
+            $(cl).closest(".dropdown").find('.luong_val1').val(id);
+            $(cl).closest(".dropdown").find('.val_sl1').val(name);
+            return false;
         }
     </script>
 @stop

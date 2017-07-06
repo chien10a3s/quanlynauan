@@ -1223,7 +1223,7 @@ tr.tr_mon td:last-child a+a{
     margin: 10px 0;
     line-height: 1.4;
 }
-
+.mm-slideout { z-index:auto;}
 
 
 

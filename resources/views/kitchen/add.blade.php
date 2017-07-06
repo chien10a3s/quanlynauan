@@ -15,51 +15,86 @@
                         <h3 class="panel-title">Thông tin bếp</h3>
                     </div>
                     <div class="panel-body">
-                        <form id="my_form" action="{{ route('admin.kitchen.store') }}" method="post">
+                        <form id="my_form" class="form-horizontal" action="{{ route('admin.kitchen.store') }}" method="post">
                             {{ csrf_field() }}
-                            <div class="col-md-12 form-group">
-                                <label class="col-md-4">
-                                    Mã bếp
-                                </label>
-                                <input class="form-control col-md-8" name="code">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label">
+                                            Mã bếp
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" name="code">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label">
+                                            Tên bếp
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input class="form-control " name="name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label">
+                                            Trạng thái
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select class="form-control" name="status">
+                                                <option value="">Chọn trạng thái</option>
+                                                <option value="0">Đang khóa</option>
+                                                <option value="1">Kích hoạt</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label">
+                                            Số tiền
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input type="number" class="form-control" name="money">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label">
+                                            Địa chỉ
+                                        </label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control col-md-8" name="address"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 control-label">
+                                            Ghi chú
+                                        </label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control col-md-8" name="note"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-success pull-right" type="submit">Thêm mới</button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div class="col-md-12 form-group">
-                                <label class="col-md-4">
-                                    Tên bếp
-                                </label>
-                                <input class="form-control col-md-8" name="name">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label class="col-md-4">
-                                    Trạng thái
-                                </label>
-                                <select class="form-control" name="status">
-                                    <option value="">Chọn trạng thái</option>
-                                    <option value="0">Đang khóa</option>
-                                    <option value="1">Kích hoạt</option>
-                                </select>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label class="col-md-4">
-                                    Số tiền
-                                </label>
-                                <input type="number" class="form-control col-md-8" name="money">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label class="col-md-4">
-                                    Địa chỉ
-                                </label>
-                                <textarea class="form-control col-md-8" name="address"></textarea>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label class="col-md-4">
-                                    Ghi chú
-                                </label>
-                                <textarea class="form-control col-md-8" name="note"></textarea>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <button class="btn btn-success" type="submit">Thêm mới</button>
-                            </div>
+
+
+                            
+                            
                         </form>
                     </div>
                 </div>

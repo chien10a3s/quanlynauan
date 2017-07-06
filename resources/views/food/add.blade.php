@@ -46,13 +46,9 @@
         }
     </style>
 @stop
-@section('page_header')
-    <h1 class="page-title">
-        <i class="voyager-plus"></i> Thêm sản phẩm
-    </h1>
-@stop
 
 @section('content')
+    <br />
     <div class="page-content container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -62,87 +58,126 @@
                         <h3 class="panel-title">Thông tin sản phẩm</h3>
                     </div>
                     <div class="panel-body">
-                        <form id="my_form" action="{{ route('admin.food.store') }}" method="post" enctype="multipart/form-data">
+                        <form id="my_form" class="form-horizontal" action="{{ route('admin.food.store') }}" method="post" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <div class="form-group">
-                                <label>
-                                    Tên sản phẩm
-                                </label>
-                                <input class="form-control" name="name">
-                            </div>
-                            <div class="form-group">
-                                <label>
-                                    Mô tả
-                                </label>
-                                <textarea class="form-control" name="description"></textarea>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Ảnh
-                                </label>
-                                <input type="file" name="image" />
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Đơn vị
-                                </label>
-                                <select name="unit" class="form-control">
-                                    <option value="kg">Kilogram</option>
-                                    <option value="gr">Gram</option>
-                                    <option value="litre">Lít</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Số lượng
-                                </label>
-                                <input type="number" class="form-control" name="quantity"/>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Số tiền
-                                </label>
-                                <input type="number" class="form-control" name="price"/>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Danh mục
-                                </label>
-                                <select name="id_category" class="form-control">
-                                    @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{$category->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Nhà cung cấp
-                                </label>
-                                <select name="id_supplier" class="form-control">
-                                    @foreach($suppliers as $supplier)
-                                    <option value="{{ $supplier->id }}">{{$supplier->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Trạng thái
-                                </label>
-                                <select name="status" class="form-control">
-                                    <option value="0">Vô hiệu</option>
-                                    <option value="1">Hoạt động</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <button class="btn btn-success" type="submit">Thêm mới</button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Tên sản phẩm
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" name="name">
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Mô tả
+                                        </label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" name="description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Ảnh
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input type="file" name="image" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Đơn vị
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select name="unit" class="form-control">
+                                                <option value="kg">Kilogram</option>
+                                                <option value="gr">Gram</option>
+                                                <option value="litre">Lít</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Số lượng
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input type="number" class="form-control" name="quantity"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Số tiền
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input type="number" class="form-control" name="price"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Danh mục
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select name="id_category" class="form-control">
+                                                @foreach($categories as $category)
+                                                <option value="{{ $category->id }}">{{$category->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Nhà cung cấp
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select name="id_supplier" class="form-control">
+                                                @foreach($suppliers as $supplier)
+                                                <option value="{{ $supplier->id }}">{{$supplier->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Trạng thái
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select name="status" class="form-control">
+                                                <option value="0">Vô hiệu</option>
+                                                <option value="1">Hoạt động</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-success pull-right" type="submit">Thêm mới</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>

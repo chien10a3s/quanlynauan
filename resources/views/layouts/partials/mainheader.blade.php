@@ -25,7 +25,24 @@
                         <div class="dgt-header-right col-md-3 pull-right">
                             <ul class="user-info">
                                 <li class="user-link">
-                                    <a href="{{ url('account') }}"><i class="fa fa-user-circle-o" aria-hidden="true"></i> <span class="hidden-xxs">Tài khoản</span></a>
+                                    @if (Auth::check())
+                                    <a href="{{ url('account') }}">
+                                        <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                                        <span class="hidden-xxs">{{Auth::user()->name}}</span>
+                                    </a>
+                                    <form action="http://localhost/quanlynauan/public/admin/logout" method="POST">
+                                        {{ csrf_field() }}
+                                        <button type="submit" class="btn btn-none">
+                                            <i class="voyager-power"></i>
+                                            Đăng xuất
+                                        </button>
+                                    </form>
+                                    @else
+                                    <a href="{{ url('dang-nhap') }}">
+                                        <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                                        <span class="hidden-xxs">Đăng nhập</span>
+                                    </a>
+                                    @endif
                                 </li>
                             </ul>
                         </div>

@@ -25,7 +25,6 @@ Route::get('di-cho-thu', 'CustomerController@dichothu');
 
 Route::group(['middleware' => 'admin.user'], function () {
 
-
     Route::get('account/spices', 'SpicesController@index')->name('admin.spices.index');
     Route::delete('account/spices/delete/{id_food?}', 'SpicesController@delete')->name('admin.spices.delete');
     

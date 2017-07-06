@@ -20,6 +20,7 @@ use App\Helpers\CommonHelper;
 class CustomerController extends Controller
 {
     
+    
     public function dichothu()
     {
         if(!Auth::check()){
@@ -50,6 +51,7 @@ class CustomerController extends Controller
         }
         return redirect()->intended('meal-daily/add');
     }
+    
     
     public function index()
     {

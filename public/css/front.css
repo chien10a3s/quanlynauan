@@ -438,10 +438,30 @@ li.user-link {
 }
 
 ul.user-info li a i {
-    font-size: 20px;
+    font-size: 18px;
     margin-right: 4px;
 }
+button.btn.btn-none {
+    background: none !important;
+    box-shadow: none !important;
+    border: none;
+    color: #565656;
+    float: left;
+    padding: 0;
+    margin-left: 10px;
+    line-height: 20px;
+}
 
+li.user-link form {
+    float: right;
+    display: block;
+}
+
+button.btn.btn-none i {
+    vertical-align: middle;
+    font-size: 18px;
+    margin-right: 4px;
+}
 .service {
     background: #ffffff;
     border: 1px solid #eaeaea;

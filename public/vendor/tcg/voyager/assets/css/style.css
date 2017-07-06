@@ -9,9 +9,10 @@ body {
 
 * {
   outline: none; }
-
-.row > [class*="col-"] {
-  margin-bottom: 25px; }
+.form-horizontal .form-group:before, .form-horizontal .form-group:after {
+    display: table;
+    content: " ";
+}
 
 .row.no-margin-bottom > [class*="col-"] {
   margin-bottom: 10px; }

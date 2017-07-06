@@ -63,89 +63,128 @@
                         <h3 class="panel-title">Thông tin sản phẩm</h3>
                     </div>
                     <div class="panel-body">
-                        <form id="my_form" action="{{ route('admin.food.update', $food->id) }}" method="post" enctype="multipart/form-data">
+                        <form id="my_form" class="form-horizontal" action="{{ route('admin.food.update', $food->id) }}" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="id" value="{{ $food->id }}" />
                             {{ csrf_field() }}
-                            <div class="form-group">
-                                <label>
-                                    Tên sản phẩm
-                                </label>
-                                <input class="form-control" name="name" value="{{ $food->name }}">
-                            </div>
-                            <div class="form-group">
-                                <label>
-                                    Mô tả
-                                </label>
-                                <textarea class="form-control" name="description">{{ $food->description }}</textarea>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Ảnh
-                                </label>
-                                <img src="{{ Voyager::image( $food->image ) }}" style="width:200px; height:auto; clear:both; display:block; padding:2px; border:1px solid #ddd; margin-bottom:10px;">
-                                <input type="file" name="image" />
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Đơn vị
-                                </label>
-                                <select name="unit" class="form-control">
-                                    <option @if($food->unit == "kg")selected="selected"@endif value="kg">Kilogram</option>
-                                    <option @if($food->unit == "gr")selected="selected"@endif value="gr">Gram</option>
-                                    <option @if($food->unit == "litre")selected="selected"@endif value="litre">Lít</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Số lượng
-                                </label>
-                                <input value="{{ $food->quantity }}" type="number" class="form-control" name="quantity"/>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Số tiền
-                                </label>
-                                <input value="{{ $food->price }}" type="number" class="form-control" name="price"/>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Danh mục
-                                </label>
-                                <select name="id_category" class="form-control">
-                                    @foreach($categories as $category)
-                                    <option @if($food->id_category == $category->id)selected="selected"@endif value="{{ $category->id }}">{{$category->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Nhà cung cấp
-                                </label>
-                                <select name="id_supplier" class="form-control">
-                                    @foreach($suppliers as $supplier)
-                                    <option value="{{ $supplier->id }}">{{$supplier->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    Trạng thái
-                                </label>
-                                <select name="status" class="form-control">
-                                    <option @if($food->status == 1)selected="selected"@endif value="1">Hoạt động</option>
-                                    <option @if($food->status == 0)selected="selected"@endif value="0">Vô hiệu</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <button class="btn btn-success" type="submit">Lưu lại</button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Tên sản phẩm
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input class="form-control" name="name" value="{{ $food->name }}">
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Mô tả
+                                        </label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" name="description">{{ $food->description }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Ảnh
+                                        </label>
+                                        <div class="col-md-8">
+                                            <img src="{{ Voyager::image( $food->image ) }}" style="width:200px; height:auto; clear:both; display:block; padding:2px; border:1px solid #ddd; margin-bottom:10px;">
+                                            <input type="file" name="image" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Đơn vị
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select name="unit" class="form-control">
+                                                <option @if($food->unit == "kg")selected="selected"@endif value="kg">Kilogram</option>
+                                                <option @if($food->unit == "gr")selected="selected"@endif value="gr">Gram</option>
+                                                <option @if($food->unit == "litre")selected="selected"@endif value="litre">Lít</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Số lượng
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input value="{{ $food->quantity }}" type="number" class="form-control" name="quantity"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Số tiền
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input value="{{ $food->price }}" type="number" class="form-control" name="price"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Danh mục
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select name="id_category" class="form-control">
+                                                @foreach($categories as $category)
+                                                <option @if($food->id_category == $category->id)selected="selected"@endif value="{{ $category->id }}">{{$category->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Nhà cung cấp
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select name="id_supplier" class="form-control">
+                                                @foreach($suppliers as $supplier)
+                                                <option @if($food->id_supplier == $supplier->id)selected="selected"@endif value="{{ $supplier->id }}">{{$supplier->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">
+                                            Trạng thái
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select name="status" class="form-control">
+                                                <option @if($food->status == 1)selected="selected"@endif value="1">Hoạt động</option>
+                                                <option @if($food->status == 0)selected="selected"@endif value="0">Vô hiệu</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-success pull-right" type="submit">Lưu lại</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>

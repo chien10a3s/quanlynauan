@@ -63,19 +63,31 @@
                         <h3 class="panel-title">Thông tin nhà cung cấp</h3>
                     </div>
                     <div class="panel-body">
-                        {!! Form::open(['route' => 'supplier.store']) !!}
-                            <div class="form-group">
-                            	{!! Form::label('name', 'Tên nhà cung cấp') !!}
-                            	{!! Form::text('name', null, ['class' => 'form-control']) !!}
-                            </div>
-                            
-                            <div class="form-group">
-                            	{!! Form::label('status', 'Trạng thái') !!}
-                            	{!! Form::select('status', array('0' => 'Vô hiệu', '1' => 'Hoạt động'), null, array('class' => 'form-control')) !!}
-                            </div>
-                            
-                            <div class="form-group">
-                                <button class="btn btn-success" type="submit">Lưu lại</button>
+                        {!! Form::open(['route' => 'supplier.store', 'class' => 'form-horizontal']) !!}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    	{!! Form::label('name', 'Tên nhà cung cấp', array('class' => 'col-md-4 control-label')) !!}
+                                    	<div class="col-md-8">
+                                            {!! Form::text('name', null, ['class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    	{!! Form::label('status', 'Trạng thái', array('class' => 'col-md-4 control-label')) !!}
+                                    	<div class="col-md-8">
+                                            {!! Form::select('status', array('0' => 'Vô hiệu', '1' => 'Hoạt động'), null, array('class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <button class="btn btn-success pull-right" type="submit">Lưu lại</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                 		{!! Form::close() !!}
                     </div>

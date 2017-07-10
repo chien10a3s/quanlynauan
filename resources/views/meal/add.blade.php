@@ -185,7 +185,7 @@
                     html += '<td><input type="text" name="tenmon[' + x + ']" required class="tenmon form-control"></td>';
                     html += '<td class="td_nguyen_lieu">';
                         html+=' <div class="dropdown">';
-                            html += '<input type="text" required name="nguyen_lieu[' + x + '][]" class="luong_val1 form-control" id="id_ten_mon_' + x + '">'
+                            html += '<input type="hidden" required name="nguyen_lieu[' + x + '][]" class="luong_val1 form-control" id="id_ten_mon_' + x + '">'
                             html += '<input type="text" required name="" class="val_sl1 form-control" id="ten_mon_' + x + '" data-toggle="dropdown" onkeyup="search(this.value,this)" onfocus="search(this.value,this)">'
                             html += '<div class="dropdown-menu col-md-12 " id="menu_ten_mon_' + x + '">';
 

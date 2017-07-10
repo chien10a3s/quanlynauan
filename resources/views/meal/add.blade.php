@@ -126,7 +126,7 @@
 {{--                                    {!! Form::select('nguyen_lieu[1][]', $option, 0, ['class' => 'nguyen_lieu select2-multi-col','id'=>'e2_2']) !!}--}}
                                     <div class="dropdown">
                                         <input type="hidden" required name="nguyen_lieu[1][]" class="luong_val1 form-control" id="id_ten_mon_1">
-                                        <input type="text" required name="" class="val_sl1 form-control" id="ten_mon_1" data-toggle="dropdown" onkeyup="search(this.value,this)">
+                                        <input type="text" required name="" class="val_sl1 form-control" id="ten_mon_1" data-toggle="dropdown" onkeyup="search(this.value,this)" onfocus="search(this.value,this)">
                                         <div class="dropdown-menu col-md-12" id="menu_ten_mon_1">
 
                                         </div>
@@ -186,7 +186,7 @@
                     html += '<td class="td_nguyen_lieu">';
                         html+=' <div class="dropdown">';
                             html += '<input type="text" required name="nguyen_lieu[' + x + '][]" class="luong_val1 form-control" id="id_ten_mon_' + x + '">'
-                            html += '<input type="text" required name="" class="val_sl1 form-control" id="ten_mon_' + x + '" data-toggle="dropdown" onkeyup="search(this.value,this)">'
+                            html += '<input type="text" required name="" class="val_sl1 form-control" id="ten_mon_' + x + '" data-toggle="dropdown" onkeyup="search(this.value,this)" onfocus="search(this.value,this)">'
                             html += '<div class="dropdown-menu col-md-12 " id="menu_ten_mon_' + x + '">';
 
                             html += '</div>';
@@ -231,7 +231,7 @@
 
                 var html =' <div class="dropdown">';
                 html += '<input type="hidden" required name="nguyen_lieu[' + a + '][]" class="luong_val1 form-control">';
-                html += '<input type="text" required name="" class="val_sl1 form-control" data-toggle="dropdown" onkeyup="search(this.value,this)"  style="margin-top: 10px">';
+                html += '<input type="text" required name="" class="val_sl1 form-control" data-toggle="dropdown" onkeyup="search(this.value,this)" onfocus="search(this.value,this)"  style="margin-top: 10px">';
                 html += '<div class="dropdown-menu col-md-12 ">';
 
                 html += '</div>';

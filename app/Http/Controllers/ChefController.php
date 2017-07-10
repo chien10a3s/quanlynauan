@@ -211,36 +211,60 @@ class ChefController extends Controller
         $is_commit = true;
         DB::beginTransaction();
         try {
+            $minus_money = array();
+            $data_meal = DailyMeal::find($daily_meal_id);
+            $kitchen_id = $data_meal->id_kitchen;
+            $money_kitchent = Kitchen::where('id', $kitchen_id)->first()->money;
             foreach ($data as $id_detail_dish => $money) {
                 $money = str_replace(',', '', $money);
                 $data_detail_dish = DishDetail::find($id_detail_dish);
                 if($data_detail_dish->update(['money_real' => $money])){
-                    $data_meal = DailyMeal::find($daily_meal_id);
-                    $kitchen_id = $data_meal->id_kitchen;
-                    $money_kitchent = Kitchen::where('id', $kitchen_id)->first()->money;
+                    $minus_money[] = ($money * ($data_detail_dish->number));
                     //Check log
-                    $log = \App\Models\Log\Log::where('table', 'detail_dishs')->where('action_type', 4)->where('item_id', $id_detail_dish)->orderBy('id', 'desc')->first();
-                    if(isset($log)){
-                        $data_decode = json_decode($log->data);
-                        $minus_money = ($money * ($data_detail_dish->number)) - (($data_decode->detail->money_real) * ($data_decode->detail->number));
-                    }else{
-                        $minus_money = ($money * ($data_detail_dish->number));
-                    }
+//                    $log = \App\Models\Log\Log::where('table', 'detail_dishs')->where('action_type', 4)->where('item_id', $id_detail_dish)->orderBy('id', 'desc')->first();
+//                    if(isset($log)){
+//                        $data_decode = json_decode($log->data);
+//                        $minus_money[] = ($money * ($data_detail_dish->number)) - (($data_decode->detail->money_real) * ($data_decode->detail->number));
+//                    }else{
+//                        $minus_money[] = ($money * ($data_detail_dish->number));
+//                    }
                     //Update money of kitchen
-                    Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - $minus_money]);
+//                    Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - $minus_money]);
 
                     //Save table logs
-                    $data_log = array();
-                    $data_log['table'] = 'detail_dishs';
-                    $data_log['item_id'] = $id_detail_dish;
-                    $data_log['kitchen_id'] = $kitchen_id;
-                    $data_log['minus_money'] = ($money * ($data_detail_dish->number));
-                    $data_log['last_money'] = $money_kitchent - $minus_money;
-                    $data_log['data'] = $data_detail_dish;
-                    $data_log['action_type'] = 4;
-                    event(new Log($data_log));
+//                    $data_log = array();
+//                    $data_log['table'] = 'detail_dishs';
+//                    $data_log['item_id'] = $id_detail_dish;
+//                    $data_log['kitchen_id'] = $kitchen_id;
+//                    $data_log['minus_money'] = ($money * ($data_detail_dish->number));
+//                    $data_log['last_money'] = $money_kitchent - $minus_money;
+//                    $data_log['data'] = $data_detail_dish;
+//                    $data_log['action_type'] = 4;
+//                    event(new Log($data_log));
                 }
             }
+            $total_meal_chef = array_sum($minus_money);
+            //Check log
+            $log = \App\Models\Log\Log::where('table', 'daily_meals')->where('action_type', 4)->where('item_id', $daily_meal_id)->orderBy('id', 'desc')->first();
+            if (isset($log)) {
+                $data_decode = json_decode($log->data);
+                $minus_money = $total_meal_chef - ($data_decode->minus_money);
+            } else {
+                $minus_money = $total_meal_chef;
+            }
+            //Update money of kitchen
+            Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - $minus_money]);
+
+            //Save table logs
+            $data_log = array();
+            $data_log['table'] = 'daily_meals';
+            $data_log['item_id'] = $daily_meal_id;
+            $data_log['kitchen_id'] = $kitchen_id;
+            $data_log['minus_money'] = $total_meal_chef;
+            $data_log['last_money'] = $money_kitchent - $minus_money;
+            $data_log['data'] = $data_meal;
+            $data_log['action_type'] = 4;
+            event(new Log($data_log));
         } catch (\Exception $e) {
             DB::rollBack();
             $is_commit = false;

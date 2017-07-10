@@ -24,6 +24,7 @@ class LogEventListener
             $data_insert['table'] = $data['table'];
             $data_insert['action_type'] = $data['action_type'];
             $data_insert['item_id'] = $data['item_id'];
+            $data_insert['kitchen_id'] = $data['kitchen_id'];
             $data_insert['data'] = json_encode($data['data']);
             $data_insert['created_by'] = Auth::user()->id;
             $data_insert['updated_by'] = Auth::user()->id;

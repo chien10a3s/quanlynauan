@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kitchen\Kitchen;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -161,20 +162,53 @@ class CustomerController extends Controller
         return view('customer.orderhistory',compact('all_meal'));
     }
 
-    public function transaction()
+    public function transaction(Request $request)
     {
-        return view('customer.transaction');
+        $input = $request->all();
+
+        $user_kitchen = Auth::user()->kitchen;
+        if (count($user_kitchen) < 0) {
+            return back()->withErrors('Không có bếp quản lý');
+        }
+        $id_kitchen = 0;
+        foreach ($user_kitchen as $item_kitchen) {
+            $id_kitchen = $item_kitchen->id;
+        }
+
+        if (!empty($input)){
+            $start_date_begin = @$input['start_date'];
+            $end_date_begin = @$input['end_date'];
+
+            if ($start_date_begin == null){
+                $start_date = "0001-01-01";
+            }else{
+                $start_date = Carbon::createFromFormat('d/m/Y',$start_date_begin)->format('Y-m-d');
+            }
+
+            if ($end_date_begin == null){
+                $end_date = Carbon::now()->format('Y-m-d');
+            }else{
+                $end_date = Carbon::createFromFormat('d/m/Y',$end_date_begin)->format('Y-m-d');
+            }
+            $all_log = Kitchen::with(['log'=>function($query){
+                return $query->where('action_type',4)->orderBy('updated_at','desc')->first();
+            }])
+                ->where('id',$id_kitchen)
+                ->first();
+            return view('customer.transaction',compact('all_log'));
+        }
+        //Get all log
+
+        $all_log = Kitchen::with(['log'=>function($query){
+            return $query->where('action_type',4)->orderBy('updated_at','desc')->first();
+        }])
+            ->where('id',$id_kitchen)
+            ->first();
+        return view('customer.transaction',compact('all_log'));
     }
     
     public function feedback()
     {
-//<<<<<<< HEAD
-//        if (isset($request->day)) {
-//            $request_day = Carbon::createFromFormat('d/m/Y', $request->day);
-//            $day = Carbon::parse($request_day)->format('Y-m-d');
-//        } else {
-//            $day = Carbon::now()->format('Y-m-d');
-//        }
         $user_kitchen = Auth::user()->kitchen;
         if (count($user_kitchen) < 0) {
             return back()->withErrors('Không có bếp quản lý');

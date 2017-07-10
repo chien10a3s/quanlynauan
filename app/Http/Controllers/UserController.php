@@ -218,6 +218,7 @@ class UserController extends Controller
                         $id_daily_dish = DailyDish::insertGetId($data_create_daily_dish);
                         foreach ($arr_ingredient as $key_ing => $item_ing) {
                             $name_ingredient = $item_ing;//id nguyên liệu
+                            $food_item = Food::where('id',$item_ing)->first();
 //                            dd($item_ing);
                             $number = $arr_number[$key_ing];
 //                            $unit = $arr_unit[$key_ing];
@@ -228,9 +229,9 @@ class UserController extends Controller
 
                             $arr_dish_detail['id_daily_dish'] = $id_daily_dish;
                             $arr_dish_detail['id_food'] = $name_ingredient;
-                            $arr_dish_detail['name'] = $name_ingredient;
+                            $arr_dish_detail['name'] = $food_item->name;
                             $arr_dish_detail['number'] = $number;
-                            $arr_dish_detail['unit'] = 1;
+                            $arr_dish_detail['unit'] = $food_item->unit;
                             $arr_dish_detail['money'] = 0;
                             $arr_dish_detail['status'] = 0;
                             $arr_dish_detail['created_by'] = Auth::user()->id;
@@ -307,10 +308,6 @@ class UserController extends Controller
         $option = [];
         if (count($all_food) > 0) {
             foreach ($all_food as $item_food) {
-//                $name = "";
-//                if (count($item_food->supplier) > 0) {
-//                    $name = $item_food->supplier->name;
-//                }
                 $option[$item_food->id] = $item_food->name;
             }
         }
@@ -428,6 +425,7 @@ class UserController extends Controller
                     foreach ($arr_ingredient as $key_ing => $item_ing) {
                         $name_ingredient = $item_ing;//id nguyên liệu
                         $number = $arr_number[$key_ing];
+                        $food_item = Food::where('id',$item_ing)->first();
 //                        $unit = $arr_unit[$key_ing];
 
 
@@ -436,9 +434,9 @@ class UserController extends Controller
 
                         $arr_dish_detail['id_daily_dish'] = $id_daily_dish;
                         $arr_dish_detail['id_food'] = $name_ingredient;
-                        $arr_dish_detail['name'] = $name_ingredient;
+                        $arr_dish_detail['name'] = $food_item->name;
                         $arr_dish_detail['number'] = $number;
-                        $arr_dish_detail['unit'] = 1;
+                        $arr_dish_detail['unit'] = $food_item->unit;
                         $arr_dish_detail['money'] = 0;
                         $arr_dish_detail['status'] = 0;
                         $arr_dish_detail['created_by'] = Auth::user()->id;

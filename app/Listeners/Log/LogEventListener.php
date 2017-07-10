@@ -28,6 +28,8 @@ class LogEventListener
             $data_insert['data'] = json_encode($data['data']);
             $data_insert['created_by'] = Auth::user()->id;
             $data_insert['updated_by'] = Auth::user()->id;
+            $data_insert['created_at'] = Carbon::now();
+            $data_insert['updated_at'] = Carbon::now();
             DB::table('logs')->insert($data_insert);
         } catch (\Exception $e) {
             DB::rollback();

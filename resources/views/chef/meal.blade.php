@@ -269,16 +269,13 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="form-group col-md-12">
-                                                                <label class="control-label col-md-5">Nhập số tiền thực tế 1 suất ăn</label>
+                                                                <label class="control-label col-md-5" style="text-align: left !important;">Nhập số tiền thực tế 1 suất ăn</label>
                                                                 <div class="col-md-6">
                                                                     {!! Form::text('total_meal_chef', @$item->total_meal_chef, ['class' => 'form-control number-format-edit', 'required'=>true, 'placeholder' => 'VND', 'maxlength' => "8"]) !!} VND
                                                                 </div>
                                                             </div> <hr>
                                                             <div class="form-group col-md-12">
-                                                                <label class="control-label col-md-7"><i>Số tiền hiện có của {{$data['kitchen']->name}}: <span class="number-format" style="color: red">{{$data['kitchen']->money}}</span> VND</i></label>
-                                                                <div class="col-md-4">
-                                                                    &nbsp;
-                                                                </div>
+                                                                <label class="control-label col-md-12" style="text-align: left !important;"><i>Số tiền hiện có của {{$data['kitchen']->name}}: <span class="number-format" style="color: red">{{$data['kitchen']->money}}</span> VND</i></label>
                                                             </div>
                                                             <div style="clear: both;"></div>
                                                         </div>
@@ -326,8 +323,8 @@
                                                                     </div>
                                                                 @endforeach
                                                             @endif
-                                                            <div class="item-meal">
-                                                                <i>Số tiền hiện có của <b>{{$data['kitchen']->name}}</b>: <span class="number-format" style="color: red">{{$data['kitchen']->money}}</span> VND</i>
+                                                            <div class="form-group col-md-12">
+                                                                <label class="control-label col-md-12" style="text-align: left !important;"><i>Số tiền hiện có của {{$data['kitchen']->name}}: <span class="number-format" style="color: red">{{$data['kitchen']->money}}</span> VND</i></label>
                                                             </div>
                                                             <div style="clear: both;"></div>
                                                         </div>

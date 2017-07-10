@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kitchen\Kitchen;
+use App\Models\Log\Log;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Validation\Rules\In;
 use TCG\Voyager\Models\Post;
 use TCG\Voyager\Models\Category;
 use Illuminate\Support\Str;
@@ -184,26 +186,28 @@ class CustomerController extends Controller
             }else{
                 $start_date = Carbon::createFromFormat('d/m/Y',$start_date_begin)->format('Y-m-d');
             }
-
             if ($end_date_begin == null){
                 $end_date = Carbon::now()->format('Y-m-d');
             }else{
                 $end_date = Carbon::createFromFormat('d/m/Y',$end_date_begin)->format('Y-m-d');
             }
-            $all_log = Kitchen::with(['log'=>function($query){
-                return $query->where('action_type',4)->orderBy('updated_at','desc')->first();
+            $all_log = Kitchen::with(['log'=>function($query) use ($start_date,$end_date){
+                return $query->where('action_type',4)
+                    ->where('updated_at','>',$start_date)
+                    ->where('updated_at','<',$end_date)
+                    ->orderBy('updated_at','desc')
+                    ->first();
             }])
                 ->where('id',$id_kitchen)
                 ->first();
             return view('customer.transaction',compact('all_log'));
         }
         //Get all log
-
-        $all_log = Kitchen::with(['log'=>function($query){
-            return $query->where('action_type',4)->orderBy('updated_at','desc')->first();
-        }])
-            ->where('id',$id_kitchen)
-            ->first();
+        $all_log = Log::where('action_type',4)
+            ->where('kitchen_id',$id_kitchen)
+            ->orderBy('updated_at','desc')
+            ->where('is_last',1)
+            ->get();
         return view('customer.transaction',compact('all_log'));
     }
     
@@ -322,5 +326,24 @@ class CustomerController extends Controller
         return view('customer.feedback');
 //>>>>>>> a754064628f92d12d1fb28913f962bec4e689dd7
     }
-    
+    public function detailOrder(){
+        $id_meal = Input::get('daily_meal_id');
+        $info_meal = DailyMeal::with(['daily_dish','daily_dish.detail_dish'])
+            ->where('id',$id_meal)
+            ->first();
+
+        /*
+         * all food
+         */
+        $all_food = Food::with('supplier')->where('status', 1)->get();
+        $option = [];
+        if (count($all_food) > 0) {
+            foreach ($all_food as $item_food) {
+                $option[$item_food->id]['name'] = $item_food->name;
+                $option[$item_food->id]['price'] = $item_food->price;
+                $option[$item_food->id]['unit'] = $item_food->unit;
+            }
+        }
+        return view('customer.ajax_order',compact('info_meal','option'));
+    }
 }

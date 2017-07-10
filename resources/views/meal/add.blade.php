@@ -171,6 +171,7 @@
 
 @section('page-script')
     <script src="/plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="/plugin/jquery-loading-overlay-master/src/loadingoverlay.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -207,23 +208,12 @@
                     html += '</td>';
                     html += '</tr>';
                     $('.mon_an').append(html);
-//                    $('select').select2({
-//                        placeholder: "Select a state or many…",
-//                        formatResult: format,
-//                        width: 'auto',
-//                        dropdownAutoWidth: true,
-//                        formatSelection: format,
-//                        escapeMarkup: function (m) {
-//                            return m;
-//                        }
-//                    });
                 }
             });
 
             $(".mon_an").on("click", ".remove_field", function (e) { //user click on remove text
                 e.preventDefault();
                 $(this).parent('td').parent('tr').remove();
-//                x--;
             })
 
             $("#main").on("click", "#add_nl", function (event) {
@@ -238,24 +228,13 @@
                 html += '</div>';
                 $(this).closest("tr").find('.td_nguyen_lieu').append(html);
                 $(this).closest("tr").find('.td_so_luong').append('<input type="number" required name="so_luong[' + a + '][]" class="so_luong form-control" style="margin-top: 10px">');
-//                $(this).closest("tr").find('.td_don_vi').append('<input type="text" required name="don_vi[' + a + '][]" class="don_vi form-control" style="margin-top: 20px">');
-//                $('select').select2({
-//                    placeholder: "Select a state or many…",
-//                    formatResult: format,
-//                    formatSelection: format,
-//                    width: 'auto',
-//                    dropdownAutoWidth: true,
-//                    escapeMarkup: function (m) {
-//                        return m;
-//                    }
-//                });
                 return false;
-                //$("html, body").animate({scrollTop: $(this).closest("tr").find('.td_nguyen_lieu').offset().top}, 1);
             });
 
             //Check Date
 
             $("#my_form").on("submit", function (e) { //user click on remove text
+                $.LoadingOverlay("show");
                 var date = $('.datetimepicker1').val();
                 var status = 0;
                 $.ajax({
@@ -272,6 +251,9 @@
                             $('.datetimepicker1').css('border', '1px solid #F00')
                             e.preventDefault();
                         }
+                        setTimeout(function(){
+                            $.LoadingOverlay("hide");
+                        });
                     }
                 });
             })
@@ -297,14 +279,18 @@
             });
         });
         function select_meal_list() {
+            $.LoadingOverlay("show");
             $('#select_meal').modal('show');
             $.ajax({
                 url: '{{ route('admin.user.ajax_get_list_meal') }}',
                 type: 'get',
-                async: false,
+                async: true,
                 data: {},
                 success: function (data) {
                     $('#data_result').html(data);
+                    setTimeout(function(){
+                        $.LoadingOverlay("hide");
+                    });
                 }
             });
         }
@@ -326,16 +312,20 @@
             return "" + state.text;
         }
         function search(data,cl){
+            $(cl).closest(".dropdown").find('.dropdown-menu').LoadingOverlay("show");
             $.ajax({
                 url: '{{ route('admin.user.ajax_search_food') }}',
                 type: 'get',
-                async: false,
+                async: true,
                 data: {
                     'val_search':data,
                     'name_click':cl.id
                 },
                 success: function (data) {
                     var a = $(cl).closest(".dropdown").find('.dropdown-menu').html(data);
+                    setTimeout(function(){
+                        $(cl).closest(".dropdown").find('.dropdown-menu').LoadingOverlay("hide");
+                    });
                 }
             });
         }

@@ -36,6 +36,7 @@ Route::group(['middleware' => 'admin.user'], function () {
     Route::get('account/food', 'CustomerController@food');
     Route::get('account/orderhistory', 'CustomerController@orderHistory')->name('user.account.orderhistory');
     Route::get('account/transaction', 'CustomerController@transaction')->name('user.account.transaction');
+    Route::get('account/chitietdonhang', 'CustomerController@detailOrder')->name('user.account.chitietdonhang');
     Route::get('account/feedback', 'CustomerController@feedback')->name('admin.account.feedback');
 //<<<<<<< HEAD
 //    Route::get('account/feedback', 'CustomerController@getFeedback')->name('admin.account.feedback');

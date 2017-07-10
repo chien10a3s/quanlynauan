@@ -1,6 +1,13 @@
 @extends('layouts.1column')
 
 @section('main-content')
+    <style>
+        @media screen and (min-width: 768px) {
+
+            #donhang .modal-dialog  {width:90%;}
+
+        }
+    </style>
     <div class="page-content container">
         <div class="nav-tabs-custom">
             @include('customer.nav')
@@ -37,7 +44,7 @@
                                 <th style="width: 10px">#</th>
                                 <th>Ngày</th>
                                 <th>Số tiền</th>
-                                <th>Số đơn hàng</th>
+                                <th>Chi tiết đơn hàng</th>
                                 <th>Ghi chú</th>
                                 <th>Số dư cuối</th>
                             </tr>
@@ -47,18 +54,23 @@
                             $i = 0;
                             ?>
                             @if(count($all_log) > 0)
-                                @if(count($all_log->log))
-                                    @foreach($all_log->log as $item_log)
-                                        <tr>
-                                            <td>{{ $i+=1 }}.</td>
-                                            <td>{{ $item_log->id }}</td>
-                                            <td>100.000đ</td>
-                                            <td><a target="_blank" href="/chitietdonhang">Đơn hàng #001</a></td>
-                                            <td>Trừ tiền mua thúc ăn bữa trưa 20-06-2017</td>
-                                            <td>15.000.000đ</td>
-                                        </tr>
-                                    @endforeach
-                                @endif
+                                @foreach($all_log as $item_log)
+                                    <?php
+                                        $data=json_decode($item_log->data);
+                                    ?>
+                                    <tr>
+                                        <td>{{ $i+=1 }}.</td>
+                                        <td>{{ \Carbon\Carbon::parse($item_log->updated_at)->format('H:i:s d/m/Y') }}</td>
+                                        <td>{{ number_format($data->minus_money) }} đ</td>
+                                        @if($item_log->table == "daily_meals")
+                                            <td><a href="#" class="btn-sm btn-success" onclick="detail_order({{$item_log->item_id}})">Đơn hàng </a></td>
+                                        @else
+                                            <td><a target="_blank" href="/chitietdonhang">Chi tiết </a></td>
+                                        @endif
+                                        <td>Trừ tiền mua thúc ăn bữa trưa {{ \Carbon\Carbon::parse($data->detail->day)->format('d/m/Y') }}</td>
+                                        <td>{{ number_format($data->last_money) }} đ</td>
+                                    </tr>
+                                @endforeach
                             @endif
                         </tbody>
                     </table>
@@ -66,6 +78,31 @@
             </div>
         </div>
     </div>
+    {{--Modal detail order--}}
+    <div class="modal fade" tabindex="-1" id="donhang" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"><img src="/social/comment-icon.png"> Chi tiết đơn hàng
+                        <label class="date_meal"></label>
+                    </h4>
+                </div>
+
+                <div class="modal-content" id="data_result" style="margin-top: 15px">
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">
+                        Đóng
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 @stop
 
 @section('page-script')
@@ -74,6 +111,7 @@
     {!! Html::style('plugin/datepicker/datepicker3.css') !!}
     {!! Html::style('plugin/datepicker/bootstrap-datetimepicker.min.css') !!}
     {!! Html::script('plugin/datepicker/bootstrap-datetimepicker.min.js') !!}
+    <script src="/plugin/jquery-loading-overlay-master/src/loadingoverlay.js"></script>
     <script src="/plugin/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript" src="{{ voyager_asset('lib/js/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ voyager_asset('lib/js/dataTables.bootstrap.min.js') }}"></script>
@@ -91,5 +129,23 @@
 
             })
         });
+        function detail_order(id_meal) {
+            $.LoadingOverlay("show");
+            $("#donhang").modal('show');
+            $.ajax({
+                method: "get",
+                async: true,
+                url: '{{route('user.account.chitietdonhang')}}',
+                data: {
+                    'daily_meal_id': id_meal
+                },
+                success: function (data) {
+                    $("#data_result").html(data);
+                    setTimeout(function(){
+                        $.LoadingOverlay("hide");
+                    });
+                }
+            });
+        }
     </script>
 @stop

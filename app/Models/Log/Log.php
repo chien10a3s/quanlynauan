@@ -3,6 +3,7 @@
 namespace App\Models\Log;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DailyDish\DailyDish;
 
 class Log extends Model
 {
@@ -17,5 +18,10 @@ class Log extends Model
     {
         parent::__construct($attributes);
         $this->table = 'logs';
+    }
+
+    public function daily_dish()
+    {
+        return $this->hasMany(DailyDish::class, 'id_daily_meal', 'item_id');
     }
 }

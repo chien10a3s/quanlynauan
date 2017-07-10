@@ -20,6 +20,11 @@
             max-height: 300px;
             overflow: auto;
         }
+        @media screen and (min-width: 768px) {
+
+            #detail_meal .modal-dialog  {width:90%;}
+
+        }
     </style>
 @stop
 @section('main-content')
@@ -113,7 +118,6 @@
                                 <th>Tên món</th>
                                 <th>Nguyên liệu</th>
                                 <th>Số lượng</th>
-                                {{--<th>Đơn vị</th>--}}
                                 <th>Công thức</th>
                                 <th>Ghi chú</th>
                                 <th></th>
@@ -123,7 +127,6 @@
                             <tr class="tr_mon" id="tr_mon">
                                 <td><input type="text" name="tenmon[1]" required class="tenmon form-control"></td>
                                 <td class="td_nguyen_lieu">
-{{--                                    {!! Form::select('nguyen_lieu[1][]', $option, 0, ['class' => 'nguyen_lieu select2-multi-col','id'=>'e2_2']) !!}--}}
                                     <div class="dropdown">
                                         <input type="hidden" required name="nguyen_lieu[1][]" class="luong_val1 form-control" id="id_ten_mon_1">
                                         <input type="text" required name="" class="val_sl1 form-control" id="ten_mon_1" data-toggle="dropdown" onkeyup="search(this.value,this)" onfocus="search(this.value,this)">

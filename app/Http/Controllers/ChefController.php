@@ -164,6 +164,8 @@ class ChefController extends Controller
                 if (isset($log)) {
                     $data_decode = json_decode($log->data);
                     $minus_money = ($total_meal_chef * ($data_meal->number_of_meals)) - ($data_decode->detail->total_meal_chef * $data_decode->detail->number_of_meals);
+                    //Cap nhat lai is_last theo id_daily_meal
+                    DB::table('logs')->where('item_id', $daily_meal_id)->update(['is_last', 0]);
                 } else {
                     $minus_money = ($total_meal_chef * ($data_meal->number_of_meals));
                 }
@@ -179,9 +181,10 @@ class ChefController extends Controller
                 $data_log['last_money'] = $money_kitchent - $minus_money;
                 $data_log['data'] = $data_meal;
                 $data_log['action_type'] = 4;
+
                 event(new Log($data_log));
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             DB::rollBack();
             $is_commit = false;
             return redirect()->back()->with([
@@ -218,7 +221,7 @@ class ChefController extends Controller
             foreach ($data as $id_detail_dish => $money) {
                 $money = str_replace(',', '', $money);
                 $data_detail_dish = DishDetail::find($id_detail_dish);
-                if($data_detail_dish->update(['money_real' => $money])){
+                if ($data_detail_dish->update(['money_real' => $money])) {
                     $minus_money[] = ($money * ($data_detail_dish->number));
                     //Check log
 //                    $log = \App\Models\Log\Log::where('table', 'detail_dishs')->where('action_type', 4)->where('item_id', $id_detail_dish)->orderBy('id', 'desc')->first();
@@ -249,6 +252,8 @@ class ChefController extends Controller
             if (isset($log)) {
                 $data_decode = json_decode($log->data);
                 $minus_money = $total_meal_chef - ($data_decode->minus_money);
+                //Cap nhat lai is_last theo id_daily_meal
+                DB::table('logs')->where('item_id', $daily_meal_id)->update(['is_last', 0]);
             } else {
                 $minus_money = $total_meal_chef;
             }
@@ -441,7 +446,7 @@ class ChefController extends Controller
         $data_spice['status'] = $request->status;
         $data_spice['created_by'] = Auth::user()->id;
         $data_spice['updated_by'] = Auth::user()->id;
-        if(SpicesUser::where('id', $id)->update($data_spice) == 0){
+        if (SpicesUser::where('id', $id)->update($data_spice) == 0) {
             return redirect()->back()->with([
                 'message' => 'Có lỗi xảy ra, vui lòng kiểm tra lại',
                 'alert-type' => 'error',
@@ -459,7 +464,7 @@ class ChefController extends Controller
         $data_food['id_category'] = 1;
         $data_food['id_supplier'] = $request->id_supplier;
 
-        if(Food::where('id', $id_food)->update($data_food) == 1){
+        if (Food::where('id', $id_food)->update($data_food) == 1) {
             return redirect()->back()->with([
                 'message' => 'Cập nhật thành công',
                 'alert-type' => 'success',

@@ -19,6 +19,7 @@ class LogEventListener
     {
         DB::beginTransaction();
         try {
+            //Check last update by item_id (id_daily_meal)
             $data = $events->data;
             $data_insert = array();
             $data_insert['table'] = $data['table'];
@@ -30,6 +31,7 @@ class LogEventListener
             $array_save['last_money'] = $data['last_money'];
             $array_save['detail'] = $data['data'];
             $data_insert['data'] = json_encode($array_save);
+            $data_insert['is_last'] = 1;
             $data_insert['created_by'] = Auth::user()->id;
             $data_insert['updated_by'] = Auth::user()->id;
             $data_insert['created_at'] = Carbon::now();

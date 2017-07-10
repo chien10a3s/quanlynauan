@@ -78,8 +78,7 @@
                                             </a>
 
                                             {{--Modal delete--}}
-                                            <div class="modal modal-danger fade" tabindex="-1"
-                                                 id="delete_modal-{{ $item->id }}" role="dialog">
+                                            <div class="modal modal-danger fade" tabindex="-1" id="delete_modal-{{ $item->id }}" role="dialog">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">

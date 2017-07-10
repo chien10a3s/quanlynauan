@@ -83,34 +83,9 @@
                                             @if(\Carbon\Carbon::now()->timestamp < Carbon\Carbon::createFromFormat('Y-m-d H:i:s',\Carbon\Carbon::parse($item_daily_meal->day)->format('Y-m-d')."09:00:00")->timestamp )
                                                 <a href="{{ route('admin.user.edit',$item_daily_meal->id) }}"
                                                    class="btn btn-primary btn-sm">Sửa đơn hàng</a>
-                                                <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" title="Xóa"
-                                                   data-target="#delete_modal-{{ $item_daily_meal->id }}">Hủy đơn hàng</a>
-                                                <div class="modal fade" tabindex="-1"
-                                                     id="delete_modal-{{ $item_daily_meal->id }}" role="dialog">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                        aria-label="Close"><span
-                                                                            aria-hidden="true">&times;</span></button>
-                                                                <h4 class="modal-title"><i class="voyager-trash"></i> Bạn có
-                                                                    chắc chắn muốn xóa thực đơn này hay không?</h4>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <form action="{{ route('admin.user.delete',$item_daily_meal->id) }}"
-                                                                      method="post">
-                                                                    {{ csrf_field() }}
-                                                                    <input type="submit"
-                                                                           class="btn btn-danger pull-right delete-confirm"
-                                                                           value="Delete">
-                                                                </form>
-                                                                <button type="button" class="btn btn-default pull-right"
-                                                                        data-dismiss="modal">Cancel
-                                                                </button>
-                                                            </div>
-                                                        </div><!-- /.modal-content -->
-                                                    </div><!-- /.modal-dialog -->
-                                                </div><!-- /.modal -->
+                                                <a class="btn-danger btn-sm delete_table" data-table="{{ $item_daily_meal->name }}" style="display:inline; cursor:pointer;" data-id="{{ $item_daily_meal->id }}" data-name="{{ \Carbon\Carbon::parse($item_daily_meal->day)->format('d/m/Y') }}">
+                                                    <i class="voyager-trash"></i> Hủy đơn hàng
+                                                </a>
                                             @endif
                                         </td>
                                     </tr>
@@ -136,8 +111,7 @@
                     <h4 class="modal-title"><img src="/social/comment-icon.png"> Lựa chọn phương thức đăng ký <label
                                 class="date_meal"></label></h4>
                 </div>
-                <form action="{{ route('admin.user.add') }}"
-                      method="get">
+                <form action="{{ route('admin.user.add') }}" method="get">
                     <div class="modal-content">
                         <select class="form-control" name="sl">
                             <option value="1">Tự chọn món ăn</option>
@@ -161,10 +135,12 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><img src="/social/comment-icon.png"> Danh sách comment <label
-                                class="date_meal"></label></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"><img src="/social/comment-icon.png"> Danh sách comment
+                        <label class="date_meal"></label>
+                    </h4>
                 </div>
 
                 <div class="modal-content" id="data_result">
@@ -172,9 +148,30 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-right"
-                            data-dismiss="modal">Đóng
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">
+                        Đóng
                     </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <div class="modal fade" tabindex="-1" id="delete_builder_modal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="voyager-trash"></i> Bạn có chắc chắn muốn hủy đơn đặt hàng ngày <b class="delete_builder_name"></b> không ?</h4>
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('admin.user.delete', ['id' => null]) }}" id="delete_builder_form" method="POST">
+                        {{ method_field('POST') }}
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="submit" class="btn btn-danger pull-right" value="Đúng, Hủy nó đi" style="margin-left: 5px">
+                    </form>
+                    <button type="button" class="btn pull-right" data-dismiss="modal">Cancel</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -204,6 +201,16 @@
 
             })
             $('#sample_1').DataTable({"order": []});
+
+            $('.delete_table').on('click', function (e) {
+                e.preventDefault();
+                id = $(this).data('id');
+                name = $(this).data('name');
+
+                $('.delete_builder_name').text(name);
+                $('#delete_builder_form')[0].action += '/' + id;
+                $('#delete_builder_modal').modal('show');
+            });
         });
         function comment(id_meal) {
             $("#commment").modal('show');
@@ -218,6 +225,11 @@
                     $("#data_result").html(data);
                 }
             });
+        }
+        function parseActionUrl(action, id) {
+            return action.match(/\/[0-9]+$/)
+                ? action.replace(/([0-9]+$)/, id)
+                : action + '/' + id;
         }
     </script>
 @stop

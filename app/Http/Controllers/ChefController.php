@@ -80,7 +80,6 @@ class ChefController extends Controller
         $data['kitchen'] = Kitchen::find($kitchen_id);
         $data['meals'] = DailyMeal::with([
             'daily_dish' => function ($query) {
-                $query->where('status', 1);
                 $query->with(['detail_dish.food']);
             },
             'feedback' => function ($query) use ($kitchen_id) {
@@ -91,7 +90,7 @@ class ChefController extends Controller
         }])
             ->where('id_kitchen', $kitchen_id)
             ->where('day', '=', $day)
-            ->where('status', 1)->get();
+            ->get();
         $data['date'] = $day;
         $data['kitchen_id'] = $kitchen_id;
         //Get feedback of daily meal
@@ -132,13 +131,12 @@ class ChefController extends Controller
         }
         $meals_date = DailyMeal::with([
             'daily_dish' => function ($query) {
-                $query->where('status', 1);
                 $query->with(['detail_dish']);
             }
         ])
             ->where('id_kitchen', $kitchent_id)
             ->where('day', '=', $day)
-            ->where('status', 1)->get();
+            ->get();
         return $meals_date;
     }
 
@@ -165,18 +163,20 @@ class ChefController extends Controller
                 $log = \App\Models\Log\Log::where('table', 'daily_meals')->where('action_type', 4)->where('item_id', $daily_meal_id)->orderBy('id', 'desc')->first();
                 if (isset($log)) {
                     $data_decode = json_decode($log->data);
-                    $minus_money = ($total_meal_chef * ($data_meal->number_of_meals)) - ($data_decode->total_meal_chef * $data_decode->number_of_meals);
-                    //Update money of kitchen
-                    Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - $minus_money]);
+                    $minus_money = ($total_meal_chef * ($data_meal->number_of_meals)) - ($data_decode->detail->total_meal_chef * $data_decode->detail->number_of_meals);
                 } else {
-                    Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - ($total_meal_chef * ($data_meal->number_of_meals))]);
+                    $minus_money = ($total_meal_chef * ($data_meal->number_of_meals));
                 }
+                //Update money of kitchen
+                Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - $minus_money]);
 
                 //Save table logs
                 $data_log = array();
                 $data_log['table'] = 'daily_meals';
                 $data_log['item_id'] = $daily_meal_id;
                 $data_log['kitchen_id'] = $kitchen_id;
+                $data_log['minus_money'] = ($total_meal_chef * ($data_meal->number_of_meals));
+                $data_log['last_money'] = $money_kitchent - $minus_money;
                 $data_log['data'] = $data_meal;
                 $data_log['action_type'] = 4;
                 event(new Log($data_log));
@@ -222,19 +222,20 @@ class ChefController extends Controller
                     $log = \App\Models\Log\Log::where('table', 'detail_dishs')->where('action_type', 4)->where('item_id', $id_detail_dish)->orderBy('id', 'desc')->first();
                     if(isset($log)){
                         $data_decode = json_decode($log->data);
-                        $minus_money = ($money * ($data_detail_dish->number)) - (($data_decode->money_real) * ($data_decode->number));
-                        //Update money of kitchen
-                        Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - $minus_money]);
+                        $minus_money = ($money * ($data_detail_dish->number)) - (($data_decode->detail->money_real) * ($data_decode->detail->number));
                     }else{
-                        Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - ($money * ($data_detail_dish->number))]);
+                        $minus_money = ($money * ($data_detail_dish->number));
                     }
-
+                    //Update money of kitchen
+                    Kitchen::where('id', $kitchen_id)->update(['money' => $money_kitchent - $minus_money]);
 
                     //Save table logs
                     $data_log = array();
                     $data_log['table'] = 'detail_dishs';
                     $data_log['item_id'] = $id_detail_dish;
                     $data_log['kitchen_id'] = $kitchen_id;
+                    $data_log['minus_money'] = ($money * ($data_detail_dish->number));
+                    $data_log['last_money'] = $money_kitchent - $minus_money;
                     $data_log['data'] = $data_detail_dish;
                     $data_log['action_type'] = 4;
                     event(new Log($data_log));
@@ -280,13 +281,11 @@ class ChefController extends Controller
 
         $data['meals'] = DailyMeal::with([
             'daily_dish' => function ($query) {
-                $query->where('status', 1);
                 $query->with(['detail_dish']);
             }
         ])
             ->where('id_kitchen', $kitchen_id)
-            ->where('day', '=', $day)
-            ->where('status', 1)->get();
+            ->where('day', '=', $day)->get();
         $data['daily_meal_id'] = $daily_meal_id;
         $feedback = Feeback::with([
             'create_user',

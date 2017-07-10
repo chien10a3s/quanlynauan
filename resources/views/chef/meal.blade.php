@@ -101,9 +101,9 @@
                                         <td><span class="number-format">{{ @$item->total_meal_chef }}</span> VND</td>
                                         <td>
                                             @if($item->is_permission == 1)
-                                                <span class="label label-success">Khách hàng tự đi chợ</span>
+                                                <span class="label label-success">Khách hàng ủy quyền đi chợ</span>
                                             @else
-                                                <span class="label label-warning">Khách hàng ủy quyền đi chợ</span>
+                                                <span class="label label-warning">Khách hàng tự đi chợ</span>
                                             @endif
                                         </td>
                                         <td>
@@ -251,7 +251,8 @@
 
                                                 </div>
                                             </div>
-                                            <div class="modal fade" id="total_meal_chef{{$item->id}}0" role="dialog">
+
+                                            <div class="modal fade" id="total_meal_chef{{$item->id}}1" role="dialog">
                                                 <div class="modal-dialog">
                                                     {!! Form::model($item, ['route' => ['admin.chef.meal.update', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PUT']) !!}
                                                             <!-- Modal content-->
@@ -291,7 +292,7 @@
                                                     {!! Form::close() !!}
                                                 </div>
                                             </div>
-                                            <div class="modal fade" id="total_meal_chef{{$item->id}}1" role="dialog">
+                                            <div class="modal fade" id="total_meal_chef{{$item->id}}0" role="dialog">
                                                 <div class="modal-dialog">
                                                     {!! Form::model($item, ['route' => ['admin.chef.meal.update.detail', $item->id], 'class' => 'form-horizontal', 'role' => 'form','method' => 'PUT']) !!}
                                                             <!-- Modal content-->

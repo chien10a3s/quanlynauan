@@ -42,6 +42,7 @@
 
                         </div>
                     </div>
+                    <hr>
                     <table class="table table-bordered" id="sample_1">
                         <thead>
                         <tr>

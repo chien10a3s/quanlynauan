@@ -16,7 +16,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class ChefController extends Controller
 {
@@ -164,8 +164,8 @@ class ChefController extends Controller
                 if (isset($log)) {
                     $data_decode = json_decode($log->data);
                     $minus_money = ($total_meal_chef * ($data_meal->number_of_meals)) - ($data_decode->detail->total_meal_chef * $data_decode->detail->number_of_meals);
-                    //Cap nhat lai is_last theo id_daily_meal
-                    DB::table('logs')->where('item_id', $daily_meal_id)->update(['is_last', 0]);
+                    //Cap nhat lai is_last theo daily_meal_id
+                    DB::table('logs')->where('item_id', $daily_meal_id)->update(['is_last' => 0]);
                 } else {
                     $minus_money = ($total_meal_chef * ($data_meal->number_of_meals));
                 }
@@ -253,7 +253,7 @@ class ChefController extends Controller
                 $data_decode = json_decode($log->data);
                 $minus_money = $total_meal_chef - ($data_decode->minus_money);
                 //Cap nhat lai is_last theo id_daily_meal
-                DB::table('logs')->where('item_id', $daily_meal_id)->update(['is_last', 0]);
+                DB::table('logs')->where('item_id', $daily_meal_id)->update(['is_last' => 0]);
             } else {
                 $minus_money = $total_meal_chef;
             }

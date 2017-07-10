@@ -19,7 +19,6 @@ class LogEventListener
     {
         DB::beginTransaction();
         try {
-            //Check last update by item_id (id_daily_meal)
             $data = $events->data;
             $data_insert = array();
             $data_insert['table'] = $data['table'];

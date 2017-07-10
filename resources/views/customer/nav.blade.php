@@ -7,3 +7,4 @@
     <li class="{{ Request::is('account/orderhistory') ? 'active' : '' }}"><a href="{{ url('account/orderhistory') }}">Lịch sử đặt hàng</a></li>
     <li class="{{ Request::is('account/transaction') ? 'active' : '' }}"><a href="{{ url('account/transaction') }}">Lịch sử giao dịch</a></li>
 </ul>
+<hr>

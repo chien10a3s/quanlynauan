@@ -5,6 +5,8 @@
         <i class="voyager-list"></i> Thực đơn của <span style="color: red;">{{@$data['kitchen']->name}}
             ngày {{ \Carbon\Carbon::parse($data['date'])->format('d/m/Y') }}</span>
     </h1>
+    <link rel="stylesheet" type="text/css"
+          href="{{ voyager_asset('lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}">
     <style>
         a, a:hover {
             text-decoration: none !important;
@@ -267,11 +269,15 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="form-group col-md-12">
-                                                                <label class="control-label col-md-4">Nhập số tiền
-                                                                    thực
-                                                                    tế</label>
-                                                                <div class="col-md-7">
-                                                                    {!! Form::text('total_meal_chef', @$item->total_meal_chef, ['class' => 'form-control number-format-edit', 'required'=>true, 'placeholder' => 'VND', 'maxlength' => "8"]) !!}
+                                                                <label class="control-label col-md-5">Nhập số tiền thực tế 1 suất ăn</label>
+                                                                <div class="col-md-6">
+                                                                    {!! Form::text('total_meal_chef', @$item->total_meal_chef, ['class' => 'form-control number-format-edit', 'required'=>true, 'placeholder' => 'VND', 'maxlength' => "8"]) !!} VND
+                                                                </div>
+                                                            </div> <hr>
+                                                            <div class="form-group col-md-12">
+                                                                <label class="control-label col-md-7"><i>Số tiền hiện có của {{$data['kitchen']->name}}: <span class="number-format" style="color: red">{{$data['kitchen']->money}}</span> VND</i></label>
+                                                                <div class="col-md-4">
+                                                                    &nbsp;
                                                                 </div>
                                                             </div>
                                                             <div style="clear: both;"></div>
@@ -320,6 +326,9 @@
                                                                     </div>
                                                                 @endforeach
                                                             @endif
+                                                            <div class="item-meal">
+                                                                <i>Số tiền hiện có của <b>{{$data['kitchen']->name}}</b>: <span class="number-format" style="color: red">{{$data['kitchen']->money}}</span> VND</i>
+                                                            </div>
                                                             <div style="clear: both;"></div>
                                                         </div>
                                                         <div class="modal-footer">
@@ -349,12 +358,15 @@
 
 @section('javascript')
     <script type="text/javascript" src="/js/jquery-number-master/jquery.number.min.js"></script>
+    <script type="text/javascript"
+            src="{{ voyager_asset('lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <!-- DataTables -->
     <script>
         $(document).ready(function () {
             $.ajaxSetup({
                 headers: {'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')}
             });
+//            $(table.table().container()).removeClass('form-inline');
             $('#sample_1').DataTable({
                 "order": [],
                 "language": {

@@ -176,6 +176,7 @@ class ChefController extends Controller
                 $data_log = array();
                 $data_log['table'] = 'daily_meals';
                 $data_log['item_id'] = $daily_meal_id;
+                $data_log['kitchen_id'] = $kitchen_id;
                 $data_log['data'] = $data_meal;
                 $data_log['action_type'] = 4;
                 event(new Log($data_log));
@@ -233,6 +234,7 @@ class ChefController extends Controller
                     $data_log = array();
                     $data_log['table'] = 'detail_dishs';
                     $data_log['item_id'] = $id_detail_dish;
+                    $data_log['kitchen_id'] = $kitchen_id;
                     $data_log['data'] = $data_detail_dish;
                     $data_log['action_type'] = 4;
                     event(new Log($data_log));

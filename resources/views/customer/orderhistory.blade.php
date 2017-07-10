@@ -5,6 +5,9 @@
         .modal-backdrop {
             position: initial !important;
         }
+        .datepicker.dropdown-menu{
+            z-index: 1000 !important;
+        }
     </style>
     <div class="page-content container">
         <div class="nav-tabs-custom">

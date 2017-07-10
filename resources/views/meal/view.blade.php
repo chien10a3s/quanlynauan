@@ -72,24 +72,24 @@
                 <?php $k = 0 ?>
                 @foreach($info_meal->daily_dish as $data_dish)
                     <?php $i += 1 ?>
-                    <tr class="tr_mon" id="tr_mon">
+                    <tr class="" id="">
                         <td><input readonly type="text" name="tenmon[{{ $i }}]" required class="tenmon form-control"
                                    value="{{ $data_dish->name }}"></td>
 
 
-                        <td class="td_nguyen_lieu">
+                        <td class="">
                             @foreach($data_dish->detail_dish as $item_detail_dish_food)
                                 {!! Form::select('nguyen_lieu['.$i.'][]', $option, $item_detail_dish_food->id_food, ['class' => 'nguyen_lieu form-control','disabled'=>'true','style'=>'margin-bottom:10px']) !!}
                             @endforeach
                         </td>
-                        <td class="td_so_luong">
+                        <td class="">
                             @foreach($data_dish->detail_dish as $item_detail_dish_number)
                                 <input readonly style="margin-bottom: 10px" type="number" required
                                        name="so_luong[{{ $i }}][]" class="so_luong form-control"
                                        value="{{ $item_detail_dish_number->number }}">
                             @endforeach
                         </td>
-                        <td class="td_don_vi">
+                        <td class="">
                             @foreach($data_dish->detail_dish as $item_detail_dish_unit)
                                 <input readonly style="margin-bottom: 10px" type="text" required
                                        name="don_vi[{{ $i }}][]"
@@ -97,9 +97,9 @@
                             @endforeach
                         </td>
 
-                        <td class="td_cong_thuc"><label>{{ $data_dish->cooking_note }}</label>
+                        <td class=""><label>{{ $data_dish->cooking_note }}</label>
                         </td>
-                        <td class="td_ghi_chu"><label>{{ $data_dish->note }}</label>
+                        <td class=""><label>{{ $data_dish->note }}</label>
                         </td>
                     </tr>
                 @endforeach
